@@ -1,4 +1,4 @@
-package open_auth_url
+package utils
 
 import (
 	"fmt"

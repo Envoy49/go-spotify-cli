@@ -18,7 +18,7 @@ type TokenResponse struct {
 	TokenType    string `json:"token_type"`
 }
 
-func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (string, error) {
+func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (string, int, error) {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
 	data.Set("code", authCode)
@@ -26,7 +26,7 @@ func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (strin
 
 	req, err := http.NewRequest("POST", "https://accounts.spotify.com/api/token", strings.NewReader(data.Encode()))
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
@@ -35,24 +35,26 @@ func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (strin
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
+
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("spotify: got %d status code: %s", resp.StatusCode, body)
+		return "", 0, fmt.Errorf("spotify: got %d status code: %s", resp.StatusCode, body)
 	}
 
 	var tokenResponse TokenResponse
 	err = json.Unmarshal(body, &tokenResponse)
+
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
-	return tokenResponse.AccessToken, nil
+	return tokenResponse.AccessToken, tokenResponse.ExpiresIn, nil
 }

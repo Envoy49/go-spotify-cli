@@ -14,11 +14,11 @@ import (
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
-	ExpiresIn    int    `json:"expires_in"`
+	ExpiresIn    uint   `json:"expires_in"`
 	TokenType    string `json:"token_type"`
 }
 
-func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (string, int, error) {
+func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (string, uint, error) {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
 	data.Set("code", authCode)

@@ -21,7 +21,6 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.Method)
 		handlers.FetchAccessToken(w, r)
 	})
 

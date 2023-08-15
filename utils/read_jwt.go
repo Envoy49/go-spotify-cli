@@ -2,11 +2,28 @@ package utils
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"go-spotify-cli/constants"
+	"log"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
+
+func getTokenExpiryTime(expiresIn string) time.Time {
+	value, err := strconv.ParseInt(expiresIn, 10, 64)
+	if err != nil {
+		log.Fatalf("Failed to parse expiredIn: %v", err)
+	}
+
+	return time.Now().Add(time.Second * time.Duration(value))
+}
+
+func isTokenExpired(expiryTime time.Time) bool {
+	return time.Now().After(expiryTime)
+}
 
 func ReadJWTToken() (string, error) {
 	file, err := os.OpenFile(constants.TempFileName, os.O_RDWR|os.O_CREATE, 0644)
@@ -22,20 +39,37 @@ func ReadJWTToken() (string, error) {
 	}()
 
 	scanner := bufio.NewScanner(file)
+	var token string
+	var expiresIn string
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		parts := strings.SplitN(line, "=", 2)
-		if len(parts) == 2 && parts[0] == "jwtToken" {
-			fmt.Println("---------> Token Found")
-			return parts[1], nil // Found the token
+		if len(parts) != 2 {
+			continue
 		}
+
+		switch parts[0] {
+		case "jwtToken":
+			token = parts[1]
+		case "expiresIn":
+			expiresIn = parts[1]
+		}
+	}
+	fmt.Println("------------->expiresIn", expiresIn)
+	tokenExpired := isTokenExpired(getTokenExpiryTime(expiresIn))
+
+	if tokenExpired {
+		return "", errors.New("TOKEN EXPIRED")
 	}
 
 	if err := scanner.Err(); err != nil {
 		return "", fmt.Errorf("error reading file: %w", err)
 	}
 
-	fmt.Println("---------> Token Not Found")
+	if token == "" {
+		return "", errors.New("token not found")
+	}
 
-	return "", nil // Token not found
+	return token, nil // Token not found
 }

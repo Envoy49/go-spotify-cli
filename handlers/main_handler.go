@@ -28,7 +28,7 @@ func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 
 		token = accessToken
 
-		if err := utils.WriteJWTToken(token); err != nil {
+		if err := utils.WriteJWTToken(token, expiresIn); err != nil {
 			utils.PrintError("Failed to write JWT token:", err)
 		}
 	}

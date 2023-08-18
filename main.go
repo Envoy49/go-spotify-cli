@@ -2,31 +2,47 @@ package main
 
 import (
 	"fmt"
-	"go-spotify-cli/common"
+	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/handlers"
 	"go-spotify-cli/utils"
 	"net/http"
+	"time"
 )
 
 func main() {
-	params := &common.UrlParams{
-		ClientID:        constants.ClientID,
-		RedirectURI:     constants.ServerUrl,
-		RequestedScopes: constants.RequestedScopes,
+	http.HandleFunc("/auth", handlers.StartAuthentication)  // This will initiate the authentication
+	http.HandleFunc("/callback", handlers.FetchAccessToken) // This will handle the callback after authentication
+
+	// Start the server in a goroutine to allow further execution
+	go func() {
+		fmt.Printf("Listening on %s\n", constants.ServerUrl)
+		if err := http.ListenAndServe(constants.Port, nil); err != nil {
+			fmt.Println("Error listening starting the server", err)
+		}
+	}()
+
+	// Allow the server some time to start
+	time.Sleep(2 * time.Second) // You can adjust the sleep duration
+
+	var token = utils.ReadJWTToken()
+
+	if len(token) == 0 {
+		// Make a request to the server to initiate authentication
+		resp, err := http.Get("http://localhost" + constants.Port + "/auth")
+		if err != nil {
+			fmt.Println("Error making the GET request:", err)
+			return
+		}
+		defer resp.Body.Close()
+		// Handle the response if needed.
+		fmt.Println("Response status:", resp.Status)
+	} else {
+		if playErr := player.Play(token); playErr != nil {
+			utils.PrintError("Failed to get Play your track:", playErr)
+		}
 	}
 
-	if authUrlErr := utils.OpenAuthUrl(params); authUrlErr != nil {
-		fmt.Println("Error opening auth URL", authUrlErr)
-	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		handlers.FetchAccessToken(w, r)
-	})
-
-	fmt.Printf("Listening on %s\n", constants.ServerUrl)
-	if err := http.ListenAndServe(constants.Port, nil); err != nil {
-		fmt.Println("Error listening starting the server", err)
-	}
-
+	// The main function will keep running because of the server goroutine
+	select {} // Keep the main function running indefinitely
 }

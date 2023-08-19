@@ -3,12 +3,17 @@ package main
 import (
 	"fmt"
 	"go-spotify-cli/cmd/player"
-	"go-spotify-cli/constants"
+	"go-spotify-cli/config"
 	"go-spotify-cli/handlers"
 	"go-spotify-cli/utils"
 	"net/http"
 	"time"
 )
+
+func init() {
+	config.LoadConfiguration()
+	
+}
 
 func main() {
 	http.HandleFunc("/auth", handlers.StartAuthentication)  // This will initiate the authentication
@@ -16,8 +21,8 @@ func main() {
 
 	// Start the server in a goroutine to allow further execution
 	go func() {
-		fmt.Printf("Listening on %s\n", constants.ServerUrl)
-		if err := http.ListenAndServe(constants.Port, nil); err != nil {
+		fmt.Printf("Listening on %s\n", config.GlobalConfig.ServerUrl)
+		if err := http.ListenAndServe(config.GlobalConfig.Port, nil); err != nil {
 			fmt.Println("Error listening starting the server", err)
 		}
 	}()
@@ -29,7 +34,7 @@ func main() {
 
 	if len(token) == 0 {
 		// Make a request to the server to initiate authentication
-		resp, err := http.Get("http://localhost" + constants.Port + "/auth")
+		resp, err := http.Get("http://localhost" + config.GlobalConfig.Port + "/auth")
 		if err != nil {
 			fmt.Println("Error making the GET request:", err)
 			return

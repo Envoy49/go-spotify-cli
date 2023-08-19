@@ -20,6 +20,7 @@ _build/
 .idea/
 *.swp
 *.swo
+config.json
 
 # Operating system specific files
 .DS_Store

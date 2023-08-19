@@ -41,7 +41,7 @@ func WriteJWTToken(token string, expiresIn uint) error {
 		}
 	}
 
-	fmt.Println("---------> New token is written to cache")
+	fmt.Println("Token cache miss")
 
 	return nil
 }

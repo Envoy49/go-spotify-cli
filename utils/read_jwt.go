@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func getTokenExpiryTime(expiresIn string) time.Time {
+func getTokenExpiryTime(expiresIn string) time.Time { // expires in should be actual time when it is going to expire
 	value, err := strconv.ParseInt(expiresIn, 10, 64)
 	if err != nil {
 		log.Println("Failed to parse expiredIn", err)

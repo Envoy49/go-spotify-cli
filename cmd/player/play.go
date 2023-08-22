@@ -2,7 +2,7 @@ package player
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -18,11 +18,18 @@ func Play(accessToken string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+
+	defer func() {
+		err := resp.Body.Close()
+		if err != nil {
+			fmt.Println("Error closing request for /auth", err)
+		}
+	}()
+
 	fmt.Println(resp)
 
 	if resp.StatusCode != http.StatusNoContent {
-		body, _ := ioutil.ReadAll(resp.Body)
+		body, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("could not play: %v", string(body))
 	}
 

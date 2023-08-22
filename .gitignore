@@ -21,6 +21,7 @@ _build/
 *.swp
 *.swo
 config.json
+temp.txt
 
 # Operating system specific files
 .DS_Store

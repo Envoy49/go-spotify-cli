@@ -4,21 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"go-spotify-cli/constants"
-	"log"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 )
-
-func getTokenExpiryTime(expiresIn string) time.Time { // expires in should be actual time when it is going to expire
-	value, err := strconv.ParseInt(expiresIn, 10, 64)
-	if err != nil {
-		log.Println("Failed to parse expiredIn", err)
-	}
-
-	return time.Now().Add(time.Second * time.Duration(value))
-}
 
 func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
@@ -60,9 +49,15 @@ func ReadJWTToken() string {
 		return ""
 	}
 
-	tokenExpired := isTokenExpired(getTokenExpiryTime(expiresIn))
+	storedExpiryTime, err := time.Parse(time.RFC3339, expiresIn)
+	if err != nil {
+		fmt.Println("error converting expiresIn to the time.Time format", err)
+	}
+
+	tokenExpired := isTokenExpired(storedExpiryTime)
 
 	if tokenExpired {
+		fmt.Println("Token expired, getting a new one")
 		return ""
 	}
 

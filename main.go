@@ -12,7 +12,6 @@ import (
 
 func init() {
 	config.LoadConfiguration()
-	
 }
 
 func main() {
@@ -39,7 +38,12 @@ func main() {
 			fmt.Println("Error making the GET request:", err)
 			return
 		}
-		defer resp.Body.Close()
+		defer func() {
+			err := resp.Body.Close()
+			if err != nil {
+				fmt.Println("Error closing request for /auth", err)
+			}
+		}()
 		// Handle the response if needed.
 		fmt.Println("Response status:", resp.Status)
 	} else {

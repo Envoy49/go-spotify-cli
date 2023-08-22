@@ -1,0 +1,17 @@
+linters:
+  enable:
+    - errcheck
+    - gofmt
+    - govet
+    - golint
+    - gocyclo
+    - ineffassign
+    - structcheck
+    - varcheck
+    - deadcode
+    - unconvert
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true

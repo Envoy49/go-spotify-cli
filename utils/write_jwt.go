@@ -5,7 +5,12 @@ import (
 	"go-spotify-cli/constants"
 	"log"
 	"os"
+	"time"
 )
+
+func getTokenExpiryTime(expiresIn uint) time.Time { // expires in should be actual time when it is going to expire
+	return time.Now().Add(time.Second * time.Duration(expiresIn))
+}
 
 func WriteJWTToken(token string, expiresIn uint) error {
 	file, err := os.OpenFile(constants.TempFileName, os.O_RDWR|os.O_CREATE, 0644)
@@ -19,9 +24,12 @@ func WriteJWTToken(token string, expiresIn uint) error {
 		}
 	}()
 
+	expiryTime := getTokenExpiryTime(expiresIn)
+	expiryTimeString := expiryTime.Format(time.RFC3339)
+
 	data := map[string]interface{}{
 		"jwtToken":  token,
-		"expiresIn": expiresIn,
+		"expiresIn": expiryTimeString,
 	}
 
 	for key, value := range data {

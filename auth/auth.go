@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -37,9 +37,15 @@ func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (strin
 	if err != nil {
 		return "", 0, err
 	}
-	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	defer func() {
+		err := resp.Body.Close()
+		if err != nil {
+			fmt.Println("Error closing request for /auth", err)
+		}
+	}()
+
+	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		return "", 0, err

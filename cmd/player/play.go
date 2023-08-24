@@ -2,6 +2,7 @@ package player
 
 import (
 	"fmt"
+	"go-spotify-cli/utils"
 	"io"
 	"net/http"
 )
@@ -22,11 +23,9 @@ func Play(accessToken string) error {
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			fmt.Println("Error closing request for /auth", err)
+			utils.PrintError("Error closing request for /auth", err)
 		}
 	}()
-
-	fmt.Println(resp)
 
 	if resp.StatusCode != http.StatusNoContent {
 		body, _ := io.ReadAll(resp.Body)

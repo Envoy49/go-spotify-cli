@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"go-spotify-cli/common"
 	"go-spotify-cli/config"
 	"go-spotify-cli/utils"
@@ -16,6 +15,6 @@ func StartAuthentication(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if authUrlErr := utils.OpenAuthUrl(params); authUrlErr != nil {
-		fmt.Println("Error opening auth URL", authUrlErr)
+		utils.PrintError("Error opening auth URL", authUrlErr)
 	}
 }

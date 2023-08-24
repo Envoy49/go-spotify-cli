@@ -22,7 +22,7 @@ func ReadJWTToken() string {
 	defer func() {
 		closeErr := file.Close()
 		if closeErr != nil {
-			fmt.Println("Error closing file:", closeErr)
+			PrintError("Error closing file:", closeErr)
 		}
 	}()
 
@@ -51,7 +51,7 @@ func ReadJWTToken() string {
 
 	storedExpiryTime, err := time.Parse(time.RFC3339, expiresIn)
 	if err != nil {
-		fmt.Println("error converting expiresIn to the time.Time format", err)
+		PrintError("error converting expiresIn to the time.Time format", err)
 	}
 
 	tokenExpired := isTokenExpired(storedExpiryTime)

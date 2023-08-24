@@ -20,7 +20,7 @@ func WriteJWTToken(token string, expiresIn uint) error {
 	defer func() {
 		if closeErr := file.Close(); closeErr != nil {
 			// Log the close error
-			fmt.Println("Error closing file:", closeErr)
+			PrintError("Error closing file:", closeErr)
 		}
 	}()
 

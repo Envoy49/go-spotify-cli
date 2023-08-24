@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
+	"go-spotify-cli/utils"
 	"os"
 )
 
@@ -20,7 +20,7 @@ func LoadConfiguration() {
 
 	file, err := os.Open("./config.json")
 	if err != nil {
-		fmt.Println(&err)
+		utils.PrintError("Error opening config.json", err)
 		return
 	}
 	defer file.Close()
@@ -29,7 +29,7 @@ func LoadConfiguration() {
 	config := Config{}
 	err = decoder.Decode(&config)
 	if err != nil {
-		fmt.Println(err)
+		utils.PrintError("error decoding config", err)
 		return
 	}
 	GlobalConfig = Config{

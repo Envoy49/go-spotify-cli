@@ -20,7 +20,7 @@ func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 		utils.PrintError("Failed to get access token:", err)
 		return
 	}
-	fmt.Println(constants.Green + "Expires in: " + fmt.Sprint(expiresIn) + " seconds" + constants.Reset)
+	fmt.Println(constants.Green + "Token expires in: " + fmt.Sprint(expiresIn) + " seconds" + constants.Reset)
 
 	token = accessToken
 
@@ -31,6 +31,4 @@ func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 	if playErr := player.Play(token); playErr != nil {
 		utils.PrintError("Failed to get Play your track:", playErr)
 	}
-
-	fmt.Println(constants.Magenta + "Access token: " + fmt.Sprint(token) + " seconds" + constants.Reset)
 }

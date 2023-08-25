@@ -2,6 +2,7 @@ package constants
 
 const (
 	TempFileName = "temp.txt"
+	ProjectName  = "go-spotify-cli"
 )
 
 const (

@@ -23,7 +23,12 @@ func LoadConfiguration() {
 		utils.PrintError("Error opening config.json", err)
 		return
 	}
-	defer file.Close()
+	defer func() {
+		err := file.Close()
+		if err != nil {
+			utils.PrintError("Error closing config.json file", err)
+		}
+	}()
 
 	decoder := json.NewDecoder(file)
 	config := Config{}

@@ -3,7 +3,6 @@ package handlers
 import (
 	"fmt"
 	"go-spotify-cli/auth"
-	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/utils"
@@ -26,9 +25,5 @@ func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 
 	if err := utils.WriteJWTToken(token, expiresIn); err != nil {
 		utils.PrintError("Failed to write JWT token:", err)
-	}
-
-	if playErr := player.Play(token); playErr != nil {
-		utils.PrintError("Failed to get Play your track:", playErr)
 	}
 }

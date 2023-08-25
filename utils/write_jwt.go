@@ -5,6 +5,7 @@ import (
 	"go-spotify-cli/constants"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -12,8 +13,12 @@ func getTokenExpiryTime(expiresIn uint) time.Time { // expires in should be actu
 	return time.Now().Add(time.Second * time.Duration(expiresIn))
 }
 
+var AuthToken = make(chan string)
+
 func WriteJWTToken(token string, expiresIn uint) error {
-	file, err := os.OpenFile(constants.TempFileName, os.O_RDWR|os.O_CREATE, 0644)
+	tempDir := os.TempDir()
+	fullTempFilePath := filepath.Join(tempDir, constants.TempFileName)
+	file, err := os.OpenFile(fullTempFilePath, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		return fmt.Errorf("error opening or creating file: %w", err)
 	}
@@ -50,6 +55,8 @@ func WriteJWTToken(token string, expiresIn uint) error {
 	}
 
 	fmt.Println("Token cache miss")
+	// After writing token to the cache pass it to the command, so it can continue
+	AuthToken <- token
 
 	return nil
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-spotify-cli/constants"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -14,7 +15,9 @@ func isTokenExpired(expiryTime time.Time) bool {
 }
 
 func ReadJWTToken() string {
-	file, err := os.OpenFile(constants.TempFileName, os.O_RDWR|os.O_CREATE, 0644)
+	tempDir := os.TempDir()
+	fullTempFilePath := filepath.Join(tempDir, constants.TempFileName)
+	file, err := os.OpenFile(fullTempFilePath, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		return ""
 	}

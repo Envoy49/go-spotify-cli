@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/config"
-	"go-spotify-cli/handlers"
+	"go-spotify-cli/constants"
+	"go-spotify-cli/server"
 	"go-spotify-cli/utils"
-	"net/http"
-	"time"
+	"os"
 )
 
 func init() {
@@ -15,43 +15,27 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/auth", handlers.StartAuthentication)  // This will initiate the authentication
-	http.HandleFunc("/callback", handlers.FetchAccessToken) // This will handle the callback after authentication
-
-	// Start the server in a goroutine to allow further execution
-	go func() {
-		fmt.Printf("Listening on %s\n", config.GlobalConfig.ServerUrl)
-		if err := http.ListenAndServe(config.GlobalConfig.Port, nil); err != nil {
-			fmt.Println("Error listening starting the server", err)
-		}
-	}()
-
-	// Allow the server some time to start
-	time.Sleep(2 * time.Second) // You can adjust the sleep duration
-
-	var token = utils.ReadJWTToken()
-
-	if len(token) == 0 {
-		// Make a request to the server to initiate authentication
-		resp, err := http.Get("http://localhost" + config.GlobalConfig.Port + "/auth")
-		if err != nil {
-			fmt.Println("Error making the GET request:", err)
-			return
-		}
-		defer func() {
-			err := resp.Body.Close()
-			if err != nil {
-				fmt.Println("Error closing request for /auth", err)
+	var rootCmd = &cobra.Command{Use: constants.ProjectName}
+	var cmdPlay = &cobra.Command{
+		Use:   "play",
+		Short: "Play spotify song",
+		Run: func(cmd *cobra.Command, args []string) {
+			token := utils.ReadJWTToken()
+			if len(token) == 0 {
+				server.StartAuthentication()
+				receivedToken := <-utils.AuthToken
+				server.InitiateShutdown()
+				token = receivedToken
 			}
-		}()
-		// Handle the response if needed.
-		fmt.Println("Response status:", resp.Status)
-	} else {
-		if playErr := player.Play(token); playErr != nil {
-			utils.PrintError("Failed to get Play your track:", playErr)
-		}
+			if playErr := player.Play(token); playErr != nil {
+				utils.PrintError("Failed to get Play your track:", playErr)
+			}
+		},
 	}
 
-	// The main function will keep running because of the server goroutine
-	select {} // Keep the main function running indefinitely
+	rootCmd.AddCommand(cmdPlay)
+	if err := rootCmd.Execute(); err != nil {
+		utils.PrintError("Error executing command", err)
+		os.Exit(1)
+	}
 }

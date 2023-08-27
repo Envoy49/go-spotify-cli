@@ -2,10 +2,9 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"go-spotify-cli/cmd/player"
+	"go-spotify-cli/cmd/player/commands"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
-	"go-spotify-cli/server"
 	"go-spotify-cli/utils"
 	"os"
 )
@@ -16,24 +15,8 @@ func init() {
 
 func main() {
 	var rootCmd = &cobra.Command{Use: constants.ProjectName}
-	var cmdPlay = &cobra.Command{
-		Use:   "play",
-		Short: "Play spotify song",
-		Run: func(cmd *cobra.Command, args []string) {
-			token := utils.ReadJWTToken()
-			if len(token) == 0 {
-				server.StartAuthentication()
-				receivedToken := <-utils.AuthToken
-				server.InitiateShutdown()
-				token = receivedToken
-			}
-			if playErr := player.Play(token); playErr != nil {
-				utils.PrintError("Failed to get Play your track:", playErr)
-			}
-		},
-	}
 
-	rootCmd.AddCommand(cmdPlay)
+	rootCmd.AddCommand(commands.PlayCommand, commands.PauseCommand, commands.NextCommand, commands.PreviousCommand)
 	if err := rootCmd.Execute(); err != nil {
 		utils.PrintError("Error executing command", err)
 		os.Exit(1)

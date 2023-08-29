@@ -12,30 +12,36 @@ type PlayerParams struct {
 	Endpoint    string
 }
 
-func Player(playerParams *PlayerParams) error {
-	req, err := http.NewRequest(playerParams.Method, "https://api.spotify.com/v1/me/player"+fmt.Sprint(playerParams.Endpoint), nil)
+func Player(playerParams *PlayerParams) (*http.Response, string, error) {
+	req, err := http.NewRequest(playerParams.Method, "https://api.spotify.com/v1/me/player"+playerParams.Endpoint, nil)
 	if err != nil {
-		return err
+		return nil, "", err
 	}
 
 	req.Header.Set("Authorization", "Bearer "+playerParams.AccessToken)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return nil, "", err
+	}
+
+	body, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return nil, "", readErr
 	}
 
 	defer func() {
-		if bodyErr := resp.Body.Close(); bodyErr != nil {
-			// log the error or handle it in another appropriate manner
-			fmt.Println("Error closing response body:", bodyErr)
+		if resp != nil && resp.Body != nil {
+			if bodyErr := resp.Body.Close(); bodyErr != nil {
+				// log the error or handle it in another appropriate manner
+				fmt.Println("Error closing response body:", bodyErr)
+			}
 		}
 	}()
 
-	if resp.StatusCode != http.StatusNoContent {
-		body, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf(string(body))
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
+		return nil, "", fmt.Errorf(string(body))
 	}
 
-	return nil
+	return resp, string(body), nil
 }

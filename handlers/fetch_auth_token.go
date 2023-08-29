@@ -11,10 +11,9 @@ import (
 
 func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 	var token string
-
 	authCode := r.URL.Query().Get("code")
 
-	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, config.GlobalConfig.ServerUrl+"/callback")
+	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, config.GlobalConfig.ServerUrl+constants.AuthCallBackRoute)
 	if err != nil {
 		utils.PrintError("Failed to get access token:", err)
 		return

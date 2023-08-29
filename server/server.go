@@ -3,9 +3,34 @@ package server
 import (
 	"fmt"
 	"go-spotify-cli/config"
+	"go-spotify-cli/constants"
+	"go-spotify-cli/handlers"
 	"go-spotify-cli/routes"
+	"go-spotify-cli/utils"
 	"net/http"
 )
+
+func FetchAuthTokenFromBrowser() string {
+	BootstrapAuthServer(constants.AuthRoute)
+	receivedToken := <-utils.AuthToken
+	InitiateShutdown()
+	return receivedToken
+}
+
+func FetchDeviceTokenFromBrowser() string {
+	BootstrapAuthServer(constants.DeviceRoute)
+	receivedToken := <-handlers.DeviceToken
+	InitiateShutdown()
+	return receivedToken
+}
+
+func GetAuthTokenOrFetchFromServer() string {
+	token := utils.ReadJWTToken()
+	if len(token) == 0 {
+		token = FetchAuthTokenFromBrowser()
+	}
+	return token
+}
 
 var Shutdown = make(chan struct{})
 

@@ -13,7 +13,7 @@ func play(accessToken string) {
 		Method:      "PUT",
 		Endpoint:    "/play",
 	}
-	err := commands.Player(params)
+	_, _, err := commands.Player(params)
 
 	if err != nil {
 		utils.PrintError("Error playing your track", err)
@@ -24,13 +24,7 @@ var PlayCommand = &cobra.Command{
 	Use:   "play",
 	Short: "Play spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := utils.ReadJWTToken()
-		if len(token) == 0 {
-			server.StartAuthentication()
-			receivedToken := <-utils.AuthToken
-			server.InitiateShutdown()
-			token = receivedToken
-		}
+		token := server.GetAuthTokenOrFetchFromServer()
 		play(token)
 	},
 }

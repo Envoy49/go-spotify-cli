@@ -7,10 +7,10 @@ import (
 	"net/http"
 )
 
-func StartAuthentication(w http.ResponseWriter, r *http.Request) {
+func StartAuthTokenFlow(w http.ResponseWriter, r *http.Request, redirectionRoute string) {
 	params := &common.UrlParams{
 		ClientID:        config.GlobalConfig.ClientId,
-		RedirectURI:     config.GlobalConfig.ServerUrl + "/callback",
+		RedirectURI:     config.GlobalConfig.ServerUrl + redirectionRoute,
 		RequestedScopes: config.GlobalConfig.RequestedScopes,
 	}
 

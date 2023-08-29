@@ -6,13 +6,13 @@ import (
 	"net/http"
 )
 
-func StartAuthentication() {
+func BootstrapAuthServer(route string) {
 	// Start the server in a goroutine
 	go StartServer()
 
-	resp, err := http.Get("http://localhost" + config.GlobalConfig.Port + "/auth")
+	resp, err := http.Get("http://localhost" + config.GlobalConfig.Port + route)
 	if err != nil {
-		fmt.Println("Error making the GET request:", err)
+		fmt.Println("Error making the GET request for /auth route:", err)
 		return
 	}
 	defer func() {
@@ -21,5 +21,4 @@ func StartAuthentication() {
 			fmt.Println("Error closing request for /auth", err)
 		}
 	}()
-
 }

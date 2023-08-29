@@ -13,7 +13,7 @@ func next(accessToken string) {
 		Method:      "POST",
 		Endpoint:    "/next",
 	}
-	err := commands.Player(params)
+	_, _, err := commands.Player(params)
 
 	if err != nil {
 		utils.PrintError("Error going to the next track", err)
@@ -24,13 +24,7 @@ var NextCommand = &cobra.Command{
 	Use:   "next",
 	Short: "Next spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := utils.ReadJWTToken()
-		if len(token) == 0 {
-			server.StartAuthentication()
-			receivedToken := <-utils.AuthToken
-			server.InitiateShutdown()
-			token = receivedToken
-		}
+		token := server.GetAuthTokenOrFetchFromServer()
 		next(token)
 	},
 }

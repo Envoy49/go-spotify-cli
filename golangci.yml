@@ -3,6 +3,7 @@ run:
 
 linters:
   enable:
+    - lll
     - errcheck
     - gofmt
     - govet
@@ -18,3 +19,6 @@ linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: true
+  lll:
+    line-length: 120 # doesn't work for some reason
+    tab-width: 8

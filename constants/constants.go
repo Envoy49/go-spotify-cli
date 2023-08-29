@@ -6,6 +6,13 @@ const (
 )
 
 const (
+	AuthRoute           = "/auth"
+	DeviceRoute         = "/device"
+	AuthCallBackRoute   = "/auth-token-callback"
+	DeviceCallBackRoute = "/device-token-callback"
+)
+
+const (
 	Reset      = "\033[0m"
 	Red        = "\033[31m"
 	Green      = "\033[32m"

@@ -16,7 +16,7 @@ func init() {
 func main() {
 	var rootCmd = &cobra.Command{Use: constants.ProjectName}
 
-	rootCmd.AddCommand(commands.PlayCommand, commands.PauseCommand, commands.NextCommand, commands.PreviousCommand)
+	rootCmd.AddCommand(commands.PlayCommand, commands.PauseCommand, commands.NextCommand, commands.PreviousCommand, commands.DeviceCommand)
 	if err := rootCmd.Execute(); err != nil {
 		utils.PrintError("Error executing command", err)
 		os.Exit(1)

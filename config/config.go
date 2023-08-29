@@ -17,7 +17,6 @@ type Config struct {
 var GlobalConfig Config
 
 func LoadConfiguration() {
-
 	file, err := os.Open("./config.json")
 	if err != nil {
 		utils.PrintError("Error opening config.json", err)

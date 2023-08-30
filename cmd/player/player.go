@@ -13,7 +13,12 @@ type PlayerParams struct {
 }
 
 func Player(playerParams *PlayerParams) (*http.Response, string, error) {
-	req, err := http.NewRequest(playerParams.Method, "https://api.spotify.com/v1/me/player"+playerParams.Endpoint, nil)
+	req, err := http.NewRequest(
+		playerParams.Method,
+		"https://api.spotify.com/v1/me/player"+playerParams.Endpoint,
+		nil,
+	)
+
 	if err != nil {
 		return nil, "", err
 	}

@@ -16,7 +16,21 @@ func init() {
 func main() {
 	var rootCmd = &cobra.Command{Use: constants.ProjectName}
 
-	rootCmd.AddCommand(commands.PlayCommand, commands.PauseCommand, commands.NextCommand, commands.PreviousCommand, commands.DeviceCommand)
+	rootCmd.AddCommand(
+		commands.PlayCommand,
+		commands.PauseCommand,
+		commands.NextCommand,
+		commands.PreviousCommand,
+		commands.DeviceCommand,
+		commands.VolumeCommand,
+	)
+
+	commands.VolumeCommand.Flags().StringVarP(&commands.VolumeValue, "volume", "v", "", "Volume to add")
+	err := commands.VolumeCommand.MarkFlagRequired("volume")
+	if err != nil {
+		utils.PrintError("Error running volume command", err)
+	}
+
 	if err := rootCmd.Execute(); err != nil {
 		utils.PrintError("Error executing command", err)
 		os.Exit(1)

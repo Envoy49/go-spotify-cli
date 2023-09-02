@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
 	"go-spotify-cli/config"
 	"go-spotify-cli/utils"
@@ -14,6 +15,6 @@ func StartDeviceTokenFlow(redirectionRoute string) {
 	}
 
 	if authUrlErr := utils.OpenAuthUrl(params); authUrlErr != nil {
-		utils.PrintError("Error opening auth URL", authUrlErr)
+		logrus.WithError(authUrlErr).Error("Error opening auth URL")
 	}
 }

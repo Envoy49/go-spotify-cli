@@ -1,10 +1,10 @@
 package commands
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/server"
-	"go-spotify-cli/utils"
 )
 
 func pause(accessToken string) {
@@ -16,7 +16,9 @@ func pause(accessToken string) {
 	_, _, err := commands.Player(params)
 
 	if err != nil {
-		utils.PrintError("Error pausing your track", err)
+		logrus.WithError(err).Error("Error pausing your track")
+	} else {
+		logrus.Info("Paused")
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"net/url"
@@ -40,7 +41,7 @@ func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (strin
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			fmt.Println("Error closing request for /auth", err)
+			logrus.WithError(err).Error("Error closing request for /auth")
 		}
 	}()
 

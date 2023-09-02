@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player/commands"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
-	"go-spotify-cli/utils"
 	"os"
 )
 
@@ -28,11 +28,12 @@ func main() {
 	commands.VolumeCommand.Flags().StringVarP(&commands.VolumeValue, "volume", "v", "", "Volume to add")
 	err := commands.VolumeCommand.MarkFlagRequired("volume")
 	if err != nil {
-		utils.PrintError("Error running volume command", err)
+		logrus.WithError(err).Error("Error running volume command")
 	}
 
 	if err := rootCmd.Execute(); err != nil {
-		utils.PrintError("Error executing command", err)
+		logrus.WithError(err).Error("Error executing command")
 		os.Exit(1)
 	}
+
 }

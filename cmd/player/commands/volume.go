@@ -2,10 +2,10 @@ package commands
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	commands "go-spotify-cli/cmd/player"
 	"go-spotify-cli/server"
-	"go-spotify-cli/utils"
 	"net/url"
 )
 
@@ -24,7 +24,7 @@ func volume(accessToken string) {
 	_, _, err := commands.Player(params)
 
 	if err != nil {
-		utils.PrintError("Error setting volume", err)
+		logrus.WithError(err).Error("Error setting volume")
 	}
 }
 

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
 	"log"
 	"os"
@@ -25,7 +26,8 @@ func WriteJWTToken(token string, expiresIn uint) error {
 	defer func() {
 		if closeErr := file.Close(); closeErr != nil {
 			// Log the close error
-			PrintError("Error closing file:", closeErr)
+			logrus.WithError(closeErr).Error("Error closing file")
+
 		}
 	}()
 
@@ -50,11 +52,11 @@ func WriteJWTToken(token string, expiresIn uint) error {
 				log.Fatal(err)
 			}
 		default:
-			log.Printf("Unsupported type for key %s\n", key)
+			logrus.Warn("Unsupported type for key %s\n", key)
 		}
 	}
 
-	fmt.Println("Token cache miss")
+	logrus.Info("Token cache miss")
 	// After writing token to the cache pass it to the command, so it can continue
 	AuthToken <- token
 

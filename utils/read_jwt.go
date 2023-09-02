@@ -2,7 +2,7 @@ package utils
 
 import (
 	"bufio"
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
 	"os"
 	"path/filepath"
@@ -25,7 +25,7 @@ func ReadJWTToken() string {
 	defer func() {
 		closeErr := file.Close()
 		if closeErr != nil {
-			PrintError("Error closing file:", closeErr)
+			logrus.WithError(closeErr).Error("Error closing file")
 		}
 	}()
 
@@ -54,13 +54,13 @@ func ReadJWTToken() string {
 
 	storedExpiryTime, err := time.Parse(time.RFC3339, expiresIn)
 	if err != nil {
-		PrintError("error converting expiresIn to the time.Time format", err)
+		logrus.WithError(err).Error("error converting expiresIn to the time.Time format")
 	}
 
 	tokenExpired := isTokenExpired(storedExpiryTime)
 
 	if tokenExpired {
-		fmt.Println("Token expired, getting a new one")
+		logrus.WithError(err).Error("Token expired, getting a new one")
 		return ""
 	}
 
@@ -68,7 +68,7 @@ func ReadJWTToken() string {
 		return ""
 	}
 
-	fmt.Println("Token cache hit")
+	logrus.Info("Token cache hit")
 
 	return token
 }

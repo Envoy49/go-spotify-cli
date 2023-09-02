@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"go-spotify-cli/utils"
+	"github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -19,13 +19,13 @@ var GlobalConfig Config
 func LoadConfiguration() {
 	file, err := os.Open("./config.json")
 	if err != nil {
-		utils.PrintError("Error opening config.json", err)
+		logrus.WithError(err).Error("Error opening config.json")
 		return
 	}
 	defer func() {
 		err := file.Close()
 		if err != nil {
-			utils.PrintError("Error closing config.json file", err)
+			logrus.WithError(err).Error("Error closing config.json file")
 		}
 	}()
 
@@ -33,14 +33,13 @@ func LoadConfiguration() {
 	config := Config{}
 	err = decoder.Decode(&config)
 	if err != nil {
-		utils.PrintError("error decoding config", err)
+		logrus.WithError(err).Error("error decoding config")
 		return
 	}
 	GlobalConfig = Config{
-		ServerUrl:       config.ServerUrl,
-		Port:            config.Port,
-		RequestedScopes: config.RequestedScopes,
-		ClientId:        config.ClientId,
-		ClientSecret:    config.ClientSecret,
+		ServerUrl:    config.ServerUrl,
+		Port:         config.Port,
+		ClientId:     config.ClientId,
+		ClientSecret: config.ClientSecret,
 	}
 }

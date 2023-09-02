@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/auth"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
@@ -15,14 +16,14 @@ func FetchAccessToken(w http.ResponseWriter, r *http.Request) {
 
 	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, config.GlobalConfig.ServerUrl+constants.AuthCallBackRoute)
 	if err != nil {
-		utils.PrintError("Failed to get access token:", err)
+		logrus.WithError(err).Error("Failed to get access token")
 		return
 	}
-	fmt.Println(constants.Green + "Token expires in: " + fmt.Sprint(expiresIn) + " seconds" + constants.Reset)
+	logrus.Info("Token expires in: " + fmt.Sprint(expiresIn) + " seconds")
 
 	token = accessToken
 
 	if err := utils.WriteJWTToken(token, expiresIn); err != nil {
-		utils.PrintError("Failed to write JWT token:", err)
+		logrus.WithError(err).Error("Failed to write JWT token")
 	}
 }

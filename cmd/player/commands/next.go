@@ -1,10 +1,10 @@
 package commands
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/server"
-	"go-spotify-cli/utils"
 )
 
 func next(accessToken string) {
@@ -16,7 +16,7 @@ func next(accessToken string) {
 	_, _, err := commands.Player(params)
 
 	if err != nil {
-		utils.PrintError("Error going to the next track", err)
+		logrus.WithError(err).Error("Error going to the next track")
 	}
 }
 

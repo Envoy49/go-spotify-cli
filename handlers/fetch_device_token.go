@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/auth"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
-	"go-spotify-cli/utils"
 	"net/http"
 )
 
@@ -16,10 +16,11 @@ func FetchDeviceToken(w http.ResponseWriter, r *http.Request) {
 
 	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, config.GlobalConfig.ServerUrl+constants.DeviceCallBackRoute)
 	if err != nil {
-		utils.PrintError("Failed to get access token:", err)
+		logrus.WithError(err).Error("Failed to get access token")
 		return
 	}
-	fmt.Println(constants.Green + "Token expires in: " + fmt.Sprint(expiresIn) + " seconds" + constants.Reset)
+
+	logrus.Info("Token expires in: " + fmt.Sprint(expiresIn) + " seconds")
 
 	DeviceToken <- accessToken
 

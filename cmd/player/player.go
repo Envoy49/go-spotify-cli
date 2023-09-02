@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 )
@@ -39,7 +40,7 @@ func Player(playerParams *PlayerParams) (*http.Response, string, error) {
 		if resp != nil && resp.Body != nil {
 			if bodyErr := resp.Body.Close(); bodyErr != nil {
 				// log the error or handle it in another appropriate manner
-				fmt.Println("Error closing response body:", bodyErr)
+				logrus.WithError(bodyErr).Error("Error closing response body")
 			}
 		}
 	}()

@@ -1,7 +1,7 @@
 package server
 
 import (
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/handlers"
@@ -11,6 +11,7 @@ import (
 )
 
 func FetchAuthTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = "user-modify-playback-state"
 	BootstrapAuthServer(constants.AuthRoute)
 	receivedToken := <-utils.AuthToken
 	InitiateShutdown()
@@ -18,6 +19,7 @@ func FetchAuthTokenFromBrowser() string {
 }
 
 func FetchDeviceTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = "user-read-playback-state"
 	BootstrapAuthServer(constants.DeviceRoute)
 	receivedToken := <-handlers.DeviceToken
 	InitiateShutdown()
@@ -41,10 +43,11 @@ func StartServer() {
 
 	// Start the server in a goroutine
 	go func() {
-		fmt.Printf("Listening on %s\n", config.GlobalConfig.ServerUrl)
+		logrus.Info("Listening on " + config.GlobalConfig.ServerUrl)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			// This will print if the server is forcibly closed.
-			fmt.Println("Error starting the server:", err)
+			logrus.WithError(err).Error("Error starting the server")
+
 		}
 	}()
 
@@ -53,7 +56,7 @@ func StartServer() {
 
 	// Now, gracefully shut down the server
 	if err := server.Close(); err != nil {
-		fmt.Println("Error shutting down the server:", err)
+		logrus.WithError(err).Error("Error shutting down the server")
 	}
 }
 

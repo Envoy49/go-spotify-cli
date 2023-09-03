@@ -39,11 +39,11 @@ var Shutdown = make(chan struct{})
 func StartServer() {
 	routes.SetupRoutes()
 
-	server := &http.Server{Addr: config.GlobalConfig.Port}
+	server := &http.Server{Addr: constants.Port}
 
 	// Start the server in a goroutine
 	go func() {
-		logrus.Info("Listening on " + config.GlobalConfig.ServerUrl)
+		logrus.Info("Listening on " + constants.ServerUrl)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			// This will print if the server is forcibly closed.
 			logrus.WithError(err).Error("Error starting the server")

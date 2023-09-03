@@ -10,4 +10,6 @@ const (
 	DeviceRoute         = "/device"
 	AuthCallBackRoute   = "/auth-token-callback"
 	DeviceCallBackRoute = "/device-token-callback"
+	ServerUrl           = "http://localhost:4949"
+	Port                = ":4949"
 )

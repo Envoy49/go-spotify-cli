@@ -21,8 +21,9 @@ _build/
 *.swp
 *.swo
 config.json
-temp.txt
-
+*.vscode
 # Operating system specific files
 .DS_Store
 Thumbs.db
+temp.txt
+

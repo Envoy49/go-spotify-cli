@@ -4,14 +4,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
 	"go-spotify-cli/config"
+	"go-spotify-cli/constants"
 	"go-spotify-cli/utils"
-	"net/http"
 )
 
-func StartAuthTokenFlow(w http.ResponseWriter, r *http.Request, redirectionRoute string) {
+func StartAuthTokenFlow(redirectionRoute string) {
 	params := &common.UrlParams{
 		ClientID:        config.GlobalConfig.ClientId,
-		RedirectURI:     config.GlobalConfig.ServerUrl + redirectionRoute,
+		RedirectURI:     constants.ServerUrl + redirectionRoute,
 		RequestedScopes: config.GlobalConfig.RequestedScopes,
 	}
 

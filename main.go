@@ -14,7 +14,7 @@ func init() {
 }
 
 func main() {
-	var rootCmd = &cobra.Command{Use: constants.ProjectName}
+	var rootCmd = &cobra.Command{Use: constants.ProjectName, PersistentPreRun: config.EnvVarsPrompt}
 
 	rootCmd.AddCommand(
 		commands.PlayCommand,
@@ -30,7 +30,6 @@ func main() {
 	if err != nil {
 		logrus.WithError(err).Error("Error running volume command")
 	}
-
 	if err := rootCmd.Execute(); err != nil {
 		logrus.WithError(err).Error("Error executing command")
 		os.Exit(1)

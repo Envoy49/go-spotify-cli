@@ -1,44 +1,51 @@
 package config
 
 import (
-	"encoding/json"
 	"github.com/sirupsen/logrus"
+	"go-spotify-cli/constants"
+	"gopkg.in/yaml.v2"
 	"os"
+	"path/filepath"
 )
 
 type Config struct {
-	ServerUrl       string
-	Port            string
-	RequestedScopes string
 	ClientId        string
 	ClientSecret    string
+	RequestedScopes string
+}
+
+type EnvVarConfig struct {
+	ClientId     string `yaml:"ClientId"`
+	ClientSecret string `yaml:"ClientSecret"`
 }
 
 var GlobalConfig Config
 
 func LoadConfiguration() {
-	file, err := os.Open("./config.json")
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		logrus.WithError(err).Error("Error opening config.json")
+		logrus.WithError(err).Error("Error getting home directory")
 		return
 	}
-	defer func() {
-		err := file.Close()
-		if err != nil {
-			logrus.WithError(err).Error("Error closing config.json file")
-		}
-	}()
 
-	decoder := json.NewDecoder(file)
-	config := Config{}
-	err = decoder.Decode(&config)
+	folderPath := filepath.Join(homeDir, "."+constants.ProjectName)
+	filePath := filepath.Join(folderPath, constants.ProjectName+".yaml")
+
+	data, err := os.ReadFile(filePath)
 	if err != nil {
-		logrus.WithError(err).Error("error decoding config")
+		logrus.WithError(err).Error("Error reading the file")
 		return
 	}
+
+	var config EnvVarConfig
+	// Unmarshal the YAML data into a Configuration struct
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		logrus.WithError(err).Error("Error unmarshalling YAML data")
+		return
+	}
+
 	GlobalConfig = Config{
-		ServerUrl:    config.ServerUrl,
-		Port:         config.Port,
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
 	}

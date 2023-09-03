@@ -14,7 +14,7 @@ var DeviceToken = make(chan string)
 func FetchDeviceToken(w http.ResponseWriter, r *http.Request) {
 	authCode := r.URL.Query().Get("code")
 
-	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, config.GlobalConfig.ServerUrl+constants.DeviceCallBackRoute)
+	accessToken, expiresIn, err := auth.GetAccessToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, constants.ServerUrl+constants.DeviceCallBackRoute)
 	if err != nil {
 		logrus.WithError(err).Error("Failed to get access token")
 		return

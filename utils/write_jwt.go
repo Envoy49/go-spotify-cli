@@ -25,9 +25,7 @@ func WriteJWTToken(token string, expiresIn uint) error {
 	}
 	defer func() {
 		if closeErr := file.Close(); closeErr != nil {
-			// Log the close error
 			logrus.WithError(closeErr).Error("Error closing file")
-
 		}
 	}()
 

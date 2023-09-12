@@ -13,7 +13,7 @@ func play(accessToken string) {
 		Method:      "PUT",
 		Endpoint:    "/play",
 	}
-	_, _, err := commands.Player(params)
+	_, err := commands.FetchCommand(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error playing your track")

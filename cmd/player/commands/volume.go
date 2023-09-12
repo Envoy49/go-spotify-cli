@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	commands "go-spotify-cli/cmd/player"
+	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/server"
 	"net/url"
 )
@@ -21,7 +21,7 @@ func volume(accessToken string) {
 		Endpoint:    fullEndpoint,
 	}
 
-	_, _, err := commands.Player(params)
+	_, err := commands.FetchCommand(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error setting volume")

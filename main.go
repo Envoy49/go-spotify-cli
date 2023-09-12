@@ -14,8 +14,12 @@ func init() {
 }
 
 func main() {
-	var rootCmd = &cobra.Command{Use: constants.ProjectName, PersistentPreRun: config.EnvVarsPrompt}
-
+	var rootCmd = &cobra.Command{
+		Use:              constants.ProjectName,
+		PersistentPreRun: config.EnvVarsPrompt,
+		PersistentPostRun: func(cmd *cobra.Command, args []string) {
+			commands.Player()
+		}}
 	rootCmd.AddCommand(
 		commands.PlayCommand,
 		commands.PauseCommand,
@@ -34,5 +38,4 @@ func main() {
 		logrus.WithError(err).Error("Error executing command")
 		os.Exit(1)
 	}
-
 }

@@ -13,7 +13,7 @@ func pause(accessToken string) {
 		Method:      "PUT",
 		Endpoint:    "/pause",
 	}
-	_, _, err := commands.Player(params)
+	_, err := commands.FetchCommand(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error pausing your track")

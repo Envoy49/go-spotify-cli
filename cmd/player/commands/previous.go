@@ -13,7 +13,7 @@ func previous(accessToken string) {
 		Method:      "POST",
 		Endpoint:    "/previous",
 	}
-	_, _, err := commands.Player(params)
+	_, err := commands.FetchCommand(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error going to the previous track")

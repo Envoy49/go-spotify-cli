@@ -14,9 +14,9 @@ func device() {
 		Method:      "GET",
 		Endpoint:    "/devices",
 	}
-	_, response, _ := commands.Player(params)
-	
-	logrus.Info("List of available devices:", response)
+	body, _ := commands.FetchCommand(params)
+
+	logrus.Info("List of available devices:", string(body))
 }
 
 var DeviceCommand = &cobra.Command{

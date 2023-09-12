@@ -13,7 +13,7 @@ type PlayerParams struct {
 	Endpoint    string
 }
 
-func Player(playerParams *PlayerParams) (*http.Response, string, error) {
+func FetchCommand(playerParams *PlayerParams) ([]byte, error) {
 	req, err := http.NewRequest(
 		playerParams.Method,
 		"https://api.spotify.com/v1/me/player"+playerParams.Endpoint,
@@ -21,19 +21,19 @@ func Player(playerParams *PlayerParams) (*http.Response, string, error) {
 	)
 
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 
 	req.Header.Set("Authorization", "Bearer "+playerParams.AccessToken)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 
 	body, readErr := io.ReadAll(resp.Body)
 	if readErr != nil {
-		return nil, "", readErr
+		return nil, readErr
 	}
 
 	defer func() {
@@ -46,8 +46,8 @@ func Player(playerParams *PlayerParams) (*http.Response, string, error) {
 	}()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		return nil, "", fmt.Errorf(string(body))
+		return nil, fmt.Errorf(string(body))
 	}
 
-	return resp, string(body), nil
+	return body, nil
 }

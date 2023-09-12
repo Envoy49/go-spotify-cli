@@ -20,7 +20,7 @@ func EnvVarsPrompt(cmd *cobra.Command, args []string) {
 	PrintPromt()
 
 	reader := bufio.NewReader(os.Stdin)
-	
+
 	fmt.Print("Enter client id: ")
 
 	clientId, _ := reader.ReadString('\n')

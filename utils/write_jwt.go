@@ -50,7 +50,7 @@ func WriteJWTToken(token string, expiresIn uint) error {
 				log.Fatal(err)
 			}
 		default:
-			logrus.Warn("Unsupported type for key %s\n", key)
+			logrus.Warn(fmt.Sprintf("Unsupported type for key %s", key))
 		}
 	}
 

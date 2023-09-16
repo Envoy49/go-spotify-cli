@@ -20,11 +20,11 @@ type SpotifyResponse struct {
 }
 
 type Device struct {
-	ID               string `json:"id"`
+	Name             string `json:"name"`
 	IsActive         bool   `json:"is_active"`
+	ID               string `json:"id"`
 	IsPrivateSession bool   `json:"is_private_session"`
 	IsRestricted     bool   `json:"is_restricted"`
-	Name             string `json:"name"`
 	SupportsVolume   bool   `json:"supports_volume"`
 	Type             string `json:"type"`
 	VolumePercent    int    `json:"volume_percent"`

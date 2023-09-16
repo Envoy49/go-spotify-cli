@@ -1,25 +1,38 @@
 package server
 
 import (
-	"github.com/sirupsen/logrus"
+	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
-	"net/http"
 )
 
-func BootstrapAuthServer(route string) {
-	// Start the server in a goroutine
-	go StartServer()
+func FetchUserModifyTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = "user-modify-playback-state"
+	BootstrapAuthServer(constants.AuthRoute)
+	receivedToken := <-config.AuthTokenData
+	InitiateShutdown()
+	return receivedToken.UserModifyToken
+}
 
-	resp, err := http.Get(constants.ServerUrl + route)
-	if err != nil {
-		logrus.WithError(err).Error("Error making the GET request for /auth route")
-		return
+func FetchUserReadTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = "user-read-playback-state"
+	BootstrapAuthServer(constants.DeviceRoute)
+	receivedToken := <-config.AuthTokenData
+	InitiateShutdown()
+	return receivedToken.UserReadToken
+}
+
+func ReadUserModifyTokenOrFetchFromServer() string {
+	token := config.ReadTokenFromHome("userModifyToken")
+	if len(token) == 0 {
+		token = FetchUserModifyTokenFromBrowser()
 	}
+	return token
+}
 
-	defer func() {
-		err := resp.Body.Close()
-		if err != nil {
-			logrus.WithError(err).Error("Error closing request for /auth")
-		}
-	}()
+func ReadUserReadTokenOrFetchFromServer() string {
+	token := config.ReadTokenFromHome("userReadToken")
+	if len(token) == 0 {
+		token = FetchUserReadTokenFromBrowser()
+	}
+	return token
 }

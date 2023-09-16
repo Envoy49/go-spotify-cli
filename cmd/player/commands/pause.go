@@ -26,7 +26,7 @@ var PauseCommand = &cobra.Command{
 	Use:   "pause",
 	Short: "Pause spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := server.GetAuthTokenOrFetchFromServer()
+		token := server.ReadUserModifyTokenOrFetchFromServer()
 		pause(token)
 	},
 }

@@ -38,7 +38,7 @@ var VolumeCommand = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		token := server.GetAuthTokenOrFetchFromServer()
+		token := server.ReadUserModifyTokenOrFetchFromServer()
 		volume(token)
 	},
 }

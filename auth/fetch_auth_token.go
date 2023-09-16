@@ -18,7 +18,7 @@ type TokenResponse struct {
 	TokenType    string `json:"token_type"`
 }
 
-func GetAccessToken(clientID, clientSecret, authCode, redirectURI string) (string, uint, error) {
+func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (string, uint, error) {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
 	data.Set("code", authCode)

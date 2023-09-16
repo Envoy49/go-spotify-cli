@@ -2,6 +2,7 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/cmd/player"
 	"go-spotify-cli/common"
@@ -10,7 +11,7 @@ import (
 )
 
 func Player() {
-	token := server.FetchDeviceTokenFromBrowser()
+	token := server.ReadUserReadTokenOrFetchFromServer()
 	params := &commands.PlayerParams{
 		AccessToken: token,
 		Method:      "GET",
@@ -26,11 +27,20 @@ func Player() {
 			log.Fatalf("Error decoding JSON: %v", err)
 		}
 		// Print out the information
-		logrus.Info("----- SONG INFORMATION -----")
+		formattedSongInfo := fmt.Sprintf(
+			"\n------------------------ SONG INFORMATION ------------------------\n"+
+				"Song                 : %s - %s\n"+
+				"Album                : %s\n"+
+				"Album Type           : %s\n"+
+				"Album Release Date   : %s\n"+
+				"-------------------------------------------------------------------\n",
+			response.Item.Artists[0].Name,
+			response.Item.Name,
+			response.Item.Album.Name,
+			response.Item.Album.AlbumType,
+			response.Item.Album.ReleaseDate,
+		)
 
-		logrus.Info("Song: ", response.Item.Artists[0].Name+" - "+response.Item.Name)
-		logrus.Info("Album: ", response.Item.Album.Name)
-		logrus.Info("Album Type: ", response.Item.Album.AlbumType)
-		logrus.Info("Album Release Date: ", response.Item.Album.ReleaseDate)
+		logrus.Info(formattedSongInfo)
 	}
 }

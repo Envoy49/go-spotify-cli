@@ -26,7 +26,7 @@ var PlayCommand = &cobra.Command{
 	Use:   "play",
 	Short: "Play spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := server.GetAuthTokenOrFetchFromServer()
+		token := server.ReadUserModifyTokenOrFetchFromServer()
 		play(token)
 	},
 }

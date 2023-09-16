@@ -24,7 +24,7 @@ var PreviousCommand = &cobra.Command{
 	Use:   "previous",
 	Short: "Previous spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := server.GetAuthTokenOrFetchFromServer()
+		token := server.ReadUserModifyTokenOrFetchFromServer()
 		previous(token)
 	},
 }

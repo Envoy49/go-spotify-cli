@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
+	"go-spotify-cli/common"
 	"go-spotify-cli/server"
 	"net/url"
 )
@@ -24,7 +25,18 @@ func volume(accessToken string) {
 	_, err := commands.FetchCommand(params)
 
 	if err != nil {
+		switch e := err.(type) {
+		case common.SpotifyAPIError:
+			if e.Detail.Error.Message == "Player command failed: No active device found" {
+				Device()
+			}
+		}
+
 		logrus.WithError(err).Error("Error setting volume")
+
+	} else {
+		logrus.Info("Changed volume")
+		Player()
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
+	"go-spotify-cli/common"
 	"go-spotify-cli/server"
 )
 
@@ -16,9 +17,17 @@ func play(accessToken string) {
 	_, err := commands.FetchCommand(params)
 
 	if err != nil {
+		switch e := err.(type) {
+		case common.SpotifyAPIError:
+			if e.Detail.Error.Message == "Player command failed: No active device found" {
+				Device()
+			}
+		}
+
 		logrus.WithError(err).Error("Error playing your track")
 	} else {
 		logrus.Info("Playing")
+		Player()
 	}
 }
 

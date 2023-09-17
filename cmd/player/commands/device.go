@@ -3,6 +3,7 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/cmd/player"
@@ -15,7 +16,7 @@ type DeviceResponse struct {
 	Devices []common.Device `json:"devices"`
 }
 
-func device() {
+func Device() {
 	token := server.ReadUserReadTokenOrFetchFromServer()
 	params := &commands.PlayerParams{
 		AccessToken: token,
@@ -57,13 +58,33 @@ func device() {
 				device.Type,
 				device.VolumePercent,
 			)
-			logrus.Info(formattedInfo)
+			fmt.Println(formattedInfo)
 		}
 
-		//logrus.Info("Song: ", response.Item.Artists[0].Name+" - "+response.Item.Name)
-		//logrus.Info("Album: ", response.Item.Album.Name)
-		//logrus.Info("Album Type: ", response.Item.Album.AlbumType)
-		//logrus.Info("Album Release Date: ", response.Item.Album.ReleaseDate)
+		deviceNames := make([]string, len(response.Devices))
+		for i, device := range response.Devices {
+			deviceNames[i] = device.Name
+		}
+
+		if len(deviceNames) == 0 {
+			fmt.Println("No devices available. Please activate at least one device.")
+			return
+		}
+
+		prompt := promptui.Select{
+			Label: "Select device to play a track",
+			Items: deviceNames,
+		}
+
+		selectedIndex, _, err := prompt.Run()
+		if err != nil {
+			logrus.WithError(err).Error("Prompt failed")
+			return
+		}
+
+		selectedDevice := response.Devices[selectedIndex]
+
+		ActivateDevice(selectedDevice.ID)
 	}
 }
 
@@ -71,6 +92,6 @@ var DeviceCommand = &cobra.Command{
 	Use:   "device",
 	Short: "Get all connected devices",
 	Run: func(cmd *cobra.Command, args []string) {
-		device()
+		Device()
 	},
 }

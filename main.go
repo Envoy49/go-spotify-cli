@@ -17,9 +17,8 @@ func main() {
 	var rootCmd = &cobra.Command{
 		Use:              constants.ProjectName,
 		PersistentPreRun: config.EnvVarsPrompt,
-		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			commands.Player()
-		}}
+	}
+
 	rootCmd.AddCommand(
 		commands.PlayCommand,
 		commands.PauseCommand,

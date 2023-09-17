@@ -95,3 +95,19 @@ type Actions struct {
 type Disallows struct {
 	Pausing bool `json:"pausing"`
 }
+
+type SpotifyError struct {
+	Error struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+		Reason  string `json:"reason"`
+	} `json:"error"`
+}
+
+type SpotifyAPIError struct {
+	Detail SpotifyError
+}
+
+func (e SpotifyAPIError) Error() string {
+	return e.Detail.Error.Message
+}

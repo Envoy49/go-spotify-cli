@@ -41,6 +41,6 @@ func Player() {
 			response.Item.Album.ReleaseDate,
 		)
 
-		logrus.Info(formattedSongInfo)
+		fmt.Println(formattedSongInfo)
 	}
 }

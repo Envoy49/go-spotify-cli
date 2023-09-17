@@ -16,7 +16,7 @@ func StartServer() {
 
 	// Start the server in a goroutine
 	go func() {
-		logrus.Info("Opened server to get an auth token on" + constants.ServerUrl)
+		logrus.Info("Opened server to get an auth token on " + constants.ServerUrl)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			// This will print if the server is forcibly closed.
 			logrus.WithError(err).Error("Error starting the server")

@@ -4,8 +4,8 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.20) that i
 
 ## 📌 Prerequisites
 
-- **GoLang v1.20**: Ensure you have this version installed on your machine.
-- **Spotify Developer Account**: Required to obtain `ClientId` and `ClientSecret`.
+- **GoLang v1.20 or above**: Ensure you have this version installed on your machine.
+- **Spotify Account**: Required to obtain `ClientId` and `ClientSecret`.
 
 ## 🔧 Configuration
 
@@ -52,6 +52,8 @@ The CLI communicates with the following Spotify API Endpoints:
 4. `/v1/me/player/previous`
 5. `/v1/me/player/volume`
 6. `/v1/me/player/devices`
+
+We are hoping to add more endpoints with the help of the community.
 
 ## 🤝 Contributing
 

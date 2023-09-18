@@ -1,60 +1,62 @@
-# Go Spotify CLI
+# 🎵 Go Spotify CLI
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.20) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 
-## Prerequisites
+## 📌 Prerequisites
 
 - **GoLang v1.20**: Ensure you have this version installed on your machine.
 - **Spotify Developer Account**: Required to obtain `ClientId` and `ClientSecret`.
 
-## Configuration
+## 🔧 Configuration
 
-Before using Go Spotify CLI, users need to obtain `ClientId` and `ClientSecret`:
+Before using the Go Spotify CLI:
 
-1. Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
-2. Log in and create a new app.
-3. Once the app is created, you'll be provided with a `ClientId` and `ClientSecret`.
+1. **Obtain Credentials**:
+    - Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
+    - Log in and create a new app.
+    - Once the app is created, you can retrieve the `ClientId` and `ClientSecret` from the dashboard of the created application.
 
-### Storing Credentials
 
-Both `ClientId` and `ClientSecret` are stored in the `.go-spotify-cli` folder in the root directory. The CLI will use these credentials for authentication and other necessary operations.
+2. **Input Credentials**:
+    - Execute any command using the Go Spotify CLI.
+    - On first execution, there will be a prompt asking you to enter the `ClientId` and `ClientSecret`.
+    - After entering these details, they will be saved in the `.go-spotify-cli` folder in the root directory for future use.
 
-## Authentication
+## 🔑 Authentication
 
-When you run the Go Spotify CLI for the first time, it will prompt an authentication process. A browser window will open, requesting access to your Spotify account. After granting access, you'll receive a token.
+🚀 On the first run, Go Spotify CLI will prompt an authentication process. A browser window will open, requesting access to your Spotify account. After granting access, you'll receive a token.
 
-**Note**: This token has a 1-hour expiry. Once it's expired, you'll need to re-authenticate. The token is securely stored in the `.go-spotify-cli` directory.
+**Note**: 🕐 This token has a 1-hour expiry. Re-authenticate once expired. Token is securely stored in the `.go-spotify-cli` directory.
 
-## Commands
+## 🎛 Commands
 
-### `play`
+🎶 **`play`**: Starts playback on the current device.
 
-Starts playback on the current device.
+⏸ **`pause`**: Pauses playback on the current device.
 
-### `pause`
+⏩ **`next`**: Skips to the next track.
 
-Pauses playback on the current device.
+⏪ **`previous`**: Returns to the previous track.
 
-### `next`
+🔊 **`volume`**: Adjusts volume (0-100). Usage: `volume [0-100]`.
 
-Skips to the next track in the playback queue.
+📱 **`device`**: Activates a specific device. Usage: `device [DEVICE_ID]`.
 
-### `previous`
+## 🌍 Endpoints
 
-Returns to the previous track in the playback queue.
+The CLI communicates with the following Spotify API Endpoints:
 
-### `volume`
+1. `/v1/me/player/play`
+2. `/v1/me/player/pause`
+3. `/v1/me/player/next`
+4. `/v1/me/player/previous`
+5. `/v1/me/player/volume`
+6. `/v1/me/player/devices`
 
-Adjust the volume of the current device. Usage: `volume [0-100]`.
+## 🤝 Contributing
 
-### `device`
+Your contributions light up our world! 🌟 Feel free to submit pull requests or raise issues.
 
-Activates a specific device. If the device is off or in a non-active state, this command will "wake" it and set it as the current playback device. Usage: `device [DEVICE_ID]`.
+## 📜 License
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or raise issues if you find any.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+This project is under the MIT License. Dive into the `LICENSE` file for more.

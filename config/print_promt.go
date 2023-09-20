@@ -1,6 +1,9 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+	"go-spotify-cli/constants"
+)
 
 func PrintPromt() {
 	fmt.Println("==============================================")
@@ -21,7 +24,9 @@ func PrintPromt() {
 	fmt.Println()
 	fmt.Println("6. 🌐 In order to authenticate with Spotify, please enter following URLs in the app you created:")
 	fmt.Println()
-	fmt.Println("   📎 http://localhost:4949/auth-token-callback and http://localhost:4949/device-token-callbacks")
+	fmt.Printf("   📎 %s%s and %s%s\n",
+		constants.ServerUrl, constants.UserModifyPlaybackStateRouteCallback,
+		constants.ServerUrl, constants.UserReadPlaybackStateRouteCallback)
 	fmt.Println()
 	fmt.Println("7. 🛍  Once App created, you'll find the `Client ID` and `Client Secret` on the app details page.")
 	fmt.Println()

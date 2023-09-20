@@ -11,13 +11,13 @@ var once sync.Once
 
 func SetupRoutes() {
 	once.Do(func() {
-		http.HandleFunc(constants.AuthRoute, func(w http.ResponseWriter, r *http.Request) {
-			handlers.StartAuthTokenFlow(constants.AuthCallBackRoute)
+		http.HandleFunc(constants.UserModifyPlaybackStateRoute, func(w http.ResponseWriter, r *http.Request) {
+			handlers.StartAuthTokenFlow(constants.UserModifyPlaybackStateRouteCallback)
 		})
-		http.HandleFunc(constants.AuthCallBackRoute, handlers.UserModifyTokenHandler)
-		http.HandleFunc(constants.DeviceRoute, func(w http.ResponseWriter, r *http.Request) {
-			handlers.StartAuthTokenFlow(constants.DeviceCallBackRoute)
+		http.HandleFunc(constants.UserModifyPlaybackStateRouteCallback, handlers.UserModifyTokenHandler)
+		http.HandleFunc(constants.UserReadPlaybackStateRoute, func(w http.ResponseWriter, r *http.Request) {
+			handlers.StartAuthTokenFlow(constants.UserReadPlaybackStateRouteCallback)
 		})
-		http.HandleFunc(constants.DeviceCallBackRoute, handlers.UserReadTokenHandler)
+		http.HandleFunc(constants.UserReadPlaybackStateRouteCallback, handlers.UserReadTokenHandler)
 	})
 }

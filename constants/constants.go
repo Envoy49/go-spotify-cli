@@ -1,15 +1,19 @@
 package constants
 
 const (
-	TempFileName = "temp.txt"
-	ProjectName  = "go-spotify-cli"
+	ProjectName = "go-spotify-cli"
+	ServerUrl   = "http://localhost:4949"
+	Port        = ":4949"
 )
 
 const (
-	AuthRoute           = "/auth"
-	DeviceRoute         = "/device"
-	AuthCallBackRoute   = "/auth-token-callback"
-	DeviceCallBackRoute = "/device-token-callback"
-	ServerUrl           = "http://localhost:4949"
-	Port                = ":4949"
+	UserModifyPlaybackStateRoute         = "/user-modify-playback-state-auth"
+	UserModifyPlaybackStateRouteCallback = "/user-modify-playback-state-auth-callback"
+	UserModifyPlaybackStateScope         = "user-modify-playback-state"
+)
+
+const (
+	UserReadPlaybackStateRoute         = "/user-read-playback-state-auth"
+	UserReadPlaybackStateRouteCallback = "/user-read-playback-state-auth-callback"
+	UserReadPlaybackState              = "user-read-playback-state"
 )

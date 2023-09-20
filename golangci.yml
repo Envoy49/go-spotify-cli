@@ -1,5 +1,6 @@
 run:
   deadline: 5m
+  modules-download-mode: readonly # Ensure reproducible builds
 
 linters:
   enable:
@@ -14,11 +15,40 @@ linters:
     - varcheck
     - deadcode
     - unconvert
+    - goconst # Finds repeated strings that could be replaced by a constant
+    - godot # Checks if comments end in a period
+    - goimports # Like gofmt but with import sorting
+    - gomodguard # Allow and block list linter for direct Go module dependencies
+    - gosimple # Simplifies code (like `S1000` and `S1001` simplifications)
+    - staticcheck # A lot of additional checks
+    - dupl # Reports about duplicated code
+    - nakedret # Finds naked returns in functions greater than a specified function length
 
 linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: true
   lll:
-    line-length: 120 # doesn't work for some reason
+    line-length: 120
     tab-width: 8
+  gocyclo:
+    min-complexity: 15 # Increase or decrease based on your preference
+  goimports:
+    local-prefixes: your_project_name_here # Replace with your project's import path prefix
+  gomodguard:
+    allowed:
+      modules:
+        - github.com/your_dependency # Replace with your allowed dependencies
+    blocked:
+      modules:
+        - github.com/blocked_dependency # Replace with any blocked dependencies
+
+# Exclude auto-generated files from linting
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+    - path: api/.*\.go
+      linters:
+        - dupl

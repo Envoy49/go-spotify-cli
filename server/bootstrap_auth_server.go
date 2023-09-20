@@ -6,16 +6,16 @@ import (
 )
 
 func FetchUserModifyTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = "user-modify-playback-state"
-	BootstrapAuthServer(constants.AuthRoute)
+	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
+	BootstrapAuthServer(constants.UserModifyPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	InitiateShutdown()
 	return receivedToken.UserModifyToken
 }
 
 func FetchUserReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = "user-read-playback-state"
-	BootstrapAuthServer(constants.DeviceRoute)
+	config.GlobalConfig.RequestedScopes = constants.UserReadPlaybackState
+	BootstrapAuthServer(constants.UserReadPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	InitiateShutdown()
 	return receivedToken.UserReadToken

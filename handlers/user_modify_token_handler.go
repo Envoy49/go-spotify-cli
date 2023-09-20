@@ -11,7 +11,12 @@ import (
 func UserModifyTokenHandler(w http.ResponseWriter, r *http.Request) {
 	authCode := r.URL.Query().Get("code")
 
-	accessToken, expiresIn, err := auth.FetchAuthToken(config.GlobalConfig.ClientId, config.GlobalConfig.ClientSecret, authCode, constants.ServerUrl+constants.AuthCallBackRoute)
+	accessToken, expiresIn, err := auth.FetchAuthToken(
+		config.GlobalConfig.ClientId,
+		config.GlobalConfig.ClientSecret,
+		authCode,
+		constants.ServerUrl+constants.UserModifyPlaybackStateRouteCallback,
+	)
 
 	if err != nil {
 		logrus.WithError(err).Error("Failed to get access token")

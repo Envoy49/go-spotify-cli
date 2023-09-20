@@ -43,14 +43,14 @@ func BootstrapAuthServer(route string) {
 
 	resp, err := http.Get(constants.ServerUrl + route)
 	if err != nil {
-		logrus.WithError(err).Error("Error making the GET request for /auth route")
+		logrus.WithError(err).Error("Error making the GET request to: " + route)
 		return
 	}
 
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			logrus.WithError(err).Error("Error closing request for /auth")
+			logrus.WithError(err).Error("Error closing request to :" + route)
 		}
 	}()
 }

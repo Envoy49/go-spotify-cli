@@ -41,7 +41,7 @@ func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (strin
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			logrus.WithError(err).Error("Error closing request for /auth")
+			logrus.WithError(err).Error("Error closing request for fetch auth token")
 		}
 	}()
 

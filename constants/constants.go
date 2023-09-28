@@ -1,9 +1,11 @@
 package constants
 
 const (
-	ProjectName = "go-spotify-cli"
-	ServerUrl   = "http://localhost:4949"
-	Port        = ":4949"
+	ProjectName           = "go-spotify-cli"
+	ServerUrl             = "http://localhost:4949"
+	Port                  = ":4949"
+	SpotifyPlayerEndpoint = "https://api.spotify.com/v1/me"
+	SpotifySearchEndpoint = "https://api.spotify.com/v1/search"
 )
 
 const (

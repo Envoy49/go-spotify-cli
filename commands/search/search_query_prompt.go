@@ -5,9 +5,10 @@ import (
 	"github.com/manifoldco/promptui"
 	"log"
 	"strconv"
+	"strings"
 )
 
-var searchTypes = []string{"album", "artist", "playlist", "track", "show", "episode", "audiobook"}
+var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}
 
 type SpotifySearchQuery struct {
 	Query string
@@ -54,7 +55,7 @@ func SpotifySearchQueryPrompt() (error, *SpotifySearchQuery) {
 
 	var result = &SpotifySearchQuery{
 		Query: searchQuery,
-		Type:  searchType,
+		Type:  strings.ToLower(searchType),
 		Limit: limitStr,
 	}
 

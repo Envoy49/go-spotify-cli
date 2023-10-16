@@ -1,13 +1,13 @@
 package search
 
 type SpotifySearchResponse struct {
-	Tracks     Tracks     `json:"tracks"`
-	Artists    Artists    `json:"artists"`
-	Albums     Albums     `json:"albums"`
-	Playlists  Playlists  `json:"playlists"`
-	Shows      Shows      `json:"shows"`
-	Episodes   Episodes   `json:"episodes"`
-	Audiobooks Audiobooks `json:"audiobooks"`
+	Tracks     *Tracks     `json:"tracks"`
+	Artists    *Artists    `json:"artists"`
+	Albums     *Albums     `json:"albums"`
+	Playlists  *Playlists  `json:"playlists"`
+	Shows      *Shows      `json:"shows"`
+	Episodes   *Episodes   `json:"episodes"`
+	Audiobooks *Audiobooks `json:"audiobooks"`
 }
 
 type Body struct {

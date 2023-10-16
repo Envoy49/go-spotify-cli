@@ -18,6 +18,7 @@ func buildSpotifySearchURL(baseEndpoint string, prompt *SpotifySearchQuery) stri
 	values.Add("limit", prompt.Limit)
 
 	fullURL := baseEndpoint + "?" + values.Encode()
+
 	return fullURL
 }
 
@@ -27,6 +28,7 @@ func search(accessToken string, prompt *SpotifySearchQuery) {
 		Method:      "GET",
 		Endpoint:    buildSpotifySearchURL(constants.SpotifySearchEndpoint, prompt),
 	}
+
 	body, err := commands.FetchCommand(params)
 
 	if err != nil {

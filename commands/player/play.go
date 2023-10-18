@@ -50,7 +50,6 @@ func Play(accessToken string, URI string) {
 			logrus.WithError(err).Error("Error playing your track")
 		}
 	} else {
-		logrus.Info("Playing")
 		Player()
 	}
 }

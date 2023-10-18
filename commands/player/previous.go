@@ -27,7 +27,6 @@ func previous(accessToken string) {
 
 		logrus.WithError(err).Error("Error going to the previous track")
 	} else {
-		logrus.Info("Changed volume")
 		Player()
 	}
 }

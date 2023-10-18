@@ -31,7 +31,7 @@ func WriteToHomeDirectory(clientSecret string, clientId string) {
 			logrus.WithError(err).Error("Error creating folder")
 			return
 		}
-		logrus.Info("Folder created:", folderPath)
+		logrus.Println("Folder created:", folderPath)
 	}
 
 	// Marshal the configData into YAML format
@@ -51,5 +51,5 @@ func WriteToHomeDirectory(clientSecret string, clientId string) {
 		ClientId:     configData.ClientId,
 		ClientSecret: configData.ClientSecret,
 	}
-	logrus.Info("Configuration saved:", filePath)
+	logrus.Println("Configuration saved:", filePath)
 }

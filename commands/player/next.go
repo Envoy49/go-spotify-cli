@@ -27,7 +27,6 @@ func next(accessToken string) {
 
 		logrus.WithError(err).Error("Error going to the next track")
 	} else {
-		logrus.Info("Playing next track")
 		Player()
 	}
 }
@@ -35,6 +34,7 @@ func next(accessToken string) {
 var NextCommand = &cobra.Command{
 	Use:   "next",
 	Short: "Next spotify song",
+
 	Run: func(cmd *cobra.Command, args []string) {
 		token := server.ReadUserModifyTokenOrFetchFromServer()
 		next(token)

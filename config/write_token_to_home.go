@@ -40,7 +40,7 @@ func WriteTokenToHomeDirectory(configData *TokenStructure) {
 			logrus.WithError(err).Error("Error creating folder")
 			return
 		}
-		logrus.Info("Folder created:", folderPath)
+		logrus.Println("Folder created:", folderPath)
 	}
 	// Define an instance to store the current file's data
 	currentData := TokenStructure{}
@@ -82,6 +82,5 @@ func WriteTokenToHomeDirectory(configData *TokenStructure) {
 
 	AuthTokenData <- currentData
 
-	logrus.Info("Token cache miss")
-	logrus.Info("Token information saved to:", filePath)
+	logrus.Println("Token information saved to:", filePath)
 }

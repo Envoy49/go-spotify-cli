@@ -3,12 +3,11 @@ package config
 import (
 	"bufio"
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
 	"strings"
 )
 
-func EnvVarsPrompt(cmd *cobra.Command, args []string) {
+func EnvVarsPrompt() {
 	if len(GlobalConfig.ClientSecret) > 0 || len(GlobalConfig.ClientId) > 0 {
 		return
 	}

@@ -25,16 +25,12 @@ func TracksResultsPrompt(tracks *Tracks) string {
 			name := formattedInfo[index]
 			return strings.Contains(strings.ToLower(name), strings.ToLower(input))
 		},
-		StartInSearchMode: true, // start the prompt in search mode
+		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | cyan }} {{ . | yellow | underline }}`, // underline the active item for emphasis
+			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
 			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . }}`,
-			// Also, you can customize how each item appears, separating artist and track name for example
-			Label: `{{ ">>" | cyan }} {{ .Label | bold }}`,
-			Details: `{{ "Selected Track:" | cyan }}
-				 {{ "Artist:" | yellow | bold }} {{ .ArtistName }}
-				 {{ "Track:" | yellow | bold }}  {{ .TrackName }}`,
+			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
+			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
 	}
 

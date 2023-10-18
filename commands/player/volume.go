@@ -36,7 +36,7 @@ func volume(accessToken string) {
 		logrus.WithError(err).Error("Error setting volume")
 
 	} else {
-		logrus.Info("Changed volume")
+		logrus.Printf("Volume set to: %s%%", VolumeValue)
 		Player()
 	}
 }

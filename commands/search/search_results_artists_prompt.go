@@ -27,12 +27,10 @@ func ArtistsResultsPrompt(artists *Artists) string {
 		},
 		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | cyan }} {{ . | yellow | underline }}`,
+			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
 			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . }}`,
-			Label:    `{{ ">>" | cyan }} {{ .Label | bold }}`,
-			Details: `{{ "Selected Artist:" | cyan }}
-				 {{ "Name:" | yellow | bold }} {{ .Name }}`,
+			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
+			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
 	}
 

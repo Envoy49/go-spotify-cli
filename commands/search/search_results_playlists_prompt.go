@@ -26,11 +26,10 @@ func PlaylistsResultsPrompt(playlists *Playlists) string {
 		},
 		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | cyan }} {{ . | yellow | underline }}`,
+			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
 			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . }}`,
-			Label:    `{{ ">>" | cyan }} {{ .Label | bold }}`,
-			Details:  `{{ "Selected Playlist:" | cyan }} {{ .Name | yellow | bold }}`,
+			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
+			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
 	}
 

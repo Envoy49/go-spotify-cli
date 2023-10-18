@@ -42,8 +42,10 @@ func search(accessToken string, prompt *SpotifySearchQuery) {
 		logrus.WithError(err).Error("Error searching tracks")
 	} else {
 		URI := SpotifySearchResultsPrompt(body)
-		player.Play(accessToken, URI)
-		// call Play function after Search Results Prompt
+		if len(URI) > 0 {
+			// call Play function after Search Results Prompt
+			player.Play(accessToken, URI)
+		}
 	}
 }
 

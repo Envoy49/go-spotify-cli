@@ -26,11 +26,10 @@ func ShowsResultsPrompt(shows *Shows) string {
 		},
 		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | cyan }} {{ . | yellow | underline }}`,
+			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
 			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . }}`,
-			Label:    `{{ ">>" | cyan }} {{ .Label | bold }}`,
-			Details:  `{{ "Selected Show:" | cyan }} {{ .Name | yellow | bold }}`,
+			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
+			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
 	}
 

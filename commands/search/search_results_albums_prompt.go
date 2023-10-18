@@ -27,13 +27,10 @@ func AlbumsResultsPrompt(albums *Albums) string {
 		},
 		StartInSearchMode: true, // start the prompt in search mode
 		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | cyan }} {{ . | yellow | underline }}`, // underline the active item for emphasis
+			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
 			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . }}`,
-			Label:    `{{ ">>" | cyan }} {{ .Label | bold }}`,
-			Details: `{{ "Selected Album:" | cyan }}
-				 {{ "Album:" | yellow | bold }} {{ .ArtistName }}
-				 {{ "Track:" | yellow | bold }}  {{ .TrackName }}`,
+			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
+			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
 	}
 

@@ -10,6 +10,7 @@ import (
 )
 
 func ActivateDevice(deviceIds string) {
+
 	jsonData := map[string]interface{}{
 		"device_ids": []string{deviceIds},
 		"play":       true,
@@ -36,6 +37,6 @@ func ActivateDevice(deviceIds string) {
 	if err != nil {
 		logrus.WithError(err).Error("Error activating device")
 	} else {
-		logrus.Info("Device has been activated")
+		logrus.Println("Device has been activated")
 	}
 }

@@ -41,7 +41,6 @@ func ReadTokenFromHome(tokenType string) string {
 		if isTokenExpired(expiresIn) {
 			return ""
 		}
-		logrus.Info("User Read Token cache hit")
 		return currentData.UserReadToken
 	}
 
@@ -50,7 +49,6 @@ func ReadTokenFromHome(tokenType string) string {
 		if isTokenExpired(expiresIn) {
 			return ""
 		}
-		logrus.Info("User Modify Token cache hit")
 		return currentData.UserModifyToken
 	}
 

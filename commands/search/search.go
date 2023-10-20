@@ -22,11 +22,18 @@ func buildSpotifySearchURL(baseEndpoint string, prompt *SpotifySearchQuery) stri
 	return fullURL
 }
 
-func search(accessToken string, prompt *SpotifySearchQuery) {
+func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
+	var endpoint string
+	if prompt != nil {
+		endpoint = buildSpotifySearchURL(constants.SpotifySearchEndpoint, prompt)
+	} else {
+		endpoint = nextUrl
+	}
+
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "GET",
-		Endpoint:    buildSpotifySearchURL(constants.SpotifySearchEndpoint, prompt),
+		Endpoint:    endpoint,
 	}
 
 	body, err := commands.FetchCommand(params)
@@ -41,10 +48,13 @@ func search(accessToken string, prompt *SpotifySearchQuery) {
 
 		logrus.WithError(err).Error("Error searching tracks")
 	} else {
-		URI := SpotifySearchResultsPrompt(body)
-		if len(URI) > 0 {
+		playUrl, nextUrl := SpotifySearchResultsPrompt(body)
+		if len(nextUrl) > 0 {
+			search(accessToken, nil, nextUrl)
+		}
+		if len(playUrl) > 0 {
 			// call Play function after Search Results Prompt
-			player.Play(accessToken, URI)
+			player.Play(accessToken, playUrl)
 		}
 	}
 }
@@ -59,6 +69,6 @@ var SendSearchCommand = &cobra.Command{
 			logrus.WithError(err).Error("Error getting Search Query Prompts")
 		}
 
-		search(token, query)
+		search(token, query, "")
 	},
 }

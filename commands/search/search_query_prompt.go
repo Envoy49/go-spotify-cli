@@ -8,7 +8,8 @@ import (
 	"strings"
 )
 
-var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}
+// var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}
+var searchTypes = []string{"Track", "Episode"}
 
 type SpotifySearchQuery struct {
 	Query string
@@ -27,7 +28,7 @@ func SpotifySearchQueryPrompt() (error, *SpotifySearchQuery) {
 	}
 
 	promptSearchType := promptui.Select{
-		Label: "Select the type(s) of items you want to search for",
+		Label: "Select the type(s) of items you want to search for(only Tracks and Episodes are supported now)",
 		Items: searchTypes,
 		Size:  len(searchTypes),
 	}

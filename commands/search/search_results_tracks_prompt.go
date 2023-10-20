@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func TracksResultsPrompt(tracks *Tracks) string {
+func TracksResultsPrompt(tracks *Tracks, nextUrl string) (string, string) {
 	formattedInfo := make([]string, len(tracks.Items))
 
 	for i, item := range tracks.Items {
@@ -17,10 +17,12 @@ func TracksResultsPrompt(tracks *Tracks) string {
 		formattedInfo[i] = trackInfo
 	}
 
+	formattedInfo = append(formattedInfo, "Get more search results")
+
 	prompt := promptui.Select{
 		Label: "Select track",
 		Items: formattedInfo,
-		Size:  len(tracks.Items),
+		Size:  len(tracks.Items) + 1,
 		Searcher: func(input string, index int) bool {
 			name := formattedInfo[index]
 			return strings.Contains(strings.ToLower(name), strings.ToLower(input))
@@ -28,7 +30,7 @@ func TracksResultsPrompt(tracks *Tracks) string {
 		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
 			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
-			Inactive: `{{ " " | faint }} {{ . | faint }}`,
+			Inactive: `{{if eq . "Get more search results"}}{{ " " | faint }} {{ . | green }}{{else}}{{ " " | faint }} {{ . | faint }}{{end}}`,
 			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
 			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
@@ -37,7 +39,12 @@ func TracksResultsPrompt(tracks *Tracks) string {
 	index, _, err := prompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return ""
+		return "", ""
+	}
+
+	lastIndex := len(tracks.Items)
+	if lastIndex == index {
+		return "", nextUrl
 	}
 
 	selectedTrack := tracks.Items[index]
@@ -58,5 +65,5 @@ func TracksResultsPrompt(tracks *Tracks) string {
 
 	fmt.Println(fullBox)
 
-	return selectedTrack.URI
+	return selectedTrack.URI, ""
 }

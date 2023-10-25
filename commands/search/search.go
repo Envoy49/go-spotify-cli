@@ -54,7 +54,9 @@ func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
 		}
 		if len(playUrl) > 0 {
 			// call Play function after Search Results Prompt
-			player.Play(accessToken, playUrl)
+			//player.Play(accessToken, playUrl)
+			player.AddToQueue(accessToken, playUrl)
+			player.Next(accessToken, false)
 		}
 	}
 }

@@ -10,7 +10,6 @@ import (
 )
 
 func ActivateDevice(deviceIds string) {
-
 	jsonData := map[string]interface{}{
 		"device_ids": []string{deviceIds},
 		"play":       true,

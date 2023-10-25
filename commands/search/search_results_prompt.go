@@ -2,21 +2,19 @@ package search
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
 func SpotifySearchResultsPrompt(body []byte) (string, string) {
 	var response *SpotifySearchResponse
 	err := json.Unmarshal(body, &response)
-	fmt.Println("--------->", response.Tracks.Next)
 	if err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
 	}
 
 	switch {
 	case response.Tracks != nil:
-		return TracksResultsPrompt(response.Tracks, response.Tracks.Next)
+		return TracksResultsPrompt(response.Tracks)
 	//case response.Episodes != nil:
 	//	return EpisodesResultsPrompt(response.Episodes)
 	//case response.Albums != nil:

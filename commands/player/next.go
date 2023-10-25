@@ -9,7 +9,7 @@ import (
 	"go-spotify-cli/server"
 )
 
-func next(accessToken string) {
+func Next(accessToken string, callPlayer bool) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "POST",
@@ -27,7 +27,9 @@ func next(accessToken string) {
 
 		logrus.WithError(err).Error("Error going to the next track")
 	} else {
-		Player()
+		if callPlayer {
+			Player()
+		}
 	}
 }
 
@@ -37,6 +39,6 @@ var NextCommand = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		token := server.ReadUserModifyTokenOrFetchFromServer()
-		next(token)
+		Next(token, true)
 	},
 }

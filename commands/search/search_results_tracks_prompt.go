@@ -9,7 +9,8 @@ import (
 	"strings"
 )
 
-func TracksResultsPrompt(tracks *Tracks, nextUrl string) (string, string) {
+func TracksResultsPrompt(tracks *Tracks) (string, string) {
+
 	formattedInfo := make([]string, len(tracks.Items))
 
 	for i, item := range tracks.Items {
@@ -17,12 +18,18 @@ func TracksResultsPrompt(tracks *Tracks, nextUrl string) (string, string) {
 		formattedInfo[i] = trackInfo
 	}
 
-	formattedInfo = append(formattedInfo, "Get more search results")
+	if len(tracks.Next) > 0 {
+		formattedInfo = append(formattedInfo, ">>> NEXT >>>")
+	}
+
+	if len(tracks.Previous) > 0 {
+		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
+	}
 
 	prompt := promptui.Select{
 		Label: "Select track",
 		Items: formattedInfo,
-		Size:  len(tracks.Items) + 1,
+		Size:  len(formattedInfo),
 		Searcher: func(input string, index int) bool {
 			name := formattedInfo[index]
 			return strings.Contains(strings.ToLower(name), strings.ToLower(input))
@@ -30,7 +37,7 @@ func TracksResultsPrompt(tracks *Tracks, nextUrl string) (string, string) {
 		StartInSearchMode: true,
 		Templates: &promptui.SelectTemplates{
 			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
-			Inactive: `{{if eq . "Get more search results"}}{{ " " | faint }} {{ . | green }}{{else}}{{ " " | faint }} {{ . | faint }}{{end}}`,
+			Inactive: `{{if eq . ">>> NEXT >>>"}}{{ " " | faint }} {{ . | green }}{{else if eq . "<<< PREVIOUS <<<"}}{{ " " | faint }} {{ . | red }}{{else}}{{ " " | faint }} {{ . | faint }}{{end}}`,
 			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
 			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
 		},
@@ -43,8 +50,13 @@ func TracksResultsPrompt(tracks *Tracks, nextUrl string) (string, string) {
 	}
 
 	lastIndex := len(tracks.Items)
+
 	if lastIndex == index {
-		return "", nextUrl
+		return "", tracks.Next
+	}
+
+	if lastIndex+1 == index {
+		return "", tracks.Previous
 	}
 
 	selectedTrack := tracks.Items[index]

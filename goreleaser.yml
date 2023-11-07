@@ -1,5 +1,7 @@
 builds:
-  - binary: gsc
+  - id: "gsc"  # This is an optional identifier for the build.
+    dir: "cmd/gsc"
+    binary: "gsc"
     goos:
       - darwin
       - linux

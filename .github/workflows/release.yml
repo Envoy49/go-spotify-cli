@@ -2,8 +2,8 @@ name: goreleaser
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - main  # This will trigger the workflow when you push to the main branch.
 
 permissions:
   contents: write
@@ -26,8 +26,7 @@ jobs:
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
-          distribution: goreleaser
-          version: ${{ env.GITHUB_REF_NAME }}
+          version: latest
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.HOMEBREW_GO_SPOTIFY_CLI }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

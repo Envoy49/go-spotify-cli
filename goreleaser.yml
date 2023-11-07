@@ -25,7 +25,7 @@ brews:
     homepage: "https://github.com/envoy49/go-spotify-cli"
     tap:
       owner: envoy49
-      name: homebrew-envoy49
+      name: homebrew-go-spotify-cli  # This should match the tap command
     commit_author:
       name: envoy49
 

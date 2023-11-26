@@ -3,6 +3,7 @@ package config
 import (
 	"bufio"
 	"fmt"
+	"go-spotify-cli/spinnerInstance"
 	"os"
 	"strings"
 )
@@ -15,6 +16,8 @@ func EnvVarsPrompt() {
 	if VerifyConfigExists() {
 		return
 	}
+
+	spinnerInstance.Stop()
 
 	PrintPromt()
 

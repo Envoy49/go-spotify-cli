@@ -1,15 +1,14 @@
 package main
 
 import (
-	"github.com/briandowns/spinner"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/commands/player"
 	"go-spotify-cli/commands/search"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/spinnerInstance"
 	"os"
-	"time"
 )
 
 func init() {
@@ -17,21 +16,16 @@ func init() {
 }
 
 func main() {
-	s := spinner.New(spinner.CharSets[25], 50*time.Millisecond)
-	s.Color("bold", "blue")
+	spinnerInstance.InitializeSpinner()
 
 	var rootCmd = &cobra.Command{
 		Use: constants.ProjectName,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			if cmd.Name() != "search" {
-				s.Start()
-			}
+			spinnerInstance.Start()
 			config.EnvVarsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			if cmd.Name() != "search" {
-				s.Stop()
-			}
+			spinnerInstance.Stop()
 		},
 	}
 

@@ -3,6 +3,7 @@ module go-spotify-cli
 go 1.21
 
 require (
+	github.com/briandowns/spinner v1.23.0
 	github.com/charmbracelet/lipgloss v0.8.0
 	github.com/manifoldco/promptui v0.9.0
 	github.com/sirupsen/logrus v1.9.3
@@ -12,7 +13,6 @@ require (
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/briandowns/spinner v1.23.0 // indirect
 	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/fatih/color v1.7.0 // indirect

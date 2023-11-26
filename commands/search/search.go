@@ -8,6 +8,7 @@ import (
 	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/server"
+	"go-spotify-cli/spinnerInstance"
 	"net/url"
 )
 
@@ -65,6 +66,7 @@ var SendSearchCommand = &cobra.Command{
 	Use:   "search",
 	Short: "Search spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
+		spinnerInstance.Stop()
 		token := server.ReadUserModifyTokenOrFetchFromServer()
 		err, query := SpotifySearchQueryPrompt()
 		if err != nil {

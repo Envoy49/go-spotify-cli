@@ -13,12 +13,12 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType string) string {
+func ReadTokenFromHome(tokenType string) (string, string) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		logrus.WithError(err).Error("Error getting home directory")
-		return ""
+		return "", ""
 	}
 
 	// Define the folder and file paths
@@ -32,25 +32,25 @@ func ReadTokenFromHome(tokenType string) string {
 	if fileData, err := os.ReadFile(filePath); err == nil {
 		if err := yaml.Unmarshal(fileData, &currentData); err != nil {
 			logrus.WithError(err).Error("Error unmarshalling existing data from file")
-			return ""
+			return "", ""
 		}
 	}
 
 	if tokenType == "userReadToken" {
 		expiresIn := time.Unix(currentData.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return ""
+			return "", currentData.UserReadRefreshToken
 		}
-		return currentData.UserReadToken
+		return currentData.UserReadToken, ""
 	}
 
 	if tokenType == "userModifyToken" {
 		expiresIn := time.Unix(currentData.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return ""
+			return "", currentData.UserModifyRefreshToken
 		}
-		return currentData.UserModifyToken
+		return currentData.UserModifyToken, ""
 	}
 
-	return ""
+	return "", ""
 }

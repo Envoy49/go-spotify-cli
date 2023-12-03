@@ -5,30 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"go-spotify-cli/config"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
-type TokenResponse struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-	ExpiresIn    uint   `json:"expires_in"`
-	TokenType    string `json:"token_type"`
-}
-
-type FetchTokenResponse struct {
-	AccessToken  string
-	RefreshToken string
-	ExpiresIn    uint
-}
-
-func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*FetchTokenResponse, error) {
+func RefreshAuthToken(refreshToken string) (*FetchTokenResponse, error) {
 	data := url.Values{}
-	data.Set("grant_type", "authorization_code")
-	data.Set("code", authCode)
-	data.Set("redirect_uri", redirectURI)
+	data.Set("grant_type", "refresh_token")
+	data.Set("client_id", config.GlobalConfig.ClientId)
+	data.Set("refresh_token", refreshToken)
 
 	req, err := http.NewRequest("POST", "https://accounts.spotify.com/api/token", strings.NewReader(data.Encode()))
 	if err != nil {
@@ -36,7 +24,7 @@ func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*Fetc
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(clientID+":"+clientSecret)))
+	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(config.GlobalConfig.ClientId+":"+config.GlobalConfig.ClientSecret)))
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
@@ -52,7 +40,6 @@ func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*Fetc
 	}()
 
 	body, err := io.ReadAll(resp.Body)
-
 	if err != nil {
 		return nil, err
 	}
@@ -69,10 +56,10 @@ func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*Fetc
 	}
 
 	fetchResponse := &FetchTokenResponse{
-		AccessToken:  tokenResponse.AccessToken,
-		RefreshToken: tokenResponse.RefreshToken,
-		ExpiresIn:    tokenResponse.ExpiresIn,
+		AccessToken: tokenResponse.AccessToken,
+		ExpiresIn:   tokenResponse.ExpiresIn,
 	}
 
 	return fetchResponse, nil
+
 }

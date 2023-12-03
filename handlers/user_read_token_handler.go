@@ -11,7 +11,7 @@ import (
 func UserReadTokenHandler(w http.ResponseWriter, r *http.Request) {
 	authCode := r.URL.Query().Get("code")
 
-	accessToken, expiresIn, err := auth.FetchAuthToken(
+	response, err := auth.FetchAuthToken(
 		config.GlobalConfig.ClientId,
 		config.GlobalConfig.ClientSecret,
 		authCode,
@@ -24,9 +24,10 @@ func UserReadTokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userReadTokenData := config.TokenStructure{
-		UserReadToken:          accessToken,
-		UserReadTokenExpiresIn: int64(expiresIn),
+		UserReadToken:          response.AccessToken,
+		UserReadRefreshToken:   response.RefreshToken,
+		UserReadTokenExpiresIn: int64(response.ExpiresIn),
 	}
 
-	config.WriteTokenToHomeDirectory(&userReadTokenData)
+	config.WriteTokenToHomeDirectory(&userReadTokenData, true)
 }

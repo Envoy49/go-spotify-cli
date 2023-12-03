@@ -11,7 +11,7 @@ import (
 func UserModifyTokenHandler(w http.ResponseWriter, r *http.Request) {
 	authCode := r.URL.Query().Get("code")
 
-	accessToken, expiresIn, err := auth.FetchAuthToken(
+	response, err := auth.FetchAuthToken(
 		config.GlobalConfig.ClientId,
 		config.GlobalConfig.ClientSecret,
 		authCode,
@@ -24,9 +24,10 @@ func UserModifyTokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userModifyTokenData := config.TokenStructure{
-		UserModifyToken:          accessToken,
-		UserModifyTokenExpiresIn: int64(expiresIn),
+		UserModifyToken:          response.AccessToken,
+		UserModifyRefreshToken:   response.RefreshToken,
+		UserModifyTokenExpiresIn: int64(response.ExpiresIn),
 	}
 
-	config.WriteTokenToHomeDirectory(&userModifyTokenData)
+	config.WriteTokenToHomeDirectory(&userModifyTokenData, true)
 }

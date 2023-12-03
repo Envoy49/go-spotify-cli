@@ -11,8 +11,10 @@ import (
 
 type TokenStructure struct {
 	UserModifyToken          string `yaml:"UserModifyToken"`
+	UserModifyRefreshToken   string `yaml:"UserModifyRefreshToken"`
 	UserModifyTokenExpiresIn int64  `yaml:"UserModifyTokenExpiresIn"`
 	UserReadToken            string `yaml:"UserReadToken"`
+	UserReadRefreshToken     string `yaml:"UserReadRefreshToken"`
 	UserReadTokenExpiresIn   int64  `yaml:"UserReadTokenExpiresIn"`
 }
 
@@ -22,7 +24,7 @@ func getTokenExpiryTime(expiresIn int64) time.Time { // expires in should be act
 
 var AuthTokenData = make(chan TokenStructure)
 
-func WriteTokenToHomeDirectory(configData *TokenStructure) {
+func WriteTokenToHomeDirectory(configData *TokenStructure, initiateChannel bool) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -52,17 +54,27 @@ func WriteTokenToHomeDirectory(configData *TokenStructure) {
 			return
 		}
 	}
-
 	// Update the fields of currentData with the non-empty fields of configData
 	if configData.UserModifyToken != "" {
 		currentData.UserModifyToken = configData.UserModifyToken
 	}
+
+	if configData.UserModifyRefreshToken != "" {
+		currentData.UserModifyRefreshToken = configData.UserModifyRefreshToken
+	}
+
 	if configData.UserModifyTokenExpiresIn != 0 {
 		currentData.UserModifyTokenExpiresIn = getTokenExpiryTime(configData.UserModifyTokenExpiresIn).Unix()
 	}
+
 	if configData.UserReadToken != "" {
 		currentData.UserReadToken = configData.UserReadToken
 	}
+
+	if configData.UserReadRefreshToken != "" {
+		currentData.UserReadRefreshToken = configData.UserReadRefreshToken
+	}
+
 	if configData.UserReadTokenExpiresIn != 0 {
 		currentData.UserReadTokenExpiresIn = getTokenExpiryTime(configData.UserReadTokenExpiresIn).Unix()
 	}
@@ -79,8 +91,10 @@ func WriteTokenToHomeDirectory(configData *TokenStructure) {
 		logrus.WithError(err).Error("Error writing to file")
 		return
 	}
-
-	AuthTokenData <- currentData
+	
+	if initiateChannel {
+		AuthTokenData <- currentData
+	}
 
 	logrus.Println("Token information saved to:", filePath)
 }

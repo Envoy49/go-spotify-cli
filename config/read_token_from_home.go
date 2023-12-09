@@ -13,12 +13,12 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType string) (string, string) {
+func ReadTokenFromHome(tokenType string) *TokenStructure {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		logrus.WithError(err).Error("Error getting home directory")
-		return "", ""
+		return nil
 	}
 
 	// Define the folder and file paths
@@ -26,31 +26,39 @@ func ReadTokenFromHome(tokenType string) (string, string) {
 	filePath := filepath.Join(folderPath, constants.ProjectName+"-env.yaml")
 
 	// Define an instance to store the current file's data
-	currentData := TokenStructure{}
+	currentData := &TokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {
 		if err := yaml.Unmarshal(fileData, &currentData); err != nil {
 			logrus.WithError(err).Error("Error unmarshalling existing data from file")
-			return "", ""
+			return nil
 		}
 	}
 
 	if tokenType == "userReadToken" {
 		expiresIn := time.Unix(currentData.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return "", currentData.UserReadRefreshToken
+			return &TokenStructure{
+				UserReadRefreshToken: currentData.UserReadRefreshToken,
+			}
 		}
-		return currentData.UserReadToken, ""
+		return &TokenStructure{
+			UserReadToken: currentData.UserReadToken,
+		}
 	}
 
 	if tokenType == "userModifyToken" {
 		expiresIn := time.Unix(currentData.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return "", currentData.UserModifyRefreshToken
+			return &TokenStructure{
+				UserModifyRefreshToken: currentData.UserModifyRefreshToken,
+			}
 		}
-		return currentData.UserModifyToken, ""
+		return &TokenStructure{
+			UserModifyToken: currentData.UserModifyToken,
+		}
 	}
 
-	return "", ""
+	return nil
 }

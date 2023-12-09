@@ -5,6 +5,7 @@ import (
 	"go-spotify-cli/auth"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/html"
 	"net/http"
 )
 
@@ -28,4 +29,7 @@ func UserModifyTokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	config.WriteTokenToHomeDirectory(&userModifyTokenData, true)
+
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte(html.ContentOfHTML))
 }

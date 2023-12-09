@@ -14,7 +14,7 @@ var (
 
 func InitializeSpinner() {
 	once.Do(func() {
-		instance = spinner.New(spinner.CharSets[25], 50*time.Millisecond)
+		instance = spinner.New(spinner.CharSets[17], 50*time.Millisecond)
 		instance.Color("bold", "blue")
 	})
 }

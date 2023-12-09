@@ -23,9 +23,9 @@ func Next(accessToken string, callPlayer bool) {
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device()
 			}
+		default:
+			logrus.WithError(err).Error("Error going to the next track")
 		}
-
-		logrus.WithError(err).Error("Error going to the next track")
 	} else {
 		if callPlayer {
 			Player()

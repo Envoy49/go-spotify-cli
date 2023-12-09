@@ -12,8 +12,6 @@ func UserModifyTokenHandler(w http.ResponseWriter, r *http.Request) {
 	authCode := r.URL.Query().Get("code")
 
 	response, err := auth.FetchAuthToken(
-		config.GlobalConfig.ClientId,
-		config.GlobalConfig.ClientSecret,
 		authCode,
 		constants.ServerUrl+constants.UserModifyPlaybackStateRouteCallback,
 	)

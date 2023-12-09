@@ -38,16 +38,9 @@ func Play(accessToken string, URI string) {
 		case common.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device()
-				_, err2 := commands.FetchCommand(params)
-				if err2 != nil {
-					logrus.WithError(err).Error("Error playing your track")
-				}
-			} else {
-				// Some other action for other SpotifyAPIError types.
-				logrus.WithError(err).Error("Some other SpotifyAPIError occurred")
 			}
 		default:
-			logrus.WithError(err).Error("Error playing your track")
+			logrus.WithError(err).Error("Some other SpotifyAPIError occurred")
 		}
 	} else {
 		if len(URI) == 0 {

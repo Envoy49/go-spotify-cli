@@ -23,9 +23,9 @@ func pause(accessToken string) {
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device()
 			}
+		default:
+			logrus.WithError(err).Error("Error pausing your track")
 		}
-
-		logrus.WithError(err).Error("Error pausing your track")
 
 	} else {
 		logrus.Println("Paused")

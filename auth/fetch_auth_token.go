@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"go-spotify-cli/config"
 	"io"
 	"net/http"
 	"net/url"
@@ -24,7 +25,7 @@ type FetchTokenResponse struct {
 	ExpiresIn    uint
 }
 
-func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*FetchTokenResponse, error) {
+func FetchAuthToken(authCode, redirectURI string) (*FetchTokenResponse, error) {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
 	data.Set("code", authCode)
@@ -36,7 +37,7 @@ func FetchAuthToken(clientID, clientSecret, authCode, redirectURI string) (*Fetc
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(clientID+":"+clientSecret)))
+	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(config.GlobalConfig.ClientId+":"+config.GlobalConfig.ClientSecret)))
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

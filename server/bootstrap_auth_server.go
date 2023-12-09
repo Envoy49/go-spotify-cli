@@ -1,16 +1,12 @@
 package server
 
 import (
-	"fmt"
 	"go-spotify-cli/auth"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
 )
 
-func FetchUserModifyTokenFromBrowser(token string) string {
-	if len(token) > 0 {
-		return token
-	}
+func FetchUserModifyTokenFromBrowser() string {
 	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
 	BootstrapAuthServer(constants.UserModifyPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
@@ -18,10 +14,7 @@ func FetchUserModifyTokenFromBrowser(token string) string {
 	return receivedToken.UserModifyToken
 }
 
-func FetchUserReadTokenFromBrowser(token string) string {
-	if len(token) > 0 {
-		return token
-	}
+func FetchUserReadTokenFromBrowser() string {
 	config.GlobalConfig.RequestedScopes = constants.UserReadPlaybackState
 	BootstrapAuthServer(constants.UserReadPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
@@ -34,7 +27,7 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 	if len(refreshToken) > 0 {
 		newToken, err := auth.RefreshAuthToken(refreshToken)
 		if err != nil {
-			authToken = FetchUserModifyTokenFromBrowser("")
+			return FetchUserModifyTokenFromBrowser()
 		}
 
 		userModifyToken := config.TokenStructure{
@@ -47,7 +40,7 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 	}
 
 	if len(authToken) == 0 {
-		authToken = FetchUserModifyTokenFromBrowser("")
+		return FetchUserModifyTokenFromBrowser()
 	}
 
 	return authToken
@@ -55,14 +48,11 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 
 func ReadUserReadTokenOrFetchFromServer() string {
 	authToken, refreshToken := config.ReadTokenFromHome("userReadToken")
-	fmt.Println("---------->ReadToken auth", authToken)
-	fmt.Println("---------->ReadToken refresh", refreshToken)
-
 	if len(refreshToken) > 0 {
 		newToken, err := auth.RefreshAuthToken(refreshToken)
 
 		if err != nil {
-			authToken = FetchUserReadTokenFromBrowser("")
+			return FetchUserReadTokenFromBrowser()
 		}
 
 		userReadToken := config.TokenStructure{
@@ -74,7 +64,7 @@ func ReadUserReadTokenOrFetchFromServer() string {
 	}
 
 	if len(authToken) == 0 {
-		authToken = FetchUserReadTokenFromBrowser("")
+		return FetchUserReadTokenFromBrowser()
 	}
 	return authToken
 }

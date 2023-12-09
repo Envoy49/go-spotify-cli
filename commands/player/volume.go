@@ -29,11 +29,13 @@ func volume(accessToken string) {
 		switch e := err.(type) {
 		case common.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				// Handle the case where no active device is found
+				Device() // This function should ideally select or activate a default device
+				return   // Optionally return after handling the specific error, if no further action is needed
 			}
+		default:
+			logrus.WithError(err).Error("Error setting volume")
 		}
-
-		logrus.WithError(err).Error("Error setting volume")
 
 	} else {
 		logrus.Printf("Volume set to: %s%%", VolumeValue)

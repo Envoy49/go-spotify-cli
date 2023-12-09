@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"go-spotify-cli/commands"
 	"go-spotify-cli/commands/player"
 	"go-spotify-cli/commands/search"
 	"go-spotify-cli/config"
@@ -37,6 +38,7 @@ func main() {
 		player.DeviceCommand,
 		player.VolumeCommand,
 		search.SendSearchCommand,
+		commands.FlushAllTokensCommand,
 	)
 
 	player.VolumeCommand.Flags().StringVarP(&player.VolumeValue, "volume", "v", "", "Volume to add")

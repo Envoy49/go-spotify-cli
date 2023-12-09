@@ -54,47 +54,58 @@ func WriteTokenToHomeDirectory(configData *TokenStructure, initiateChannel bool)
 			return
 		}
 	}
-	// Update the fields of currentData with the non-empty fields of configData
-	if configData.UserModifyToken != "" {
-		currentData.UserModifyToken = configData.UserModifyToken
+	if configData != nil {
+		// Update the fields of currentData with the non-empty fields of configData
+		if configData.UserModifyToken != "" {
+			currentData.UserModifyToken = configData.UserModifyToken
+		}
+
+		if configData.UserModifyRefreshToken != "" {
+			currentData.UserModifyRefreshToken = configData.UserModifyRefreshToken
+		}
+
+		if configData.UserModifyTokenExpiresIn != 0 {
+			currentData.UserModifyTokenExpiresIn = getTokenExpiryTime(configData.UserModifyTokenExpiresIn).Unix()
+		}
+
+		if configData.UserReadToken != "" {
+			currentData.UserReadToken = configData.UserReadToken
+		}
+
+		if configData.UserReadRefreshToken != "" {
+			currentData.UserReadRefreshToken = configData.UserReadRefreshToken
+		}
+
+		if configData.UserReadTokenExpiresIn != 0 {
+			currentData.UserReadTokenExpiresIn = getTokenExpiryTime(configData.UserReadTokenExpiresIn).Unix()
+		}
 	}
 
-	if configData.UserModifyRefreshToken != "" {
-		currentData.UserModifyRefreshToken = configData.UserModifyRefreshToken
+	if configData == nil {
+		// Flush all tokens if configData not provided
+		if err := os.WriteFile(filePath, nil, 0644); err != nil {
+			logrus.WithError(err).Error("Error writing to file")
+			return
+		}
+	} else {
+		// Marshal the updated data
+		data, err := yaml.Marshal(currentData)
+		if err != nil {
+			logrus.WithError(err).Error("Error marshalling data to YAML")
+			return
+		}
+
+		// Write the updated YAML data to the file
+		if err := os.WriteFile(filePath, data, 0644); err != nil {
+			logrus.WithError(err).Error("Error writing to file")
+			return
+		}
+
+		if initiateChannel {
+			AuthTokenData <- currentData
+		}
+
+		logrus.Println("Token information saved to:", filePath)
 	}
 
-	if configData.UserModifyTokenExpiresIn != 0 {
-		currentData.UserModifyTokenExpiresIn = getTokenExpiryTime(configData.UserModifyTokenExpiresIn).Unix()
-	}
-
-	if configData.UserReadToken != "" {
-		currentData.UserReadToken = configData.UserReadToken
-	}
-
-	if configData.UserReadRefreshToken != "" {
-		currentData.UserReadRefreshToken = configData.UserReadRefreshToken
-	}
-
-	if configData.UserReadTokenExpiresIn != 0 {
-		currentData.UserReadTokenExpiresIn = getTokenExpiryTime(configData.UserReadTokenExpiresIn).Unix()
-	}
-
-	// Marshal the updated data
-	data, err := yaml.Marshal(currentData)
-	if err != nil {
-		logrus.WithError(err).Error("Error marshalling data to YAML")
-		return
-	}
-
-	// Write the updated YAML data to the file
-	if err := os.WriteFile(filePath, data, 0644); err != nil {
-		logrus.WithError(err).Error("Error writing to file")
-		return
-	}
-	
-	if initiateChannel {
-		AuthTokenData <- currentData
-	}
-
-	logrus.Println("Token information saved to:", filePath)
 }

@@ -2,7 +2,11 @@
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 
-## ⬇️ Download
+## ⬇️ Installation
+
+Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
+
+Once brew is installed, commands steps are required.
 
 ```bash
 brew tap Envoy49/homebrew-go-spotify-cli
@@ -13,7 +17,7 @@ brew install go-spotify-cli
 
 ## 📌 Prerequisites
 
-- **Spotify Account**: Required to obtain `ClientId` and `ClientSecret`.
+- **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.
 
 ## 🔧 Configuration
 

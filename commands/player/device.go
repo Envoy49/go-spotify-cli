@@ -71,7 +71,6 @@ func Device() {
 }
 
 func printDeviceInfo(device DeviceType) {
-
 	volumeRectStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#51e2f5"))
 
 	var activeStatusColor string

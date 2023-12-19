@@ -6,22 +6,6 @@ import (
 	"go-spotify-cli/constants"
 )
 
-func FetchUserModifyTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
-	BootstrapAuthServer(constants.UserModifyPlaybackStateRoute)
-	receivedToken := <-config.AuthTokenData
-	InitiateShutdown()
-	return receivedToken.UserModifyToken
-}
-
-func FetchUserReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = constants.UserReadPlaybackState
-	BootstrapAuthServer(constants.UserReadPlaybackStateRoute)
-	receivedToken := <-config.AuthTokenData
-	InitiateShutdown()
-	return receivedToken.UserReadToken
-}
-
 func ReadUserModifyTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome("userModifyToken")
 	if len(tokenInstance.UserModifyRefreshToken) > 0 {
@@ -67,4 +51,20 @@ func ReadUserReadTokenOrFetchFromServer() string {
 		return FetchUserReadTokenFromBrowser()
 	}
 	return tokenInstance.UserReadToken
+}
+
+func FetchUserModifyTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
+	BootstrapAuthServer(constants.UserModifyPlaybackStateRoute)
+	receivedToken := <-config.AuthTokenData
+	InitiateShutdown()
+	return receivedToken.UserModifyToken
+}
+
+func FetchUserReadTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = constants.UserReadPlaybackState
+	BootstrapAuthServer(constants.UserReadPlaybackStateRoute)
+	receivedToken := <-config.AuthTokenData
+	InitiateShutdown()
+	return receivedToken.UserReadToken
 }

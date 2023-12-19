@@ -16,8 +16,8 @@ jobs:
 
       - name: Compute SHA256 of the release tarball
         run: |
-          wget https://github.com/Envoy49/go-spotify-cli/archive/refs/tags/${{ github.event.release.tag_name }}.tar.gz
-          echo "NEW_SHA256=$(sha256sum ${GITHUB_EVENT_RELEASE_TAG_NAME}.tar.gz | awk '{ print $1 }')" >> $GITHUB_ENV
+          wget https://github.com/Envoy49/go-spotify-cli/archive/refs/tags/${{ github.event.release.tag_name }}.tar.gz -O go-spotify-cli-${{ github.event.release.tag_name }}.tar.gz
+          echo "NEW_SHA256=$(sha256sum go-spotify-cli-${{ github.event.release.tag_name }}.tar.gz | awk '{ print $1 }')" >> $GITHUB_ENV
 
       - name: Update homebrew-go-spotify-cli Formula
         uses: actions/checkout@v2

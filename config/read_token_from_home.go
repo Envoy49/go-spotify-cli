@@ -13,7 +13,7 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType string) *TokenStructure {
+func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -26,7 +26,7 @@ func ReadTokenFromHome(tokenType string) *TokenStructure {
 	filePath := filepath.Join(folderPath, constants.ProjectName+"-env.yaml")
 
 	// Define an instance to store the current file's data
-	currentData := &TokenStructure{}
+	currentData := &CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {
@@ -36,27 +36,36 @@ func ReadTokenFromHome(tokenType string) *TokenStructure {
 		}
 	}
 
-	if tokenType == "userReadToken" {
-		expiresIn := time.Unix(currentData.UserReadTokenExpiresIn, 0)
+	if tokenType == constants.ReadToken {
+		expiresIn := time.Unix(currentData.ReadToken.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &TokenStructure{
-				UserReadRefreshToken: currentData.UserReadRefreshToken,
+			return &CombinedTokenStructure{
+				ReadToken: UserReadTokenStructure{
+					UserReadRefreshToken: currentData.ReadToken.UserReadRefreshToken,
+				},
 			}
 		}
-		return &TokenStructure{
-			UserReadToken: currentData.UserReadToken,
+
+		return &CombinedTokenStructure{
+			ReadToken: UserReadTokenStructure{
+				UserReadToken: currentData.ReadToken.UserReadToken,
+			},
 		}
 	}
 
-	if tokenType == "userModifyToken" {
-		expiresIn := time.Unix(currentData.UserModifyTokenExpiresIn, 0)
+	if tokenType == constants.ModifyToken {
+		expiresIn := time.Unix(currentData.ModifyToken.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &TokenStructure{
-				UserModifyRefreshToken: currentData.UserModifyRefreshToken,
+			return &CombinedTokenStructure{
+				ModifyToken: UserModifyTokenStructure{
+					UserModifyRefreshToken: currentData.ModifyToken.UserModifyRefreshToken,
+				},
 			}
 		}
-		return &TokenStructure{
-			UserModifyToken: currentData.UserModifyToken,
+		return &CombinedTokenStructure{
+			ModifyToken: UserModifyTokenStructure{
+				UserModifyToken: currentData.ModifyToken.UserModifyToken,
+			},
 		}
 	}
 

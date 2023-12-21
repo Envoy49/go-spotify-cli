@@ -91,12 +91,11 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 
 ## 📝 TODO List
 
-1. Refactor TokenStructure struct
-2. Add liked songs command
-3. Add search options for `Artists`, `Albums`, `Playlists`, `Shows`
-4. Add tests
-5. Add more commands reflecting Spotify Api
-6. Test on Windows and Linux. Tested and developed only on Mac.
+1. Add liked songs command
+2. Add search options for `Artists`, `Albums`, `Playlists`, `Shows`
+3. Add tests(use race flag to detect race conditions)
+4. Add more commands reflecting Spotify Api
+5. Test on Windows and Linux. Tested and developed only on Mac.
 
 ## 📜 License
 

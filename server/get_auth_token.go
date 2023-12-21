@@ -7,50 +7,54 @@ import (
 )
 
 func ReadUserModifyTokenOrFetchFromServer() string {
-	tokenInstance := config.ReadTokenFromHome("userModifyToken")
-	if len(tokenInstance.UserModifyRefreshToken) > 0 {
-		newToken, err := auth.RefreshAuthToken(tokenInstance.UserModifyRefreshToken)
+	tokenInstance := config.ReadTokenFromHome(constants.ModifyToken)
+	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
+		newToken, err := auth.RefreshAuthToken(tokenInstance.ModifyToken.UserModifyRefreshToken)
 		if err != nil {
 			return FetchUserModifyTokenFromBrowser()
 		}
 
-		userModifyToken := config.TokenStructure{
-			UserModifyToken:          newToken.AccessToken,
-			UserModifyTokenExpiresIn: int64(newToken.ExpiresIn),
+		userModifyToken := config.CombinedTokenStructure{
+			ModifyToken: config.UserModifyTokenStructure{
+				UserModifyToken:          newToken.AccessToken,
+				UserModifyTokenExpiresIn: int64(newToken.ExpiresIn),
+			},
 		}
 		config.WriteTokenToHomeDirectory(&userModifyToken, false)
 
 		return newToken.AccessToken
 	}
 
-	if len(tokenInstance.UserModifyToken) == 0 {
+	if len(tokenInstance.ModifyToken.UserModifyToken) == 0 {
 		return FetchUserModifyTokenFromBrowser()
 	}
 
-	return tokenInstance.UserModifyToken
+	return tokenInstance.ModifyToken.UserModifyToken
 }
 
 func ReadUserReadTokenOrFetchFromServer() string {
-	tokenInstance := config.ReadTokenFromHome("userReadToken")
-	if len(tokenInstance.UserReadRefreshToken) > 0 {
-		newToken, err := auth.RefreshAuthToken(tokenInstance.UserReadRefreshToken)
+	tokenInstance := config.ReadTokenFromHome(constants.ReadToken)
+	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
+		newToken, err := auth.RefreshAuthToken(tokenInstance.ReadToken.UserReadRefreshToken)
 
 		if err != nil {
 			return FetchUserReadTokenFromBrowser()
 		}
 
-		userReadToken := config.TokenStructure{
-			UserReadToken:          newToken.AccessToken,
-			UserReadTokenExpiresIn: int64(newToken.ExpiresIn),
+		userReadToken := config.CombinedTokenStructure{
+			ReadToken: config.UserReadTokenStructure{
+				UserReadToken:          newToken.AccessToken,
+				UserReadTokenExpiresIn: int64(newToken.ExpiresIn),
+			},
 		}
 		config.WriteTokenToHomeDirectory(&userReadToken, false)
 		return newToken.AccessToken
 	}
 
-	if len(tokenInstance.UserReadToken) == 0 {
+	if len(tokenInstance.ReadToken.UserReadToken) == 0 {
 		return FetchUserReadTokenFromBrowser()
 	}
-	return tokenInstance.UserReadToken
+	return tokenInstance.ReadToken.UserReadToken
 }
 
 func FetchUserModifyTokenFromBrowser() string {
@@ -58,7 +62,7 @@ func FetchUserModifyTokenFromBrowser() string {
 	BootstrapAuthServer(constants.UserModifyPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	InitiateShutdown()
-	return receivedToken.UserModifyToken
+	return receivedToken.ModifyToken.UserModifyToken
 }
 
 func FetchUserReadTokenFromBrowser() string {
@@ -66,5 +70,5 @@ func FetchUserReadTokenFromBrowser() string {
 	BootstrapAuthServer(constants.UserReadPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	InitiateShutdown()
-	return receivedToken.UserReadToken
+	return receivedToken.ReadToken.UserReadToken
 }

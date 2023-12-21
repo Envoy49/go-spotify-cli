@@ -8,17 +8,6 @@ import (
 	"path/filepath"
 )
 
-type Config struct {
-	ClientId        string
-	ClientSecret    string
-	RequestedScopes string
-}
-
-type EnvVarConfig struct {
-	ClientId     string `yaml:"ClientId"`
-	ClientSecret string `yaml:"ClientSecret"`
-}
-
 var GlobalConfig Config
 
 func LoadConfiguration() {

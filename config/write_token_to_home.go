@@ -9,22 +9,39 @@ import (
 	"time"
 )
 
-type TokenStructure struct {
-	UserModifyToken          string `yaml:"UserModifyToken"`
-	UserModifyRefreshToken   string `yaml:"UserModifyRefreshToken"`
-	UserModifyTokenExpiresIn int64  `yaml:"UserModifyTokenExpiresIn"`
-	UserReadToken            string `yaml:"UserReadToken"`
-	UserReadRefreshToken     string `yaml:"UserReadRefreshToken"`
-	UserReadTokenExpiresIn   int64  `yaml:"UserReadTokenExpiresIn"`
-}
+var AuthTokenData = make(chan CombinedTokenStructure)
 
-func getTokenExpiryTime(expiresIn int64) time.Time { // expires in should be actual time when it is going to expire
+func getTokenExpiryTime(expiresIn int64) time.Time { // expiresIn should be actual time when it is going to expire
 	return time.Now().Add(time.Second * time.Duration(expiresIn))
 }
 
-var AuthTokenData = make(chan TokenStructure)
+func checkModifyToken(current, newToken UserModifyTokenStructure) UserModifyTokenStructure {
+	if newToken.UserModifyToken != "" {
+		current.UserModifyToken = newToken.UserModifyToken
+	}
+	if newToken.UserModifyRefreshToken != "" {
+		current.UserModifyRefreshToken = newToken.UserModifyRefreshToken
+	}
+	if newToken.UserModifyTokenExpiresIn != 0 {
+		current.UserModifyTokenExpiresIn = getTokenExpiryTime(newToken.UserModifyTokenExpiresIn).Unix()
+	}
+	return current
+}
 
-func WriteTokenToHomeDirectory(configData *TokenStructure, initiateChannel bool) {
+func checkReadToken(current, newToken UserReadTokenStructure) UserReadTokenStructure {
+	if newToken.UserReadToken != "" {
+		current.UserReadToken = newToken.UserReadToken
+	}
+	if newToken.UserReadRefreshToken != "" {
+		current.UserReadRefreshToken = newToken.UserReadRefreshToken
+	}
+	if newToken.UserReadTokenExpiresIn != 0 {
+		current.UserReadTokenExpiresIn = getTokenExpiryTime(newToken.UserReadTokenExpiresIn).Unix()
+	}
+	return current
+}
+
+func WriteTokenToHomeDirectory(configData *CombinedTokenStructure, initiateChannel bool) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -45,7 +62,7 @@ func WriteTokenToHomeDirectory(configData *TokenStructure, initiateChannel bool)
 		logrus.Println("Folder created:", folderPath)
 	}
 	// Define an instance to store the current file's data
-	currentData := TokenStructure{}
+	currentData := CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {
@@ -55,30 +72,8 @@ func WriteTokenToHomeDirectory(configData *TokenStructure, initiateChannel bool)
 		}
 	}
 	if configData != nil {
-		// Update the fields of currentData with the non-empty fields of configData
-		if configData.UserModifyToken != "" {
-			currentData.UserModifyToken = configData.UserModifyToken
-		}
-
-		if configData.UserModifyRefreshToken != "" {
-			currentData.UserModifyRefreshToken = configData.UserModifyRefreshToken
-		}
-
-		if configData.UserModifyTokenExpiresIn != 0 {
-			currentData.UserModifyTokenExpiresIn = getTokenExpiryTime(configData.UserModifyTokenExpiresIn).Unix()
-		}
-
-		if configData.UserReadToken != "" {
-			currentData.UserReadToken = configData.UserReadToken
-		}
-
-		if configData.UserReadRefreshToken != "" {
-			currentData.UserReadRefreshToken = configData.UserReadRefreshToken
-		}
-
-		if configData.UserReadTokenExpiresIn != 0 {
-			currentData.UserReadTokenExpiresIn = getTokenExpiryTime(configData.UserReadTokenExpiresIn).Unix()
-		}
+		currentData.ModifyToken = checkModifyToken(currentData.ModifyToken, configData.ModifyToken)
+		currentData.ReadToken = checkReadToken(currentData.ReadToken, configData.ReadToken)
 	}
 
 	if configData == nil {

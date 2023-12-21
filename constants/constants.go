@@ -19,3 +19,10 @@ const (
 	UserReadPlaybackStateRouteCallback = "/user-read-playback-state-auth-callback"
 	UserReadPlaybackState              = "user-read-playback-state"
 )
+
+type TokenType string
+
+const (
+	ModifyToken TokenType = "ModifyToken"
+	ReadToken   TokenType = "ReadToken"
+)

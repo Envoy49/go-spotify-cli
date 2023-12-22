@@ -1,11 +1,11 @@
 package config
 
 import (
-	"bufio"
 	"fmt"
+	"github.com/manifoldco/promptui"
+	"github.com/sirupsen/logrus"
 	"go-spotify-cli/spinnerInstance"
-	"os"
-	"strings"
+	"regexp"
 )
 
 func EnvVarsPrompt() {
@@ -19,21 +19,38 @@ func EnvVarsPrompt() {
 
 	spinnerInstance.Stop()
 
-	PrintPromt()
+	SetupPrompt()
 
-	reader := bufio.NewReader(os.Stdin)
+	validate := func(input string) error {
+		// Regular expression for validating Spotify Client ID and Client Secret
+		var clientIDRegex = regexp.MustCompile(`^[a-zA-Z0-9]{32}$`)
 
-	fmt.Print("Enter client id: ")
+		if !clientIDRegex.MatchString(input) {
+			return fmt.Errorf("invalid format")
+		}
+		return nil
+	}
 
-	clientId, _ := reader.ReadString('\n')
+	promptClientId := promptui.Prompt{
+		Label:    "Enter your Client Id",
+		Validate: validate,
+	}
 
-	clientId = strings.TrimSpace(clientId)
+	clientId, err := promptClientId.Run()
+	if err != nil {
+		logrus.WithError(err).Error("Client Id Prompt failed")
+		return
+	}
 
-	fmt.Print("Enter client secret: ")
+	promptClientSecret := promptui.Prompt{
+		Label: "Enter your Client Secret",
+	}
 
-	clientSecret, _ := reader.ReadString('\n')
-
-	clientSecret = strings.TrimSpace(clientSecret)
+	clientSecret, err := promptClientSecret.Run()
+	if err != nil {
+		logrus.WithError(err).Error("Client Secret Prompt failed")
+		return
+	}
 
 	WriteToHomeDirectory(clientSecret, clientId)
 }

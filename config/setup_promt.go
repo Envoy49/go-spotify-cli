@@ -5,7 +5,7 @@ import (
 	"go-spotify-cli/constants"
 )
 
-func PrintPromt() {
+func SetupPrompt() {
 	fmt.Println("==============================================")
 	fmt.Println("          GO Spotify CLI Setup Guide          ")
 	fmt.Println("==============================================")

@@ -21,8 +21,10 @@ func AddToQueue(accessToken string, url string) {
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device()
 			}
+		default:
+			logrus.WithError(err).Error("Error adding item to the queue")
+			return
 		}
 
-		logrus.WithError(err).Error("Error adding item to the queue")
 	}
 }

@@ -22,9 +22,11 @@ func Next(accessToken string, callPlayer bool) {
 		case common.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device()
+				return
 			}
 		default:
 			logrus.WithError(err).Error("Error going to the next track")
+			return
 		}
 	} else {
 		if callPlayer {

@@ -45,9 +45,11 @@ func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				player.Device()
 			}
+		default:
+			logrus.WithError(err).Error("Error searching tracks")
+			return
 		}
 
-		logrus.WithError(err).Error("Error searching tracks")
 	} else {
 		playUrl, nextUrl := SpotifySearchResultsPrompt(body)
 		if len(nextUrl) > 0 {

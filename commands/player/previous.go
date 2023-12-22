@@ -25,6 +25,7 @@ func previous(accessToken string) {
 			}
 		default:
 			logrus.WithError(err).Error("Error going to the previous track")
+			return
 		}
 	} else {
 		Player()

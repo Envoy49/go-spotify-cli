@@ -31,10 +31,10 @@ func volume(accessToken string) {
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				// Handle the case where no active device is found
 				Device() // This function should ideally select or activate a default device
-				return   // Optionally return after handling the specific error, if no further action is needed
 			}
 		default:
 			logrus.WithError(err).Error("Error setting volume")
+			return
 		}
 
 	} else {

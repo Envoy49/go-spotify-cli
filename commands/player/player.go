@@ -8,7 +8,6 @@ import (
 	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/server"
-	"log"
 	"time"
 )
 
@@ -26,10 +25,12 @@ func Player() {
 
 	if err != nil {
 		logrus.WithError(err).Error("Error getting current track")
+		return
 	} else {
 		err := json.Unmarshal(body, &response)
 		if err != nil {
-			log.Fatalf("Error decoding JSON: %v", err)
+			logrus.WithError(err).Error("Error decoding JSON")
+			return
 		}
 		// Print out the information
 		formattedSongInfo := fmt.Sprintf(

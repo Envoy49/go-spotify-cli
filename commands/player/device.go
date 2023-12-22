@@ -38,6 +38,7 @@ func Device() {
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
+		return
 	}
 
 	for _, device := range response.Devices {

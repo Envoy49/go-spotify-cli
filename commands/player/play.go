@@ -19,6 +19,7 @@ func Play(accessToken string, URI string) {
 	bodyData, marshalErr := json.Marshal(playBody)
 	if marshalErr != nil {
 		logrus.WithError(marshalErr).Error("Error marshaling trackID in player function")
+		return
 	}
 
 	var params = &commands.PlayerParams{
@@ -41,6 +42,7 @@ func Play(accessToken string, URI string) {
 			}
 		default:
 			logrus.WithError(err).Error("Some other SpotifyAPIError occurred")
+			return
 		}
 	} else {
 		if len(URI) == 0 {

@@ -25,6 +25,7 @@ func pause(accessToken string) {
 			}
 		default:
 			logrus.WithError(err).Error("Error pausing your track")
+			return
 		}
 
 	} else {

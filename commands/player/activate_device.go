@@ -18,7 +18,8 @@ func ActivateDevice(deviceIds string) {
 	jsonDataBytes, err1 := json.Marshal(jsonData)
 
 	if err1 != nil {
-		logrus.WithError(err1).Info("the reason")
+		logrus.WithError(err1).Info("error Marshaling Json data in Activate Device")
+		return
 	}
 	requestBody := bytes.NewBuffer(jsonDataBytes)
 
@@ -35,6 +36,7 @@ func ActivateDevice(deviceIds string) {
 
 	if err != nil {
 		logrus.WithError(err).Error("Error activating device")
+		return
 	} else {
 		logrus.Println("Device has been activated")
 	}

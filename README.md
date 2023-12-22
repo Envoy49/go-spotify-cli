@@ -50,6 +50,8 @@ Before using the Go Spotify CLI:
     - On first execution, there will be a prompt asking you to enter the `ClientId` and `ClientSecret`.
     - After entering these details, they will be saved in the `.go-spotify-cli` folder in the root directory for future use.
 
+    **Note**: If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
+
 ## 🔑 Authentication
 
 🚀 On the first run, Go Spotify CLI will initiate an authentication process through the Spotify interface. 
@@ -75,8 +77,9 @@ This ensures that browser authentication is no longer required after initial acc
 
 🔍 **`search`**: Search any `Tracks` and `Episodes`. Searching `Artists`, `Albums`, `Playlists`, `Shows` are not available yet. Any selected song from search result will be added to the current queue.
 
-🔄 **`flush-all-tokens`**: This command will delete all token saved in `.go-spotify-cli` folder. Further commands will require a new browser authentication.
+🔄 **`flush-tokens`**: This command will delete all token saved in `.go-spotify-cli` folder. Further commands will require a new browser authentication.
 
+🔄 **`flush-secrets`**: This command will delete all secrets saved in `.go-spotify-cli` folder.
 ## 🌍 Endpoints
 
 The CLI communicates with the following Spotify API Endpoints:

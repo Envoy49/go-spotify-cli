@@ -5,6 +5,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/spinnerInstance"
+	"os"
 	"regexp"
 )
 
@@ -39,7 +40,7 @@ func EnvVarsPrompt() {
 	clientId, err := promptClientId.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Client Id Prompt failed")
-		return
+		os.Exit(1)
 	}
 
 	promptClientSecret := promptui.Prompt{
@@ -49,8 +50,8 @@ func EnvVarsPrompt() {
 	clientSecret, err := promptClientSecret.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Client Secret Prompt failed")
-		return
+		os.Exit(1)
 	}
 
-	WriteToHomeDirectory(clientSecret, clientId)
+	WriteSecretsToHomeDirectory(clientSecret, clientId)
 }

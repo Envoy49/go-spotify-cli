@@ -22,6 +22,9 @@ func main() {
 	var rootCmd = &cobra.Command{
 		Use: constants.ProjectName,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
+				return
+			}
 			spinnerInstance.Start()
 			config.EnvVarsPrompt()
 		},
@@ -38,7 +41,8 @@ func main() {
 		player.DeviceCommand,
 		player.VolumeCommand,
 		search.SendSearchCommand,
-		commands.FlushAllTokensCommand,
+		commands.FlushTokensCommand,
+		commands.FlushSecretsCommand,
 	)
 
 	player.VolumeCommand.Flags().StringVarP(&player.VolumeValue, "volume", "v", "", "Volume to add")

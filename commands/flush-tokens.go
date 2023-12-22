@@ -5,10 +5,9 @@ import (
 	"go-spotify-cli/config"
 )
 
-var FlushAllTokensCommand = &cobra.Command{
-	Use:   "flush-all-tokens",
-	Short: "Flush All Tokens",
-
+var FlushTokensCommand = &cobra.Command{
+	Use:   "flush-tokens",
+	Short: "Flush Tokens",
 	Run: func(cmd *cobra.Command, args []string) {
 		config.WriteTokenToHomeDirectory(nil, false)
 	},

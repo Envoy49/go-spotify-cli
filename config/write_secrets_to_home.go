@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-func WriteToHomeDirectory(clientSecret string, clientId string) {
+func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 	configData := &EnvVarConfig{
 		ClientId:     clientId,
 		ClientSecret: clientSecret,
@@ -51,5 +51,9 @@ func WriteToHomeDirectory(clientSecret string, clientId string) {
 		ClientId:     configData.ClientId,
 		ClientSecret: configData.ClientSecret,
 	}
-	logrus.Println("Configuration saved:", filePath)
+	if len(clientSecret) > 0 && len(clientId) > 0 {
+		logrus.Println("Configuration saved:", filePath)
+	} else {
+		logrus.Println("All saved secrets deleted")
+	}
 }

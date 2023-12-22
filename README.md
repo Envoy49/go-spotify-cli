@@ -59,13 +59,13 @@ A browser window will open, requesting access grant. Once access is granted, Spo
 The refresh token will be used to obtain a new token after the original token has expired. 
 This ensures that browser authentication is no longer required after initial access has been granted.
 
-**Note**: 💾 Tokens are stored in the `.go-spotify-cli` folder of root directory.
+**Note**: 📝 Tokens are stored in the `.go-spotify-cli` folder of root directory.
 
 # 📟 Commands usage
 
 Type `go-spotify-cli` + `<command>`
 
-🎶 **`play`**: Starts playback on the current device.
+▶️ **`play`**: Starts playback on the current device.
 
 ⏸️ **`pause`**: Pauses playback on the current device.
 
@@ -83,7 +83,7 @@ Type `go-spotify-cli` + `<command>`
 
 🔄 **`flush-secrets`**: This command will delete all secrets saved in `.go-spotify-cli` folder.
 
-**Note**: `in order to make it easier to execute commands aliases can be used.`
+**Note**: 📝`To make executing commands more convenient, aliases can be utilized.`
 
 # 🌍 Endpoints
 
@@ -97,7 +97,7 @@ The CLI communicates with the following Spotify API Endpoints:
 6. `/v1/me/player/devices`
 7. `/v1/search`
 
-**Note**: More endpoints will be added once this project gains 30 stars.
+**Note**: 📝 More endpoints will be added once this project gains 30 stars.
 
 # 🤝 Contributing
 

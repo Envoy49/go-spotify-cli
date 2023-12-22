@@ -1,10 +1,10 @@
-<p align="center">
+<div align="center">
   <h1>🎵 Go Spotify CLI</h1>
-</p>
+</div>
 
-<p align="center">
+<div align="center">
     <img src="assets/emoji.png" width="300" height="300" alt="Go Spotify CLI Logo">
-</p>
+</div>
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 

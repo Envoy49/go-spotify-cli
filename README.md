@@ -106,9 +106,9 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 
 # 💻 Local Development
 
-1. Install Go version 1.21 or above
+1. Install Go version 1.21 or above https://go.dev/
 2. Pull repo
-3. run `go mod tidy`
+3. Run `go mod tidy`
 4. Follow `Configuration` steps mentioned above
 5. Now commands can be executed from `cmd/gsc` folder e.g. `go run cmd/gsc/main.go play`
 

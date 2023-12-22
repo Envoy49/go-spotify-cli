@@ -4,6 +4,7 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 ## ⬇️ Installation
 
+### 🍏 `Mac`
 Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
 
 Once brew is installed, commands steps are required.
@@ -14,6 +15,15 @@ brew tap Envoy49/homebrew-go-spotify-cli
 ```
 brew install go-spotify-cli
 ```
+
+### 🐧 `Linux`
+
+🧪 To be tested with Homebrew installation
+
+### 🪟 `Windows`
+
+🚧 To be developed using Chocolatey package or similar
+
 
 ## 📌 Prerequisites
 
@@ -36,19 +46,18 @@ Before using the Go Spotify CLI:
 
 ## 🔑 Authentication
 
-🚀 On the first run, Go Spotify CLI will prompt an authentication process through Spotify interface. 
-A browser window will open, requesting to grant access. 
-Once access granted, Spotify will issue a 1-hour auth token and refresh token. 
-Refresh token will be used to get a new token after original token is expired.
-This will make sure that browser authentication is no longer required after initial access is granted.
+🚀 On the first run, Go Spotify CLI will initiate an authentication process through the Spotify interface. 
+A browser window will open, requesting access grant. Once access is granted, Spotify will issue a 1-hour auth token along with a refresh token. 
+The refresh token will be used to obtain a new token after the original token has expired. 
+This ensures that browser authentication is no longer required after initial access has been granted.
 
 **Note**: 💾 Tokens are stored in the `.go-spotify-cli` folder of root directory.
 
-## 🎛 Commands
+## 📟 Commands
 
 🎶 **`play`**: Starts playback on the current device.
 
-⏸ **`pause`**: Pauses playback on the current device.
+⏸️ **`pause`**: Pauses playback on the current device.
 
 ⏩ **`next`**: Skips to the next track.
 
@@ -58,7 +67,7 @@ This will make sure that browser authentication is no longer required after init
 
 📱 **`device`**: Activates a specific device. Usage: `device [DEVICE_ID]`.
 
-🔍 **`search`**: Search any `Tracks` and `Episodes`. Searching `Artists`, `Albums`, `Playlists`, `Shows` are not available yet.
+🔍 **`search`**: Search any `Tracks` and `Episodes`. Searching `Artists`, `Albums`, `Playlists`, `Shows` are not available yet. Any selected song from search result will be added to the current queue.
 
 🔄 **`flush-all-tokens`**: This command will delete all token saved in `.go-spotify-cli` folder. Further commands will require a new browser authentication.
 
@@ -81,7 +90,7 @@ We are planning to add more endpoints with the help of the community.
 Your contributions light up our world! 🌟 Feel free to submit pull requests or raise issues.
 There are still a lot of endpoints which can be implemented and a lot of room for improvement.
 
-## Local Development
+## 💻 Local Development
 
 1. Install Go version 1.21 or above
 2. Pull repo

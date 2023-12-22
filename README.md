@@ -8,7 +8,7 @@
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 
-## ⬇️ Installation
+# ⬇️ Installation
 
 ### 🍏 `Mac`
 Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
@@ -31,11 +31,11 @@ brew install go-spotify-cli
 🚧 To be developed using Chocolatey package or similar
 
 
-## 📌 Prerequisites
+# 📌 Prerequisites
 
 - **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.
 
-## 🔧 Configuration
+# 🔧 Configuration
 
 Before using the Go Spotify CLI:
 
@@ -52,7 +52,7 @@ Before using the Go Spotify CLI:
 
     **Note**: If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
 
-## 🔑 Authentication
+# 🔑 Authentication
 
 🚀 On the first run, Go Spotify CLI will initiate an authentication process through the Spotify interface. 
 A browser window will open, requesting access grant. Once access is granted, Spotify will issue a 1-hour auth token along with a refresh token. 
@@ -61,7 +61,9 @@ This ensures that browser authentication is no longer required after initial acc
 
 **Note**: 💾 Tokens are stored in the `.go-spotify-cli` folder of root directory.
 
-## 📟 Commands
+# 📟 Commands usage
+
+Type `go-spotify-cli` + `<command>`
 
 🎶 **`play`**: Starts playback on the current device.
 
@@ -80,7 +82,10 @@ This ensures that browser authentication is no longer required after initial acc
 🔄 **`flush-tokens`**: This command will delete all token saved in `.go-spotify-cli` folder. Further commands will require a new browser authentication.
 
 🔄 **`flush-secrets`**: This command will delete all secrets saved in `.go-spotify-cli` folder.
-## 🌍 Endpoints
+
+**Note**: `in order to make it easier to execute commands aliases can be used.`
+
+# 🌍 Endpoints
 
 The CLI communicates with the following Spotify API Endpoints:
 
@@ -94,12 +99,12 @@ The CLI communicates with the following Spotify API Endpoints:
 
 **Note**: More endpoints will be added once this project gains 30 stars.
 
-## 🤝 Contributing
+# 🤝 Contributing
 
 Your contributions light up our world! 🌟 Feel free to submit pull requests or raise issues.
 There are still a lot of endpoints which can be implemented and a lot of room for improvement.
 
-## 💻 Local Development
+# 💻 Local Development
 
 1. Install Go version 1.21 or above
 2. Pull repo
@@ -107,7 +112,7 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 4. Follow `Configuration` steps mentioned above
 5. Now commands can be executed from `cmd/gsc` folder e.g. `go run cmd/gsc/main.go play`
 
-## 📝 TODO List
+# 📝 TODO List
 
 1. Add liked songs command
 2. Add search options for `Artists`, `Albums`, `Playlists`, `Shows`
@@ -115,6 +120,6 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 4. Add more commands reflecting Spotify Api
 5. Test on Windows and Linux. Tested and developed only on Mac.
 
-## 📜 License
+# 📜 License
 
 This project is under the MIT License. Dive into the `LICENSE` file for more.

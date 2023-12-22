@@ -1,10 +1,12 @@
 package server
 
 import (
+	"context"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/routes"
 	"net/http"
+	"time"
 )
 
 var Shutdown = make(chan struct{})
@@ -18,17 +20,19 @@ func StartServer() {
 	go func() {
 		logrus.Println("Opened server to get an auth token on " + constants.ServerUrl)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			// This will print if the server is forcibly closed.
 			logrus.WithError(err).Error("Error starting the server")
-
 		}
 	}()
 
-	// Run server until we receive a shutdown signal
+	// Listen for a signal to shut down
 	<-Shutdown
 
-	// Now, gracefully shut down the server
-	if err := server.Close(); err != nil {
+	// Create a deadline to wait for.
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Shutdown the server gracefully
+	if err := server.Shutdown(ctx); err != nil {
 		logrus.WithError(err).Error("Error shutting down the server")
 	}
 }

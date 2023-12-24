@@ -37,9 +37,7 @@ func Server(ctx context.Context) {
 }
 
 func StartServer(route string) context.CancelFunc {
-	// Start the server in a goroutine
 	ctx, cancel := context.WithCancel(context.Background())
-	// Start the server with the context
 	go Server(ctx)
 
 	resp, err := http.Get(constants.ServerUrl + route)

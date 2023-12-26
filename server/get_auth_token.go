@@ -9,7 +9,10 @@ import (
 func ReadUserModifyTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ModifyToken)
 	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
-		newToken, err := auth.RefreshAuthToken(tokenInstance.ModifyToken.UserModifyRefreshToken)
+		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+			RefreshToken: tokenInstance.ModifyToken.UserModifyRefreshToken,
+		})
+
 		if err != nil {
 			return FetchUserModifyTokenFromBrowser()
 		}
@@ -35,7 +38,9 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 func ReadUserReadTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ReadToken)
 	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
-		newToken, err := auth.RefreshAuthToken(tokenInstance.ReadToken.UserReadRefreshToken)
+		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+			RefreshToken: tokenInstance.ReadToken.UserReadRefreshToken,
+		})
 
 		if err != nil {
 			return FetchUserReadTokenFromBrowser()

@@ -25,11 +25,36 @@ type FetchTokenResponse struct {
 	ExpiresIn    uint
 }
 
-func FetchAuthToken(authCode, redirectURI string) (*FetchTokenResponse, error) {
+type FetchAuthTokenParams struct {
+	AuthCode     string
+	RedirectURI  string
+	RefreshToken string
+}
+
+func setAuthTokenQueryParams(authCode string, redirectURI string) url.Values {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
 	data.Set("code", authCode)
 	data.Set("redirect_uri", redirectURI)
+	return data
+}
+
+func setRefreshTokenQueryParams(refreshToken string) url.Values {
+	data := url.Values{}
+	data.Set("grant_type", "refresh_token")
+	data.Set("client_id", config.GlobalConfig.ClientId)
+	data.Set("refresh_token", refreshToken)
+	return data
+}
+
+func FetchAuthToken(params *FetchAuthTokenParams) (*FetchTokenResponse, error) {
+	var data url.Values
+
+	if len(params.RefreshToken) > 0 {
+		data = setRefreshTokenQueryParams(params.RefreshToken)
+	} else {
+		data = setAuthTokenQueryParams(params.AuthCode, params.RedirectURI)
+	}
 
 	req, err := http.NewRequest("POST", "https://accounts.spotify.com/api/token", strings.NewReader(data.Encode()))
 	if err != nil {

@@ -18,7 +18,10 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		callbackURL += constants.UserReadPlaybackStateRouteCallback
 	}
 
-	response, err := auth.FetchAuthToken(authCode, callbackURL)
+	response, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		AuthCode:    authCode,
+		RedirectURI: callbackURL,
+	})
 
 	if err != nil {
 		logrus.WithError(err).Error("Failed to get access token")

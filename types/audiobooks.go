@@ -1,6 +1,4 @@
-package search
-
-import "go-spotify-cli/common"
+package types
 
 type Audiobooks struct {
 	Body
@@ -18,7 +16,7 @@ type AudiobookItem struct {
 	ExternalURLs     map[string]string    `json:"external_urls"`
 	Href             string               `json:"href"`
 	ID               string               `json:"id"`
-	Images           []common.Image       `json:"images"`
+	Images           []Image              `json:"images"`
 	Languages        []string             `json:"languages"`
 	MediaType        string               `json:"media_type"`
 	Name             string               `json:"name"`

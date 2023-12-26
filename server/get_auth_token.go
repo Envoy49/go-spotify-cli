@@ -4,12 +4,13 @@ import (
 	"go-spotify-cli/auth"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/types"
 )
 
 func ReadUserModifyTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ModifyToken)
 	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ModifyToken.UserModifyRefreshToken,
 		})
 
@@ -17,8 +18,8 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 			return FetchUserModifyTokenFromBrowser()
 		}
 
-		userModifyToken := config.CombinedTokenStructure{
-			ModifyToken: config.UserModifyTokenStructure{
+		userModifyToken := types.CombinedTokenStructure{
+			ModifyToken: types.UserModifyTokenStructure{
 				UserModifyToken:          newToken.AccessToken,
 				UserModifyTokenExpiresIn: int64(newToken.ExpiresIn),
 			},
@@ -38,7 +39,7 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 func ReadUserReadTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ReadToken)
 	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ReadToken.UserReadRefreshToken,
 		})
 
@@ -46,8 +47,8 @@ func ReadUserReadTokenOrFetchFromServer() string {
 			return FetchUserReadTokenFromBrowser()
 		}
 
-		userReadToken := config.CombinedTokenStructure{
-			ReadToken: config.UserReadTokenStructure{
+		userReadToken := types.CombinedTokenStructure{
+			ReadToken: types.UserReadTokenStructure{
 				UserReadToken:          newToken.AccessToken,
 				UserReadTokenExpiresIn: int64(newToken.ExpiresIn),
 			},

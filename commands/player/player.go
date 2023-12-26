@@ -8,6 +8,7 @@ import (
 	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/server"
+	"go-spotify-cli/types"
 	"time"
 )
 
@@ -20,8 +21,8 @@ func Player() {
 		Method:      "GET",
 		Endpoint:    constants.SpotifyPlayerEndpoint + "/player",
 	}
-	var response SpotifyResponse
-	body, err := commands.FetchCommand(params)
+	var response types.SpotifyResponse
+	body, err := commands.Fetch(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error getting current track")

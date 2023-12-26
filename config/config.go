@@ -3,12 +3,13 @@ package config
 import (
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/types"
 	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"
 )
 
-var GlobalConfig Config
+var GlobalConfig types.Config
 
 func LoadConfiguration() {
 	homeDir, err := os.UserHomeDir()
@@ -26,7 +27,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	var config EnvVarConfig
+	var config types.EnvVarConfig
 	// Unmarshal the YAML data into a Configuration struct
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
@@ -34,7 +35,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	GlobalConfig = Config{
+	GlobalConfig = types.Config{
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
 	}

@@ -11,12 +11,13 @@ import (
 	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/server"
+	"go-spotify-cli/types"
 	"log"
 	"strings"
 )
 
 type DeviceResponse struct {
-	Devices []DeviceType `json:"devices"`
+	Devices []types.DeviceType `json:"devices"`
 }
 
 func Device() {
@@ -28,7 +29,7 @@ func Device() {
 	}
 
 	var response DeviceResponse
-	body, err := commands.FetchCommand(params)
+	body, err := commands.Fetch(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error getting devices")
@@ -71,7 +72,7 @@ func Device() {
 	ActivateDevice(selectedDevice.ID)
 }
 
-func printDeviceInfo(device DeviceType) {
+func printDeviceInfo(device types.DeviceType) {
 	volumeRectStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#51e2f5"))
 
 	var activeStatusColor string

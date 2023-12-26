@@ -1,12 +1,13 @@
-package search
+package prompt
 
 import (
 	"encoding/json"
+	"go-spotify-cli/types"
 	"log"
 )
 
 func SpotifySearchResultsPrompt(body []byte) (string, string) {
-	var response *SpotifySearchResponse
+	var response *types.SpotifySearchResponse
 	err := json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)

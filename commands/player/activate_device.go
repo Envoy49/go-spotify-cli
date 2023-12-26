@@ -32,7 +32,7 @@ func ActivateDevice(deviceIds string) {
 		Endpoint:    constants.SpotifyPlayerEndpoint + "/player",
 	}
 
-	_, err := commands.FetchCommand(params)
+	_, err := commands.Fetch(params)
 
 	if err != nil {
 		logrus.WithError(err).Error("Error activating device")

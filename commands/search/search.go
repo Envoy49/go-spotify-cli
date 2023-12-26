@@ -5,14 +5,15 @@ import (
 	"github.com/spf13/cobra"
 	"go-spotify-cli/commands"
 	"go-spotify-cli/commands/player"
-	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/prompt"
 	"go-spotify-cli/server"
 	"go-spotify-cli/spinnerInstance"
+	"go-spotify-cli/types"
 	"net/url"
 )
 
-func buildSpotifySearchURL(baseEndpoint string, prompt *SpotifySearchQuery) string {
+func buildSpotifySearchURL(baseEndpoint string, prompt *types.SpotifySearchQuery) string {
 	values := url.Values{}
 	values.Add("q", prompt.Query)
 	values.Add("type", prompt.Type)
@@ -23,10 +24,10 @@ func buildSpotifySearchURL(baseEndpoint string, prompt *SpotifySearchQuery) stri
 	return fullURL
 }
 
-func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
+func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string) {
 	var endpoint string
-	if prompt != nil {
-		endpoint = buildSpotifySearchURL(constants.SpotifySearchEndpoint, prompt)
+	if query != nil {
+		endpoint = buildSpotifySearchURL(constants.SpotifySearchEndpoint, query)
 	} else {
 		endpoint = nextUrl
 	}
@@ -37,11 +38,11 @@ func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
 		Endpoint:    endpoint,
 	}
 
-	body, err := commands.FetchCommand(params)
+	body, err := commands.Fetch(params)
 
 	if err != nil {
 		switch e := err.(type) {
-		case common.SpotifyAPIError:
+		case types.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				player.Device()
 			}
@@ -51,7 +52,7 @@ func search(accessToken string, prompt *SpotifySearchQuery, nextUrl string) {
 		}
 
 	} else {
-		playUrl, nextUrl := SpotifySearchResultsPrompt(body)
+		playUrl, nextUrl := prompt.SpotifySearchResultsPrompt(body)
 		if len(nextUrl) > 0 {
 			search(accessToken, nil, nextUrl)
 		}
@@ -70,7 +71,7 @@ var SendSearchCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		spinnerInstance.Stop()
 		token := server.ReadUserModifyTokenOrFetchFromServer()
-		err, query := SpotifySearchQueryPrompt()
+		err, query := prompt.SpotifySearchQueryPrompt()
 		if err != nil {
 			logrus.WithError(err).Error("Error getting Search Query Prompts")
 		}

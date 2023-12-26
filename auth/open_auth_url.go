@@ -2,12 +2,12 @@ package auth
 
 import (
 	"fmt"
-	"go-spotify-cli/common"
+	"go-spotify-cli/types"
 	"os/exec"
 	"runtime"
 )
 
-func buildSpotifyURL(params *common.UrlParams) string {
+func buildSpotifyURL(params *types.UrlParams) string {
 	return fmt.Sprintf(
 		"https://accounts.spotify.com/authorize?client_id=%s&response_type=code&redirect_uri=%s&scope=%s",
 		params.ClientID,
@@ -16,7 +16,7 @@ func buildSpotifyURL(params *common.UrlParams) string {
 	)
 }
 
-func OpenAuthUrl(params *common.UrlParams) error {
+func OpenAuthUrl(params *types.UrlParams) error {
 	var authUrl = buildSpotifyURL(params)
 	var cmd string
 	var args []string

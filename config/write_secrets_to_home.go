@@ -3,13 +3,14 @@ package config
 import (
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/types"
 	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"
 )
 
 func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
-	configData := &EnvVarConfig{
+	configData := &types.EnvVarConfig{
 		ClientId:     clientId,
 		ClientSecret: clientSecret,
 	}
@@ -47,7 +48,7 @@ func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 		return
 	}
 
-	GlobalConfig = Config{
+	GlobalConfig = types.Config{
 		ClientId:     configData.ClientId,
 		ClientSecret: configData.ClientSecret,
 	}

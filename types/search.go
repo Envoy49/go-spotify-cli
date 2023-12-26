@@ -1,4 +1,4 @@
-package search
+package types
 
 type SpotifySearchResponse struct {
 	Tracks     *Tracks     `json:"tracks"`
@@ -17,4 +17,10 @@ type Body struct {
 	Offset   int    `json:"offset"`
 	Previous string `json:"previous"`
 	Total    int    `json:"total"`
+}
+
+type SpotifySearchQuery struct {
+	Query string
+	Type  string
+	Limit string
 }

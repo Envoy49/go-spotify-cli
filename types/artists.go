@@ -1,8 +1,4 @@
-package search
-
-import (
-	"go-spotify-cli/common"
-)
+package types
 
 type ArtistsExternalURLs struct {
 	Spotify string `json:"spotify"`
@@ -19,7 +15,7 @@ type ArtistsItems struct {
 	Genres       []string            `json:"genres"`
 	Href         string              `json:"href"`
 	ID           string              `json:"id"`
-	Images       []common.Image      `json:"images"`
+	Images       []Image             `json:"images"`
 	Name         string              `json:"name"`
 	Popularity   int                 `json:"popularity"`
 	Type         string              `json:"type"`

@@ -1,20 +1,21 @@
-package config
+package prompt
 
 import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
+	"go-spotify-cli/config"
 	"go-spotify-cli/spinnerInstance"
 	"os"
 	"regexp"
 )
 
 func EnvVarsPrompt() {
-	if len(GlobalConfig.ClientSecret) > 0 || len(GlobalConfig.ClientId) > 0 {
+	if len(config.GlobalConfig.ClientSecret) > 0 || len(config.GlobalConfig.ClientId) > 0 {
 		return
 	}
 
-	if VerifyConfigExists() {
+	if config.VerifyConfigExists() {
 		return
 	}
 
@@ -53,5 +54,5 @@ func EnvVarsPrompt() {
 		os.Exit(1)
 	}
 
-	WriteSecretsToHomeDirectory(clientSecret, clientId)
+	config.WriteSecretsToHomeDirectory(clientSecret, clientId)
 }

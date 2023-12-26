@@ -1,6 +1,4 @@
-package search
-
-import "go-spotify-cli/common"
+package types
 
 type Playlists struct {
 	Body
@@ -13,7 +11,7 @@ type PlaylistItem struct {
 	ExternalURLs  map[string]string `json:"external_urls"`
 	Href          string            `json:"href"`
 	ID            string            `json:"id"`
-	Images        []common.Image    `json:"images"`
+	Images        []Image           `json:"images"`
 	Name          string            `json:"name"`
 	Owner         PlaylistOwner     `json:"owner"`
 	Public        bool              `json:"public"`

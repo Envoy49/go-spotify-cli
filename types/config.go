@@ -1,4 +1,4 @@
-package config
+package types
 
 type Config struct {
 	ClientId        string

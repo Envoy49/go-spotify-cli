@@ -3,19 +3,20 @@ package config
 import (
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/types"
 	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"
 	"time"
 )
 
-var AuthTokenData = make(chan CombinedTokenStructure)
+var AuthTokenData = make(chan types.CombinedTokenStructure)
 
 func getTokenExpiryTime(expiresIn int64) time.Time { // expiresIn should be actual time when it is going to expire
 	return time.Now().Add(time.Second * time.Duration(expiresIn))
 }
 
-func checkModifyToken(current, newToken UserModifyTokenStructure) UserModifyTokenStructure {
+func checkModifyToken(current, newToken types.UserModifyTokenStructure) types.UserModifyTokenStructure {
 	if newToken.UserModifyToken != "" {
 		current.UserModifyToken = newToken.UserModifyToken
 	}
@@ -28,7 +29,7 @@ func checkModifyToken(current, newToken UserModifyTokenStructure) UserModifyToke
 	return current
 }
 
-func checkReadToken(current, newToken UserReadTokenStructure) UserReadTokenStructure {
+func checkReadToken(current, newToken types.UserReadTokenStructure) types.UserReadTokenStructure {
 	if newToken.UserReadToken != "" {
 		current.UserReadToken = newToken.UserReadToken
 	}
@@ -41,7 +42,7 @@ func checkReadToken(current, newToken UserReadTokenStructure) UserReadTokenStruc
 	return current
 }
 
-func WriteTokenToHomeDirectory(configData *CombinedTokenStructure, initiateChannel bool) {
+func WriteTokenToHomeDirectory(configData *types.CombinedTokenStructure, initiateChannel bool) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -62,7 +63,7 @@ func WriteTokenToHomeDirectory(configData *CombinedTokenStructure, initiateChann
 		logrus.Println("Folder created:", folderPath)
 	}
 	// Define an instance to store the current file's data
-	currentData := CombinedTokenStructure{}
+	currentData := types.CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {

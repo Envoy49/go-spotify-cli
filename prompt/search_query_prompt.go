@@ -1,8 +1,9 @@
-package search
+package prompt
 
 import (
 	"fmt"
 	"github.com/manifoldco/promptui"
+	"go-spotify-cli/types"
 	"log"
 	"strconv"
 	"strings"
@@ -11,13 +12,7 @@ import (
 // var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}
 var searchTypes = []string{"Track", "Episode"}
 
-type SpotifySearchQuery struct {
-	Query string
-	Type  string
-	Limit string
-}
-
-func SpotifySearchQueryPrompt() (error, *SpotifySearchQuery) {
+func SpotifySearchQueryPrompt() (error, *types.SpotifySearchQuery) {
 	promptSearchQuery := promptui.Prompt{
 		Label: "Enter your search query",
 	}
@@ -54,7 +49,7 @@ func SpotifySearchQueryPrompt() (error, *SpotifySearchQuery) {
 		return err, nil
 	}
 
-	var result = &SpotifySearchQuery{
+	var result = &types.SpotifySearchQuery{
 		Query: searchQuery,
 		Type:  strings.ToLower(searchType),
 		Limit: limitStr,

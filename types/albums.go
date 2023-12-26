@@ -1,8 +1,4 @@
-package search
-
-import (
-	"go-spotify-cli/common"
-)
+package types
 
 type Albums struct {
 	Body
@@ -16,7 +12,7 @@ type AlbumItems struct {
 	ExternalURLs         map[string]string `json:"external_urls"`
 	Href                 string            `json:"href"`
 	ID                   string            `json:"id"`
-	Images               []common.Image    `json:"images"`
+	Images               []Image           `json:"images"`
 	Name                 string            `json:"name"`
 	ReleaseDate          string            `json:"release_date"`
 	ReleaseDatePrecision string            `json:"release_date_precision"`

@@ -1,15 +1,16 @@
-package search
+package prompt
 
 import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
+	"go-spotify-cli/types"
 	"strconv"
 	"strings"
 )
 
-func ArtistsResultsPrompt(artists *Artists) string {
+func ArtistsResultsPrompt(artists *types.Artists) string {
 	formattedInfo := make([]string, len(artists.Items))
 
 	for i, item := range artists.Items {

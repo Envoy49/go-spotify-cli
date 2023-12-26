@@ -6,6 +6,7 @@ import (
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/html"
+	"go-spotify-cli/types"
 	"net/http"
 )
 
@@ -18,7 +19,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		callbackURL += constants.UserReadPlaybackStateRouteCallback
 	}
 
-	response, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+	response, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
 		AuthCode:    authCode,
 		RedirectURI: callbackURL,
 	})
@@ -28,11 +29,11 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		return
 	}
 
-	var tokenData config.CombinedTokenStructure
+	var tokenData types.CombinedTokenStructure
 
 	if tokenType == constants.ModifyToken {
-		tokenData = config.CombinedTokenStructure{
-			ModifyToken: config.UserModifyTokenStructure{
+		tokenData = types.CombinedTokenStructure{
+			ModifyToken: types.UserModifyTokenStructure{
 				UserModifyToken:          response.AccessToken,
 				UserModifyRefreshToken:   response.RefreshToken,
 				UserModifyTokenExpiresIn: int64(response.ExpiresIn),
@@ -41,8 +42,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	}
 
 	if tokenType == constants.ReadToken {
-		tokenData = config.CombinedTokenStructure{
-			ReadToken: config.UserReadTokenStructure{
+		tokenData = types.CombinedTokenStructure{
+			ReadToken: types.UserReadTokenStructure{
 				UserReadToken:          response.AccessToken,
 				UserReadRefreshToken:   response.RefreshToken,
 				UserReadTokenExpiresIn: int64(response.ExpiresIn),

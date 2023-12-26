@@ -5,9 +5,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"go-spotify-cli/commands"
-	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/server"
+	"go-spotify-cli/types"
 	"net/url"
 )
 
@@ -23,11 +23,11 @@ func volume(accessToken string) {
 		Endpoint:    constants.SpotifyPlayerEndpoint + fullEndpoint,
 	}
 
-	_, err := commands.FetchCommand(params)
+	_, err := commands.Fetch(params)
 
 	if err != nil {
 		switch e := err.(type) {
-		case common.SpotifyAPIError:
+		case types.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				// Handle the case where no active device is found
 				Device() // This function should ideally select or activate a default device

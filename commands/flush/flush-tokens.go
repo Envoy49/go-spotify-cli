@@ -1,4 +1,4 @@
-package commands
+package flush
 
 import (
 	"github.com/spf13/cobra"

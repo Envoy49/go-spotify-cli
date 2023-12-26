@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/common"
+	"go-spotify-cli/types"
 	"io"
 	"net/http"
 	"sync"
@@ -19,7 +19,7 @@ type PlayerParams struct {
 
 var fetchMutex sync.Mutex
 
-func FetchCommand(playerParams *PlayerParams) ([]byte, error) {
+func Fetch(playerParams *PlayerParams) ([]byte, error) {
 	fetchMutex.Lock()
 	defer fetchMutex.Unlock()
 
@@ -54,11 +54,11 @@ func FetchCommand(playerParams *PlayerParams) ([]byte, error) {
 	}()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		var errorDetails common.SpotifyError
+		var errorDetails types.SpotifyError
 		if jsonErr := json.Unmarshal(body, &errorDetails); jsonErr != nil {
 			return nil, fmt.Errorf("unexpected error format from Spotify API: %s", string(body))
 		}
-		return nil, common.SpotifyAPIError{Detail: errorDetails}
+		return nil, types.SpotifyAPIError{Detail: errorDetails}
 	}
 
 	return body, nil

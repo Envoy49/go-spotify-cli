@@ -3,11 +3,12 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"go-spotify-cli/commands"
+	"go-spotify-cli/commands/flush"
 	"go-spotify-cli/commands/player"
 	"go-spotify-cli/commands/search"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/prompt"
 	"go-spotify-cli/spinnerInstance"
 	"os"
 )
@@ -26,7 +27,7 @@ func main() {
 				return
 			}
 			spinnerInstance.Start()
-			config.EnvVarsPrompt()
+			prompt.EnvVarsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
 			spinnerInstance.Stop()
@@ -41,8 +42,8 @@ func main() {
 		player.DeviceCommand,
 		player.VolumeCommand,
 		search.SendSearchCommand,
-		commands.FlushTokensCommand,
-		commands.FlushSecretsCommand,
+		flush.FlushTokensCommand,
+		flush.FlushSecretsCommand,
 	)
 
 	player.VolumeCommand.Flags().StringVarP(&player.VolumeValue, "volume", "v", "", "Volume to add")

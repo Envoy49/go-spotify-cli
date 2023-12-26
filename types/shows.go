@@ -1,6 +1,4 @@
-package search
-
-import "go-spotify-cli/common"
+package types
 
 type Shows struct {
 	Body
@@ -16,7 +14,7 @@ type ShowItem struct {
 	ExternalURLs       map[string]string `json:"external_urls"`
 	Href               string            `json:"href"`
 	ID                 string            `json:"id"`
-	Images             []common.Image    `json:"images"`
+	Images             []Image           `json:"images"`
 	IsExternallyHosted bool              `json:"is_externally_hosted"`
 	Languages          []string          `json:"languages"`
 	MediaType          string            `json:"media_type"`

@@ -1,15 +1,16 @@
-package search
+package prompt
 
 import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
+	"go-spotify-cli/types"
 	"strconv"
 	"strings"
 )
 
-func AudiobooksResultsPrompt(audiobooks *Audiobooks) string {
+func AudiobooksResultsPrompt(audiobooks *types.Audiobooks) string {
 	formattedInfo := make([]string, len(audiobooks.Items))
 
 	for i, item := range audiobooks.Items {

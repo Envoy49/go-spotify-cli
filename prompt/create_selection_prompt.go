@@ -1,11 +1,12 @@
-package search_prompt
+package prompt
 
 import (
 	"github.com/manifoldco/promptui"
+	"go-spotify-cli/types"
 	"strings"
 )
 
-func CreateSearchSelectionPrompt(config *SearchPromptConfig) promptui.Select {
+func CreateSelectionPrompt(config *types.SelectionPromptConfig) promptui.Select {
 	return promptui.Select{
 		Label: config.Label,
 		Items: config.FormattedInfo,

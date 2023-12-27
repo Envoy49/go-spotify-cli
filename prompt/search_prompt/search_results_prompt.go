@@ -6,11 +6,6 @@ import (
 	"log"
 )
 
-type SearchPromptConfig struct {
-	Label         string
-	FormattedInfo []string
-}
-
 func SpotifySearchResultsPrompt(body []byte) *types.SearchPromptResults {
 	var response *types.SpotifySearchResponse
 	err := json.Unmarshal(body, &response)

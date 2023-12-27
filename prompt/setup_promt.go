@@ -9,14 +9,14 @@ import (
 func SetupPrompt() {
 	// Header box style
 	headerBoxStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("black")).   // White text color
-		Background(lipgloss.Color("#51e2f5")). // Background color
+		Foreground(lipgloss.Color("black")).
+		Background(lipgloss.Color("#51e2f5")).
 		Bold(true).
 		PaddingTop(1).
 		PaddingBottom(1).
 		PaddingLeft(3).
 		PaddingRight(3).
-		Align(lipgloss.Center). // Center alignment
+		Align(lipgloss.Center).
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("#51e2f5"))
 
@@ -33,15 +33,18 @@ func SetupPrompt() {
 		PaddingTop(1).
 		PaddingBottom(1)
 
-	// Footer style
-	footerStyle := lipgloss.NewStyle().
+	// URL style
+	urlStyle := lipgloss.NewStyle().
 		Bold(true).
-		Foreground(lipgloss.Color("#FF0000")).
-		PaddingTop(1).
-		PaddingBottom(1)
+		Foreground(lipgloss.Color("#007AFF")) // Blue color for URLs
 
-	// Prepare body and footer content
-	body := bodyStyle.Render(`To get started, you'll need a 'Client ID' and 'Client Secret' from Spotify's Developer Dashboard:
+	// URLs
+	url1 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserModifyPlaybackStateRouteCallback))
+	url2 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserReadPlaybackStateRouteCallback))
+	url3 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserLibraryReadRouteCallback))
+
+	// Prepare body and footer content with highlighted URLs
+	body := bodyStyle.Render(fmt.Sprintf(`To get started, you'll need a 'Client ID' and 'Client Secret' from Spotify's Developer Dashboard:
 
 1. 🔗 Navigate to: https://developer.spotify.com/dashboard/applications
 
@@ -53,13 +56,20 @@ func SetupPrompt() {
 
 5. ❗ In the app settings, set your Redirect URIs. Ensure your CLI tool's callback URL is added.
 
-6. 🌐 In order to authenticate with Spotify, please enter following URLs in the app you created:
+6. 🌐 In order to authenticate with Spotify, in Redirect URIs field please enter following URLs in the app you created:
 
-   📎 ` + fmt.Sprintf("%s%s and %s%s\n",
-		constants.ServerUrl, constants.UserModifyPlaybackStateRouteCallback,
-		constants.ServerUrl, constants.UserReadPlaybackStateRouteCallback) + `
+   📎 %s 
+      %s 
+      %s
 
-7. 🛍  Once App created, you'll find the 'Client ID' and 'Client Secret' on the app details page.`)
+7. 🛍 Once App created, you'll find the 'Client ID' and 'Client Secret' on the app details page.`, url1, url2, url3))
+
+	// Footer style
+	footerStyle := lipgloss.NewStyle().
+		Bold(true).
+		Foreground(lipgloss.Color("#FF0000")).
+		PaddingTop(1).
+		PaddingBottom(1)
 
 	footer := footerStyle.Render("🚫 Remember: Keep your 'Client Secret and Client Id' confidential. Never share it!")
 

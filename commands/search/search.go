@@ -57,7 +57,8 @@ func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string)
 			search(accessToken, nil, result.NextUrl)
 		}
 		if len(result.PlayUrl) > 0 {
-			// call Play function after Search Results Prompt
+			// instead of Calling Play function, we are adding song to the queue and using Next function
+			// otherwise song playing further nexts is not possible
 			//player.Play(accessToken, playUrl)
 			player.AddToQueue(accessToken, result.PlayUrl)
 			player.Next(accessToken, false)

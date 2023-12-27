@@ -77,6 +77,8 @@ Type `go-spotify-cli` + `<command>`
 
 📱 **`device`**: Activates a specific device. Usage: `device [DEVICE_ID]`.
 
+💾 **`saved`**: Prints a list of saved tracks and allows to play selected track.
+
 🔍 **`search`**: Search any `Tracks` and `Episodes`. Searching `Artists`, `Albums`, `Playlists`, `Shows` are not available yet. Any selected song from search result will be added to the current queue.
 
 🔄 **`flush-tokens`**: This command will delete all token saved in `.go-spotify-cli` folder. Further commands will require a new browser authentication.
@@ -95,7 +97,8 @@ The CLI communicates with the following Spotify API Endpoints:
 4. `/v1/me/player/previous`
 5. `/v1/me/player/volume`
 6. `/v1/me/player/devices`
-7. `/v1/search`
+7. `/v1/me/player/devices`
+8. `/v1/me/tracks`
 
 **Note**: 📝 More endpoints will be added once this project gains 30 stars.
 

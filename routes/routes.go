@@ -20,10 +20,15 @@ func SetupRoutes() {
 		http.HandleFunc(constants.UserModifyPlaybackStateRoute, func(w http.ResponseWriter, r *http.Request) {
 			handlers.StartAuthTokenFlow(constants.UserModifyPlaybackStateRouteCallback)
 		})
-		http.HandleFunc(constants.UserModifyPlaybackStateRouteCallback, TokenHandlerWithParams(constants.ModifyToken))
 		http.HandleFunc(constants.UserReadPlaybackStateRoute, func(w http.ResponseWriter, r *http.Request) {
 			handlers.StartAuthTokenFlow(constants.UserReadPlaybackStateRouteCallback)
 		})
+		http.HandleFunc(constants.UserLibraryReadRoute, func(w http.ResponseWriter, r *http.Request) {
+			handlers.StartAuthTokenFlow(constants.UserLibraryReadRouteCallback)
+		})
+		// Callback routes
+		http.HandleFunc(constants.UserModifyPlaybackStateRouteCallback, TokenHandlerWithParams(constants.ModifyToken))
 		http.HandleFunc(constants.UserReadPlaybackStateRouteCallback, TokenHandlerWithParams(constants.ReadToken))
+		http.HandleFunc(constants.UserLibraryReadRouteCallback, TokenHandlerWithParams(constants.LibraryRead))
 	})
 }

@@ -41,6 +41,7 @@ func main() {
 		player.PreviousCommand,
 		player.DeviceCommand,
 		player.VolumeCommand,
+		player.SavedCommand,
 		search.SendSearchCommand,
 		flush.FlushTokensCommand,
 		flush.FlushSecretsCommand,

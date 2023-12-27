@@ -17,6 +17,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		callbackURL += constants.UserModifyPlaybackStateRouteCallback
 	} else if tokenType == constants.ReadToken {
 		callbackURL += constants.UserReadPlaybackStateRouteCallback
+	} else if tokenType == constants.LibraryRead {
+		callbackURL += constants.UserLibraryReadRouteCallback
 	}
 
 	response, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
@@ -47,6 +49,17 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 				UserReadToken:          response.AccessToken,
 				UserReadRefreshToken:   response.RefreshToken,
 				UserReadTokenExpiresIn: int64(response.ExpiresIn),
+			},
+		}
+
+	}
+
+	if tokenType == constants.LibraryRead {
+		tokenData = types.CombinedTokenStructure{
+			LibraryReadToken: types.UserLibraryReadTokenStructure{
+				UserLibraryReadToken:          response.AccessToken,
+				UserLibraryReadRefreshToken:   response.RefreshToken,
+				UserLibraryReadTokenExpiresIn: int64(response.ExpiresIn),
 			},
 		}
 

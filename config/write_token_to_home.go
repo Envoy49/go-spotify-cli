@@ -42,6 +42,19 @@ func checkReadToken(current, newToken types.UserReadTokenStructure) types.UserRe
 	return current
 }
 
+func checkLibraryReadToken(current, newToken types.UserLibraryReadTokenStructure) types.UserLibraryReadTokenStructure {
+	if newToken.UserLibraryReadToken != "" {
+		current.UserLibraryReadToken = newToken.UserLibraryReadToken
+	}
+	if newToken.UserLibraryReadRefreshToken != "" {
+		current.UserLibraryReadRefreshToken = newToken.UserLibraryReadRefreshToken
+	}
+	if newToken.UserLibraryReadTokenExpiresIn != 0 {
+		current.UserLibraryReadTokenExpiresIn = getTokenExpiryTime(newToken.UserLibraryReadTokenExpiresIn).Unix()
+	}
+	return current
+}
+
 func WriteTokenToHomeDirectory(configData *types.CombinedTokenStructure, initiateChannel bool) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
@@ -75,6 +88,7 @@ func WriteTokenToHomeDirectory(configData *types.CombinedTokenStructure, initiat
 	if configData != nil {
 		currentData.ModifyToken = checkModifyToken(currentData.ModifyToken, configData.ModifyToken)
 		currentData.ReadToken = checkReadToken(currentData.ReadToken, configData.ReadToken)
+		currentData.LibraryReadToken = checkLibraryReadToken(currentData.LibraryReadToken, configData.LibraryReadToken)
 	}
 
 	if configData == nil {

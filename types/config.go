@@ -12,8 +12,9 @@ type EnvVarConfig struct {
 }
 
 type CombinedTokenStructure struct {
-	ModifyToken UserModifyTokenStructure `yaml:"ModifyToken"`
-	ReadToken   UserReadTokenStructure   `yaml:"ReadToken"`
+	ModifyToken      UserModifyTokenStructure      `yaml:"ModifyToken"`
+	ReadToken        UserReadTokenStructure        `yaml:"ReadToken"`
+	LibraryReadToken UserLibraryReadTokenStructure `yaml:"LibraryReadToken"`
 }
 
 type UserModifyTokenStructure struct {
@@ -26,4 +27,10 @@ type UserReadTokenStructure struct {
 	UserReadToken          string `yaml:"UserReadToken"`
 	UserReadRefreshToken   string `yaml:"UserReadRefreshToken"`
 	UserReadTokenExpiresIn int64  `yaml:"UserReadTokenExpiresIn"`
+}
+
+type UserLibraryReadTokenStructure struct {
+	UserLibraryReadToken          string `yaml:"UserLibraryReadToken"`
+	UserLibraryReadRefreshToken   string `yaml:"UserLibraryReadRefreshToken"`
+	UserLibraryReadTokenExpiresIn int64  `yaml:"UserLibraryReadTokenExpiresIn"`
 }

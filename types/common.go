@@ -27,3 +27,17 @@ type UrlParams struct {
 	RedirectURI     string
 	RequestedScopes string
 }
+
+type Body struct {
+	Href     string `json:"href"`
+	Limit    int    `json:"limit"`
+	Next     string `json:"next"`
+	Offset   int    `json:"offset"`
+	Previous string `json:"previous"`
+	Total    int    `json:"total"`
+}
+
+type SelectionPromptConfig struct {
+	Label         string
+	FormattedInfo []string
+}

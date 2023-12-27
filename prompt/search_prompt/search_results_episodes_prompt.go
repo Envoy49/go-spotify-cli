@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
+	"go-spotify-cli/prompt"
 	"go-spotify-cli/types"
 	"strconv"
 )
@@ -24,14 +25,14 @@ func EpisodesResultsPrompt(episodes *types.Episodes) *types.SearchPromptResults 
 		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
 	}
 
-	config := &SearchPromptConfig{
+	config := &types.SelectionPromptConfig{
 		Label:         "Select Episode",
 		FormattedInfo: formattedInfo,
 	}
 
-	prompt := CreateSearchSelectionPrompt(config)
+	selectionPrompt := prompt.CreateSelectionPrompt(config)
 
-	index, _, err := prompt.Run()
+	index, _, err := selectionPrompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
 		return &types.SearchPromptResults{}

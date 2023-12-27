@@ -70,5 +70,21 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 		}
 	}
 
+	if tokenType == constants.LibraryRead {
+		expiresIn := time.Unix(currentData.LibraryReadToken.UserLibraryReadTokenExpiresIn, 0)
+		if isTokenExpired(expiresIn) {
+			return &types.CombinedTokenStructure{
+				LibraryReadToken: types.UserLibraryReadTokenStructure{
+					UserLibraryReadRefreshToken: currentData.LibraryReadToken.UserLibraryReadRefreshToken,
+				},
+			}
+		}
+		return &types.CombinedTokenStructure{
+			LibraryReadToken: types.UserLibraryReadTokenStructure{
+				UserLibraryReadToken: currentData.LibraryReadToken.UserLibraryReadToken,
+			},
+		}
+	}
+
 	return nil
 }

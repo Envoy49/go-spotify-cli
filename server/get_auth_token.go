@@ -63,6 +63,33 @@ func ReadUserReadTokenOrFetchFromServer() string {
 	return tokenInstance.ReadToken.UserReadToken
 }
 
+func ReadUserLibraryReadTokenOrFetchFromServer() string {
+	tokenInstance := config.ReadTokenFromHome(constants.LibraryRead)
+	if len(tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken) > 0 {
+		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
+			RefreshToken: tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken,
+		})
+
+		if err != nil {
+			return FetchLibraryReadTokenFromBrowser()
+		}
+
+		userLibraryReadToken := types.CombinedTokenStructure{
+			LibraryReadToken: types.UserLibraryReadTokenStructure{
+				UserLibraryReadToken:          newToken.AccessToken,
+				UserLibraryReadTokenExpiresIn: int64(newToken.ExpiresIn),
+			},
+		}
+		config.WriteTokenToHomeDirectory(&userLibraryReadToken, false)
+		return newToken.AccessToken
+	}
+
+	if len(tokenInstance.LibraryReadToken.UserLibraryReadToken) == 0 {
+		return FetchLibraryReadTokenFromBrowser()
+	}
+	return tokenInstance.LibraryReadToken.UserLibraryReadToken
+}
+
 func FetchUserModifyTokenFromBrowser() string {
 	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
 	cancel := StartServer(constants.UserModifyPlaybackStateRoute)
@@ -77,4 +104,12 @@ func FetchUserReadTokenFromBrowser() string {
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.ReadToken.UserReadToken
+}
+
+func FetchLibraryReadTokenFromBrowser() string {
+	config.GlobalConfig.RequestedScopes = constants.UserLibraryRead
+	cancel := StartServer(constants.UserLibraryReadRoute)
+	receivedToken := <-config.AuthTokenData
+	cancel()
+	return receivedToken.LibraryReadToken.UserLibraryReadToken
 }

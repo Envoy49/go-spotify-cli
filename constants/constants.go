@@ -20,9 +20,16 @@ const (
 	UserReadPlaybackState              = "user-read-playback-state"
 )
 
+const (
+	UserLibraryReadRoute         = "/user-library-read-auth"
+	UserLibraryReadRouteCallback = "/user-library-read-auth-callback"
+	UserLibraryRead              = "user-library-read"
+)
+
 type TokenType string
 
 const (
 	ModifyToken TokenType = "ModifyToken"
 	ReadToken   TokenType = "ReadToken"
+	LibraryRead TokenType = "LibraryRead"
 )

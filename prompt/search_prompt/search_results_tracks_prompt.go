@@ -1,17 +1,14 @@
-package prompt
+package search_prompt
 
 import (
 	"fmt"
-	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
 	"go-spotify-cli/types"
 	"strconv"
-	"strings"
 )
 
-func TracksResultsPrompt(tracks *types.Tracks) (string, string) {
-
+func TracksResultsPrompt(tracks *types.Tracks) *types.SearchPromptResults {
 	formattedInfo := make([]string, len(tracks.Items))
 
 	for i, item := range tracks.Items {
@@ -27,37 +24,31 @@ func TracksResultsPrompt(tracks *types.Tracks) (string, string) {
 		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
 	}
 
-	prompt := promptui.Select{
-		Label: "Select track",
-		Items: formattedInfo,
-		Size:  len(formattedInfo),
-		Searcher: func(input string, index int) bool {
-			name := formattedInfo[index]
-			return strings.Contains(strings.ToLower(name), strings.ToLower(input))
-		},
-		StartInSearchMode: true,
-		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
-			Inactive: `{{if eq . ">>> NEXT >>>"}}{{ " " | faint }} {{ . | green }}{{else if eq . "<<< PREVIOUS <<<"}}{{ " " | faint }} {{ . | red }}{{else}}{{ " " | faint }} {{ . | faint }}{{end}}`,
-			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
-			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
-		},
+	config := &SearchPromptConfig{
+		Label:         "Select track",
+		FormattedInfo: formattedInfo,
 	}
+
+	prompt := CreateSearchSelectionPrompt(config)
 
 	index, _, err := prompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return "", ""
+		return &types.SearchPromptResults{}
 	}
 
 	lastIndex := len(tracks.Items)
 
 	if lastIndex == index {
-		return "", tracks.Next
+		return &types.SearchPromptResults{
+			NextUrl: tracks.Next,
+		}
 	}
 
 	if lastIndex+1 == index {
-		return "", tracks.Previous
+		return &types.SearchPromptResults{
+			NextUrl: tracks.Previous,
+		}
 	}
 
 	selectedTrack := tracks.Items[index]
@@ -78,5 +69,7 @@ func TracksResultsPrompt(tracks *types.Tracks) (string, string) {
 
 	fmt.Println(fullBox)
 
-	return selectedTrack.URI, ""
+	return &types.SearchPromptResults{
+		PlayUrl: selectedTrack.URI,
+	}
 }

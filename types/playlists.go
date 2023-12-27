@@ -2,10 +2,10 @@ package types
 
 type Playlists struct {
 	Body
-	Items []PlaylistItem `json:"items"`
+	Items []PlaylistItems `json:"items"`
 }
 
-type PlaylistItem struct {
+type PlaylistItems struct {
 	Collaborative bool              `json:"collaborative"`
 	Description   string            `json:"description"`
 	ExternalURLs  map[string]string `json:"external_urls"`

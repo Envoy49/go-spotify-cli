@@ -1,16 +1,14 @@
-package prompt
+package search_prompt
 
 import (
 	"fmt"
-	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/common"
 	"go-spotify-cli/types"
 	"strconv"
-	"strings"
 )
 
-func EpisodesResultsPrompt(episodes *types.Episodes) string {
+func EpisodesResultsPrompt(episodes *types.Episodes) *types.SearchPromptResults {
 	formattedInfo := make([]string, len(episodes.Items))
 
 	for i, item := range episodes.Items {
@@ -18,27 +16,39 @@ func EpisodesResultsPrompt(episodes *types.Episodes) string {
 		formattedInfo[i] = episodeInfo
 	}
 
-	prompt := promptui.Select{
-		Label: "Select Episode",
-		Items: formattedInfo,
-		Size:  len(episodes.Items),
-		Searcher: func(input string, index int) bool {
-			name := formattedInfo[index]
-			return strings.Contains(strings.ToLower(name), strings.ToLower(input))
-		},
-		StartInSearchMode: true,
-		Templates: &promptui.SelectTemplates{
-			Active:   `{{ "▸" | bold | blue }} {{ . | underline | blue }}`,
-			Inactive: `{{ " " | faint }} {{ . | faint }}`,
-			Selected: `{{ "✔" | green }} {{ . | cyan }}`,
-			Label:    `{{ ">>" | bold | cyan }} {{ .Label | bold }}`,
-		},
+	if len(episodes.Next) > 0 {
+		formattedInfo = append(formattedInfo, ">>> NEXT >>>")
 	}
+
+	if len(episodes.Previous) > 0 {
+		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
+	}
+
+	config := &SearchPromptConfig{
+		Label:         "Select Episode",
+		FormattedInfo: formattedInfo,
+	}
+
+	prompt := CreateSearchSelectionPrompt(config)
 
 	index, _, err := prompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return ""
+		return &types.SearchPromptResults{}
+	}
+
+	lastIndex := len(episodes.Items)
+
+	if lastIndex == index {
+		return &types.SearchPromptResults{
+			NextUrl: episodes.Next,
+		}
+	}
+
+	if lastIndex+1 == index {
+		return &types.SearchPromptResults{
+			NextUrl: episodes.Previous,
+		}
 	}
 
 	selectedEpisode := episodes.Items[index]
@@ -57,5 +67,7 @@ func EpisodesResultsPrompt(episodes *types.Episodes) string {
 
 	fmt.Println(fullBox)
 
-	return selectedEpisode.URI
+	return &types.SearchPromptResults{
+		PlayUrl: selectedEpisode.URI,
+	}
 }

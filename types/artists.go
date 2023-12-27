@@ -9,7 +9,7 @@ type ArtistsFollowers struct {
 	Total int    `json:"total"`
 }
 
-type ArtistsItems struct {
+type ArtistItems struct {
 	ExternalURLs ArtistsExternalURLs `json:"external_urls"`
 	Followers    ArtistsFollowers    `json:"followers"`
 	Genres       []string            `json:"genres"`
@@ -24,5 +24,5 @@ type ArtistsItems struct {
 
 type Artists struct {
 	Body
-	Items []ArtistsItems `json:"items"`
+	Items []ArtistItems `json:"items"`
 }

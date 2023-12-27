@@ -2,10 +2,10 @@ package types
 
 type Audiobooks struct {
 	Body
-	Items []AudiobookItem `json:"items"`
+	Items []AudiobookItems `json:"items"`
 }
 
-type AudiobookItem struct {
+type AudiobookItems struct {
 	Authors          []AudiobookAuthor    `json:"authors"`
 	AvailableMarkets []string             `json:"available_markets"`
 	Copyrights       []AudiobookCopyright `json:"copyrights"`

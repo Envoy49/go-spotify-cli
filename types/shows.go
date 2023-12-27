@@ -2,10 +2,10 @@ package types
 
 type Shows struct {
 	Body
-	Items []ShowItem `json:"items"`
+	Items []ShowItems `json:"items"`
 }
 
-type ShowItem struct {
+type ShowItems struct {
 	AvailableMarkets   []string          `json:"available_markets"`
 	Copyrights         []ShowCopyright   `json:"copyrights"`
 	Description        string            `json:"description"`

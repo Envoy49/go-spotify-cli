@@ -10,6 +10,11 @@ type SpotifySearchResponse struct {
 	Audiobooks *Audiobooks `json:"audiobooks"`
 }
 
+type SearchPromptResults struct {
+	PlayUrl string
+	NextUrl string
+}
+
 type Body struct {
 	Href     string `json:"href"`
 	Limit    int    `json:"limit"`

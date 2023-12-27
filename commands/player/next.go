@@ -16,7 +16,6 @@ func Next(accessToken string, callPlayer bool) {
 		Endpoint:    constants.SpotifyPlayerEndpoint + "/player/next",
 	}
 	_, err := commands.Fetch(params)
-
 	if err != nil {
 		switch e := err.(type) {
 		case types.SpotifyAPIError:

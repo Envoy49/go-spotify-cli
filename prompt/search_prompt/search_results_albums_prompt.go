@@ -1,4 +1,4 @@
-package prompt
+package search_prompt
 
 import (
 	"fmt"

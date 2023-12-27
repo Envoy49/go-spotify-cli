@@ -1,4 +1,4 @@
-package prompt
+package search_prompt
 
 import (
 	"encoding/json"
@@ -6,7 +6,12 @@ import (
 	"log"
 )
 
-func SpotifySearchResultsPrompt(body []byte) (string, string) {
+type SearchPromptConfig struct {
+	Label         string
+	FormattedInfo []string
+}
+
+func SpotifySearchResultsPrompt(body []byte) *types.SearchPromptResults {
 	var response *types.SpotifySearchResponse
 	err := json.Unmarshal(body, &response)
 	if err != nil {
@@ -16,8 +21,8 @@ func SpotifySearchResultsPrompt(body []byte) (string, string) {
 	switch {
 	case response.Tracks != nil:
 		return TracksResultsPrompt(response.Tracks)
-	//case response.Episodes != nil:
-	//	return EpisodesResultsPrompt(response.Episodes)
+	case response.Episodes != nil:
+		return EpisodesResultsPrompt(response.Episodes)
 	//case response.Albums != nil:
 	//	return AlbumsResultsPrompt(response.Albums)
 	//case response.Artists != nil:
@@ -29,7 +34,6 @@ func SpotifySearchResultsPrompt(body []byte) (string, string) {
 	//case response.Playlists != nil:
 	//	return PlaylistsResultsPrompt(response.Playlists)
 	default:
-		return "", ""
+		return &types.SearchPromptResults{}
 	}
-
 }

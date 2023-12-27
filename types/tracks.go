@@ -2,9 +2,9 @@ package types
 
 type Tracks struct {
 	Body
-	Items []TracksItems `json:"items"`
+	Items []TrackItems `json:"items"`
 }
-type TracksItems struct {
+type TrackItems struct {
 	Album            TracksAlbums      `json:"album"`
 	Artists          []TracksArtists   `json:"artists"`
 	AvailableMarkets []string          `json:"available_markets"`

@@ -2,10 +2,10 @@ package types
 
 type Episodes struct {
 	Body
-	Items []EpisodeItem `json:"items"`
+	Items []EpisodeItems `json:"items"`
 }
 
-type EpisodeItem struct {
+type EpisodeItems struct {
 	AudioPreviewURL      string              `json:"audio_preview_url"`
 	Description          string              `json:"description"`
 	HTMLDescription      string              `json:"html_description"`

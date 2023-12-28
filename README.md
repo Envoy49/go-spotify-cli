@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-    <img src="assets/emoji.png" width="300" height="300" alt="Go Spotify CLI Logo">
+    <img src="assets/emoji.png" width="300" height="300" alt="Go Spotify CLI Logo" style="border-radius: 25px;">
 </div>
 
 <div align="center">

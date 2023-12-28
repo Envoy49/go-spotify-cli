@@ -97,6 +97,7 @@ func WriteTokenToHomeDirectory(configData *types.CombinedTokenStructure, initiat
 			logrus.WithError(err).Error("Error writing to file")
 			return
 		}
+		logrus.Println("All saved tokens deleted")
 	} else {
 		// Marshal the updated data
 		data, err := yaml.Marshal(currentData)

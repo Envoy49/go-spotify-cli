@@ -1,4 +1,4 @@
-package spinnerInstance
+package loader
 
 import (
 	"github.com/briandowns/spinner"

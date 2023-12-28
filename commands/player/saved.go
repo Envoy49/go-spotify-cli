@@ -8,6 +8,7 @@ import (
 	"go-spotify-cli/commands"
 	"go-spotify-cli/common"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/loader"
 	"go-spotify-cli/prompt"
 	"go-spotify-cli/server"
 	"go-spotify-cli/types"
@@ -16,6 +17,7 @@ import (
 )
 
 func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
+	loader.Start()
 	var endpoint = constants.SpotifyPlayerEndpoint + "/tracks"
 	if len(nextUrl) > 0 {
 		endpoint = nextUrl
@@ -27,7 +29,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 		Endpoint:    endpoint,
 	}
 	body, fetchErr := commands.Fetch(params)
-
+	loader.Stop()
 	if fetchErr != nil {
 		logrus.WithError(fetchErr).Error("Error fetching saved tracks")
 	}
@@ -104,6 +106,9 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 var SavedCommand = &cobra.Command{
 	Use:   "saved",
 	Short: "Saved spotify tracks",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		loader.Stop()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		token := server.ReadUserLibraryReadTokenOrFetchFromServer()
 		result := saved(token, "")

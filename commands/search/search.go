@@ -6,9 +6,9 @@ import (
 	"go-spotify-cli/commands"
 	"go-spotify-cli/commands/player"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/loader"
 	"go-spotify-cli/prompt/search_prompt"
 	"go-spotify-cli/server"
-	"go-spotify-cli/spinnerInstance"
 	"go-spotify-cli/types"
 	"net/url"
 )
@@ -25,6 +25,7 @@ func buildSpotifySearchURL(baseEndpoint string, prompt *types.SpotifySearchQuery
 }
 
 func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string) {
+	loader.Start()
 	var endpoint string
 	if query != nil {
 		endpoint = buildSpotifySearchURL(constants.SpotifySearchEndpoint, query)
@@ -39,6 +40,7 @@ func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string)
 	}
 
 	body, err := commands.Fetch(params)
+	loader.Stop()
 
 	if err != nil {
 		switch e := err.(type) {
@@ -70,7 +72,7 @@ var SendSearchCommand = &cobra.Command{
 	Use:   "search",
 	Short: "Search spotify song",
 	Run: func(cmd *cobra.Command, args []string) {
-		spinnerInstance.Stop()
+		loader.Stop()
 		token := server.ReadUserModifyTokenOrFetchFromServer()
 		err, query := search_prompt.SpotifySearchQueryPrompt()
 		if err != nil {

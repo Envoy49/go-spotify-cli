@@ -8,8 +8,8 @@ import (
 	"go-spotify-cli/commands/search"
 	"go-spotify-cli/config"
 	"go-spotify-cli/constants"
+	"go-spotify-cli/loader"
 	"go-spotify-cli/prompt"
-	"go-spotify-cli/spinnerInstance"
 	"os"
 )
 
@@ -18,7 +18,7 @@ func init() {
 }
 
 func main() {
-	spinnerInstance.InitializeSpinner()
+	loader.InitializeSpinner()
 
 	var rootCmd = &cobra.Command{
 		Use: constants.ProjectName,
@@ -26,11 +26,11 @@ func main() {
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
 				return
 			}
-			spinnerInstance.Start()
+			loader.Start()
 			prompt.EnvVarsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			spinnerInstance.Stop()
+			loader.Stop()
 		},
 	}
 

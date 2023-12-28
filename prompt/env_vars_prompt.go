@@ -5,7 +5,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"go-spotify-cli/config"
-	"go-spotify-cli/spinnerInstance"
+	"go-spotify-cli/loader"
 	"os"
 	"regexp"
 )
@@ -19,7 +19,7 @@ func EnvVarsPrompt() {
 		return
 	}
 
-	spinnerInstance.Stop()
+	loader.Stop()
 
 	SetupPrompt()
 

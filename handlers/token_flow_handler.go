@@ -17,5 +17,6 @@ func StartAuthTokenFlow(redirectionRoute string) {
 
 	if authUrlErr := auth.OpenAuthUrl(params); authUrlErr != nil {
 		logrus.WithError(authUrlErr).Error("Error opening auth URL")
+		return
 	}
 }

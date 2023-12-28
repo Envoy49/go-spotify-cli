@@ -73,9 +73,9 @@ Type `go-spotify-cli` + `<command>`
 
 ⏪ **`previous`**: Returns to the previous track.
 
-🔊 **`volume`**: Adjusts volume (0-100). Usage: `volume [0-100]`.
+🔊 **`volume`**: Adjusts volume (0-100). Usage: `example: volume -v=80`.
 
-📱 **`device`**: Activates a specific device. Usage: `device [DEVICE_ID]`.
+📱 **`device`**: Activates a specific device from provided options. E.g. laptop, tablet, phone etc.
 
 💾 **`saved`**: Prints a list of saved tracks and allows to play selected track.
 
@@ -100,7 +100,7 @@ The CLI communicates with the following Spotify API Endpoints:
 7. `/v1/me/player/devices`
 8. `/v1/me/tracks`
 
-**Note**: 📝 More endpoints will be added once this project gains 30 stars.
+**Note**: 📝 More endpoints and functionality will be added once this project gains 25 stars.
 
 # 🤝 Contributing
 

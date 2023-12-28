@@ -23,7 +23,6 @@ func LoadConfiguration() {
 
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		logrus.WithError(err).Error("Error reading the file")
 		return
 	}
 

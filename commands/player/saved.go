@@ -106,7 +106,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 var SavedCommand = &cobra.Command{
 	Use:   "saved",
 	Short: "Saved spotify tracks",
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+	PreRun: func(cmd *cobra.Command, args []string) {
 		loader.Stop()
 	},
 	Run: func(cmd *cobra.Command, args []string) {

@@ -37,7 +37,6 @@ func Next(accessToken string, callPlayer bool) {
 var NextCommand = &cobra.Command{
 	Use:   "next",
 	Short: "Next spotify song",
-
 	Run: func(cmd *cobra.Command, args []string) {
 		token := server.ReadUserModifyTokenOrFetchFromServer()
 		Next(token, true)

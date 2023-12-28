@@ -6,10 +6,13 @@
     <img src="assets/emoji.png" width="300" height="300" alt="Go Spotify CLI Logo">
 </div>
 
+<div align="center">
+    <a href="https://www.buymeacoffee.com/envoy49">
+        <img src="https://img.buymeacoffee.com/button-api/?text=BuyMeACoffee&emoji=&slug=envoy49&button_colour=51e2f5&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" alt="Buy Me A Coffee">
+    </a>
+</div>
+
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
-
-[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=BuyMeACoffee&emoji=&slug=envoy49&button_colour=51e2f5&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/envoy49)
-
 
 # ⬇️ Installation
 

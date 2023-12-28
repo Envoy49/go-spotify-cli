@@ -8,6 +8,9 @@
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Buymeacoffee&emoji=&slug=envoy49&button_colour=FF5F5F&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/envoy49)
+
+
 # ⬇️ Installation
 
 ### 🍏 `Mac`

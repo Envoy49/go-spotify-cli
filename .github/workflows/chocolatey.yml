@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: go-spotify-cli
-          path: go-spotify-cli.exe
+          path: .
 
   package-and-push:
     needs: build
@@ -32,7 +32,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: go-spotify-cli
-          path: cmd/gsc/go-spotify-cli.exe
+          path: .
       - name: Extract Version
         run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
       - name: Update Nuspec File

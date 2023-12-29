@@ -37,9 +37,13 @@ jobs:
       - name: Update Nuspec File
         run: |
           $version = "${{ env.VERSION }}"
-          [xml]$nuspec = Get-Content go-spotify-cli.nuspec
-          $nuspec.package.metadata.version = $version
-          $nuspec.Save("go-spotify-cli.nuspec")
+          $nuspecPath = "go-spotify-cli.nuspec"
+          [xml]$nuspec = Get-Content $nuspecPath
+          $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
+          $ns.AddNamespace("ns", "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
+          $nuspec.SelectSingleNode("//ns:package/ns:metadata/ns:version", $ns).InnerText = $version
+          $nuspec.Save($nuspecPath)
+          Get-Content $nuspecPath # Debugging: Print out the updated nuspec file
       - name: Pack Chocolatey Package
         run: choco pack
       - name: Push to Chocolatey

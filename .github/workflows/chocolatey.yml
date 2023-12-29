@@ -43,6 +43,7 @@ jobs:
       - name: Update Nuspec File
         run: |
           $version = "${{ needs.Build.outputs.version }}"
+          $version = $version.TrimStart('v') # Remove the 'v' prefix
           $nuspecPath = "go-spotify-cli.nuspec"
           [xml]$nuspec = Get-Content $nuspecPath
           $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)

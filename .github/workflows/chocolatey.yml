@@ -27,14 +27,12 @@ jobs:
     needs: build
     runs-on: windows-latest
     steps:
-      - name: List files in the current directory
-        run: Get-ChildItem -Force | Out-String | Write-Output
       - uses: actions/checkout@v2
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: go-spotify-cli
-          path: .
+          path: cmd/gsc
       - name: Extract Version
         run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
       - name: Update Nuspec File

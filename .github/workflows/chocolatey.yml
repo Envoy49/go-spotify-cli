@@ -28,7 +28,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: List files in the current directory
-        run: Get-ChildItem -Force
+        run: Get-ChildItem -Force | Out-String | Write-Output
       - uses: actions/checkout@v2
       - name: Download Artifact
         uses: actions/download-artifact@v2

@@ -32,7 +32,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: go-spotify-cli
-          path: cmd/gsc
+          path: cmd/gsc/go-spotify-cli.exe
       - name: Extract Version
         run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
       - name: Update Nuspec File

@@ -44,7 +44,7 @@ func volume(accessToken string) {
 }
 
 var VolumeCommand = &cobra.Command{
-	Use:   "volume",
+	Use:   "volume [value]",
 	Short: "Set volume",
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if VolumeValue == "" {
@@ -56,4 +56,12 @@ var VolumeCommand = &cobra.Command{
 		token := server.ReadUserModifyTokenOrFetchFromServer()
 		volume(token)
 	},
+}
+
+func init() {
+	VolumeCommand.Flags().StringVarP(&VolumeValue, "volume", "v", "", "Volume to add")
+	err := VolumeCommand.MarkFlagRequired("volume")
+	if err != nil {
+		logrus.WithError(err).Error("Error setting up volume command")
+	}
 }

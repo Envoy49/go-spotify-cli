@@ -47,11 +47,6 @@ func main() {
 		flush.FlushSecretsCommand,
 	)
 
-	player.VolumeCommand.Flags().StringVarP(&player.VolumeValue, "volume", "v", "", "Volume to add")
-	err := player.VolumeCommand.MarkFlagRequired("volume")
-	if err != nil {
-		logrus.WithError(err).Error("Error running volume command")
-	}
 	if err := rootCmd.Execute(); err != nil {
 		logrus.WithError(err).Error("Error executing command")
 		os.Exit(1)

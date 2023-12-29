@@ -39,7 +39,7 @@ jobs:
           $version = "${{ env.VERSION }}"
           [xml]$nuspec = Get-Content go-spotify-cli.nuspec
           $nuspec.package.metadata.version = $version
-          $nuspec.Save("path\to\your-package.nuspec")
+          $nuspec.Save("go-spotify-cli.nuspec")
       - name: Pack Chocolatey Package
         run: choco pack
       - name: Push to Chocolatey

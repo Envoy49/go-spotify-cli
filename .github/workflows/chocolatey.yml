@@ -37,6 +37,8 @@ jobs:
         run: |
           echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
           echo "Extracted version: ${{ env.VERSION }}"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "VERSION extracted from GITHUB_REF: ${GITHUB_REF#refs/tags/}"
       - name: Update Nuspec File
         run: |
           $version = "${{ env.VERSION }}"

@@ -22,6 +22,7 @@ jobs:
         with:
           name: go-spotify-cli
           path: .
+          exclude: .git  # Exclude the .git directory
 
   package-and-push:
     needs: build

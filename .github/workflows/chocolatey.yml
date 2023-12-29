@@ -35,6 +35,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: main # Replace 'main' with your branch name
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
@@ -51,7 +53,7 @@ jobs:
           $versionNode = $nuspec.SelectSingleNode("//ns:metadata/ns:version", $ns)
           $versionNode.InnerText = $version
           $nuspec.Save($nuspecPath)
-          cat $nuspecPath # For debugging: print the contents of the nuspec file to check if version is updated.
+          cat $nuspecPath # For debugging
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec
@@ -70,4 +72,4 @@ jobs:
           git config --global user.email 'hasan.alv@outlook.com'
           git add go-spotify-cli.nuspec
           git commit -m "Update .nuspec file for release ${{ needs.Build.outputs.version }}"
-          git push
+          git push origin HEAD:main 

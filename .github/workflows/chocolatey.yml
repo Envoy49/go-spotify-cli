@@ -54,7 +54,7 @@ jobs:
           cat $nuspecPath # For debugging: print the contents of the nuspec file to check if version is updated.
       - name: Pack Chocolatey Package
         run: |
-          choco pack go-spotify-cli.nuspec
+          choco pack 
       - name: Push to Chocolatey
         run: |
           choco push go-spotify-cli.*.nupkg --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/

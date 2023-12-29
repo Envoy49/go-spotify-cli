@@ -1,0 +1,53 @@
+name: Chocolatey deploy
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.21'
+      - name: Build the CLI
+        run: go build -o go-spotify-cli.exe
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: go-spotify-cli
+          path: go-spotify-cli.exe
+
+  package-and-push:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: go-spotify-cli
+          path: .
+      - name: Extract Version
+        run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+      - name: Update Nuspec File
+        run: |
+          $version = "${{ env.VERSION }}"
+          [xml]$nuspec = Get-Content go-spotify-cli.nuspec
+          $nuspec.package.metadata.version = $version
+          $nuspec.Save("path\to\your-package.nuspec")
+      - name: Pack Chocolatey Package
+        run: choco pack
+      - name: Push to Chocolatey
+        run: |
+          choco push your-package-name.nupkg --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'envoy49'
+          git config --global user.email 'hasan.alv@outlook.com'
+          git add go-spotify-cli.nuspec
+          git commit -m "Update .nuspec file for release ${{ env.VERSION }}"
+          git push

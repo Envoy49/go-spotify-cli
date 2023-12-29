@@ -57,15 +57,15 @@ jobs:
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec
-      - name: Push to Chocolatey
-        run: |
-          $packageFile = Get-ChildItem -Path . -Filter "go-spotify-cli.*.nupkg" | Select-Object -First 1 -ExpandProperty Name
-          if ($packageFile -ne $null) {
-            choco push $packageFile --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
-          } else {
-            Write-Host "No .nupkg file found to push."
-            exit 1
-          }
+#      - name: Push to Chocolatey
+#        run: |
+#          $packageFile = Get-ChildItem -Path . -Filter "go-spotify-cli.*.nupkg" | Select-Object -First 1 -ExpandProperty Name
+#          if ($packageFile -ne $null) {
+#            choco push $packageFile --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
+#          } else {
+#            Write-Host "No .nupkg file found to push."
+#            exit 1
+#          }
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'envoy49'

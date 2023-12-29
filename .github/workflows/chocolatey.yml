@@ -22,8 +22,9 @@ jobs:
         with:
           name: go-spotify-cli
           path: cmd/gsc/go-spotify-cli.exe
+
   Package-and-Push:
-    needs: build
+    needs: Build
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +34,9 @@ jobs:
           name: go-spotify-cli
           path: .
       - name: Extract Version
-        run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+          echo "Extracted version: ${{ env.VERSION }}"
       - name: Update Nuspec File
         run: |
           $version = "${{ env.VERSION }}"
@@ -41,14 +44,16 @@ jobs:
           [xml]$nuspec = Get-Content $nuspecPath
           $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
           $ns.AddNamespace("ns", "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
-          $nuspec.SelectSingleNode("//ns:package/ns:metadata/ns:version", $ns).InnerText = $version
+          $versionNode = $nuspec.SelectSingleNode("//ns:metadata/ns:version", $ns)
+          $versionNode.InnerText = $version
           $nuspec.Save($nuspecPath)
-          Get-Content $nuspecPath # Debugging: Print out the updated nuspec file
+          cat $nuspecPath # For debugging: print the contents of the nuspec file to check if version is updated.
       - name: Pack Chocolatey Package
-        run: choco pack
+        run: |
+          choco pack go-spotify-cli.nuspec
       - name: Push to Chocolatey
         run: |
-          choco push your-package-name.nupkg --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
+          choco push go-spotify-cli.*.nupkg --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'envoy49'

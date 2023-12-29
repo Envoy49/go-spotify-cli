@@ -9,6 +9,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Extract Tag Name from Release
+        run: |
+          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "Extracted tag: ${{ github.event.release.tag_name }}"
       - name: Set up Go
         uses: actions/setup-go@v2
         with:

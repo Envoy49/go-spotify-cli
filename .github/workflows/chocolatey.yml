@@ -7,11 +7,14 @@ on:
 jobs:
   Build:
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
     steps:
       - uses: actions/checkout@v2
       - name: Extract Tag Name from Release
+        id: extract_version
         run: |
-          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "::set-output name=version::${{ github.event.release.tag_name }}"
           echo "Extracted tag: ${{ github.event.release.tag_name }}"
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -37,15 +40,9 @@ jobs:
         with:
           name: go-spotify-cli
           path: .
-      - name: Extract Version
-        run: |
-          echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
-          echo "Extracted version: ${{ env.VERSION }}"
-          echo "GITHUB_REF: $GITHUB_REF"
-          echo "VERSION extracted from GITHUB_REF: ${GITHUB_REF#refs/tags/}"
       - name: Update Nuspec File
         run: |
-          $version = "${{ env.VERSION }}"
+          $version = "${{ needs.Build.outputs.version }}"
           $nuspecPath = "go-spotify-cli.nuspec"
           [xml]$nuspec = Get-Content $nuspecPath
           $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
@@ -65,5 +62,5 @@ jobs:
           git config --global user.name 'envoy49'
           git config --global user.email 'hasan.alv@outlook.com'
           git add go-spotify-cli.nuspec
-          git commit -m "Update .nuspec file for release ${{ env.VERSION }}"
+          git commit -m "Update .nuspec file for release ${{ needs.Build.outputs.version }}"
           git push

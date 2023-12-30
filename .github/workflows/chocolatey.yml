@@ -102,11 +102,5 @@ jobs:
             Write-Host "No .nupkg file found to push."
             exit 1
           }
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name 'envoy49'
-          git config --global user.email 'hasan.alv@outlook.com'
-          git add go-spotify-cli.nuspec
-          git commit -m "Update .nuspec file for release ${{ needs.Build.outputs.version }}"
-          git push origin HEAD:main 
+
      

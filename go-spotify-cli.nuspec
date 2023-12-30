@@ -7,5 +7,10 @@
     <authors>Envoy49</authors>
     <owners>Envoy49</owners>
     <description>CLI tool to control Spotify</description>
+    <iconUrl>http://example.com/icon.png</iconUrl> <!-- Replace with actual URL -->
+    <licenseUrl>http://example.com/license</licenseUrl> <!-- Replace with actual URL -->
+    <projectSourceUrl>http://example.com/source</projectSourceUrl> <!-- Replace with actual URL -->
+    <releaseNotes>http://example.com/release-notes</releaseNotes> <!-- Replace with actual URL -->
+    <summary>Control Spotify from the command line.</summary>
   </metadata>
 </package>

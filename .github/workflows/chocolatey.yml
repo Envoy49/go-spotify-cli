@@ -36,36 +36,72 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: main # Replace 'main' with your branch name
+          ref: main
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: go-spotify-cli
           path: .
+      - name: Extract Release Notes
+        id: release_notes
+        run: |
+          $version = "${{ needs.Build.outputs.version }}"
+          $version = $version.TrimStart('v')
+          $pattern = "## \[$version\](.*?)## \["
+          $changelog = Get-Content CHANGELOG.md -Raw
+          if ($changelog -match $pattern) {
+            $releaseNotes = $matches[1].Trim()
+          } else {
+            $releaseNotes = "Release notes not available."
+          }
+          echo "::set-output name=notes::$releaseNotes"
       - name: Update Nuspec File
         run: |
           $version = "${{ needs.Build.outputs.version }}"
-          $version = $version.TrimStart('v') # Remove the 'v' prefix
+          $version = $version.TrimStart('v')
           $nuspecPath = "go-spotify-cli.nuspec"
           [xml]$nuspec = Get-Content $nuspecPath
+          
+          # Set up namespace manager for the nuspec schema
           $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
           $ns.AddNamespace("ns", "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
+          
+          # Update the version
           $versionNode = $nuspec.SelectSingleNode("//ns:metadata/ns:version", $ns)
           $versionNode.InnerText = $version
+          
+          # Function to add or update a node
+          Function AddOrUpdateNode($nodeName, $nodeValue) {
+            $node = $nuspec.SelectSingleNode("//ns:metadata/ns:$nodeName", $ns)
+            if ($node -eq $null) {
+              $node = $nuspec.CreateElement($nodeName, "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
+              $nuspec.SelectSingleNode("//ns:metadata", $ns).AppendChild($node)
+            }
+            $node.InnerText = $nodeValue
+          }
+          
+          # Add or update the specified nodes
+          AddOrUpdateNode "iconUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/assets/emoji.png"
+          AddOrUpdateNode "licenseUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/LICENSE"
+          AddOrUpdateNode "projectSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
+          AddOrUpdateNode "releaseNotes" "${{ steps.release_notes.outputs.notes }}"
+          AddOrUpdateNode "summary" "Control Spotify from the command line."
+          
+          # Save the updated nuspec file
           $nuspec.Save($nuspecPath)
           cat $nuspecPath # For debugging
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec
-#      - name: Push to Chocolatey
-#        run: |
-#          $packageFile = Get-ChildItem -Path . -Filter "go-spotify-cli.*.nupkg" | Select-Object -First 1 -ExpandProperty Name
-#          if ($packageFile -ne $null) {
-#            choco push $packageFile --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
-#          } else {
-#            Write-Host "No .nupkg file found to push."
-#            exit 1
-#          }
+      - name: Push to Chocolatey
+        run: |
+          $packageFile = Get-ChildItem -Path . -Filter "go-spotify-cli.*.nupkg" | Select-Object -First 1 -ExpandProperty Name
+          if ($packageFile -ne $null) {
+            choco push $packageFile --api-key ${{ secrets.CHOCOLATEY_API_KEY }} --source https://push.chocolatey.org/
+          } else {
+            Write-Host "No .nupkg file found to push."
+            exit 1
+          }
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'envoy49'
@@ -73,3 +109,4 @@ jobs:
           git add go-spotify-cli.nuspec
           git commit -m "Update .nuspec file for release ${{ needs.Build.outputs.version }}"
           git push origin HEAD:main 
+     

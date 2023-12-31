@@ -95,6 +95,10 @@ jobs:
           # Save the updated nuspec file
           $nuspec.Save($nuspecPath)
           cat $nuspecPath # For debugging
+      - name: Prepare files for packaging
+        run: |
+          New-Item -ItemType Directory -Path .\tools -Force
+          Move-Item cmd\gsc\go-spotify-cli.exe .\tools\go-spotify-cli.exe
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec

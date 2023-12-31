@@ -42,6 +42,11 @@ jobs:
         with:
           name: go-spotify-cli
           path: .
+      - name: Remove .git directory
+        run: |
+          if (Test-Path -Path ".git") {
+            Remove-Item -Recurse -Force ".git"
+          }
       - name: Extract Release Notes
         id: release_notes
         run: |
@@ -58,7 +63,7 @@ jobs:
       - name: Update Nuspec File
         run: |
           $version = "${{ needs.Build.outputs.version }}"
-          $version = $version.TrimStart('v')
+          $version = '1.0.23' 
           $nuspecPath = "go-spotify-cli.nuspec"
           [xml]$nuspec = Get-Content $nuspecPath
           
@@ -93,8 +98,6 @@ jobs:
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec
-          
-
       - name: Push to Chocolatey
         run: |
           $packageFile = Get-ChildItem -Path . -Filter "go-spotify-cli.*.nupkg" | Select-Object -First 1 -ExpandProperty Name

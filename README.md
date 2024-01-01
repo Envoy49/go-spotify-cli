@@ -104,7 +104,7 @@ choco uninstall go-spotify-cli --version=<version here>
 ```
 
 
-#### Remember to replace `<version here>` with the specific version number of Go Spotify CLI you want to install, upgrade, or uninstall. This README provides clear and concise instructions for users to manage Go Spotify CLI via Chocolatey.
+#### Remember to replace `<version here>` with the specific version number from releases of Go Spotify CLI you want to install, upgrade, or uninstall.
 
 ---
 

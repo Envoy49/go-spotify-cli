@@ -77,7 +77,6 @@ jobs:
           
           # Update the version
           $versionNode = $nuspec.SelectSingleNode("//ns:metadata/ns:version", $ns)
-#          $versionNode.InnerText = $version.TrimStart('v')
           $versionNode.InnerText = $version
           
           # Function to add or update a node

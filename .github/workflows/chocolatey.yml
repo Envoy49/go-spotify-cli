@@ -88,18 +88,23 @@ jobs:
           # Add or update the specified nodes
           AddOrUpdateNode "iconUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/assets/emoji.png"
           AddOrUpdateNode "licenseUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/LICENSE"
+          AddOrUpdateNode "projectUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "projectSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
+          AddOrUpdateNode "packageSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "releaseNotes" "${{ steps.release_notes.outputs.notes }}"
-          AddOrUpdateNode "summary" "Control Spotify from the command line."
-          AddOrUpdateNode "tags" "spotify cli"
+          AddOrUpdateNode "summary" "Go Spotify CLI is a command-line tool that allows users to interact with Spotify. It provides various features like playing music, managing playlists, and more, directly from the command line."
+          AddOrUpdateNode "tags" "spotify cli music"
           
           # Save the updated nuspec file
           $nuspec.Save($nuspecPath)
           cat $nuspecPath # For debugging
+
       - name: Prepare files for packaging
         run: |
           New-Item -ItemType Directory -Path .\tools -Force
           Move-Item .\go-spotify-cli.exe .\tools\go-spotify-cli.exe
+          # Ensure no .gitignore or similar files are included
+          Remove-Item -Path .\.gitignore -Force -ErrorAction SilentlyContinue
           # Create VERIFICATION.txt
           @"
           VERIFICATION

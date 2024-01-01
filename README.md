@@ -14,12 +14,16 @@
 
 Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.
 
+---
+
 # ⬇️ Installation
 
 ### 🍏 `Mac`
 Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
 
-Once brew is installed, commands steps are required.
+Once brew is installed, below steps are required for installation.
+
+###  `Homebrew Installation Guide`
 
 ```bash
 brew tap Envoy49/homebrew-go-spotify-cli
@@ -28,18 +32,87 @@ brew tap Envoy49/homebrew-go-spotify-cli
 brew install go-spotify-cli
 ```
 
+###  `Update`
+
+```bash
+brew update
+```
+
+```
+brew upgrade go-spotify-cli
+```
+
+
+
 ### 🐧 `Linux`
 
 🧪 To be tested with Homebrew installation
 
 ### 🪟 `Windows`
 
-🚧 To be developed using Chocolatey package or similar
+Sure, here's a formatted and ready-to-use README for Chocolatey installation steps for Go Spotify CLI:
 
+
+
+###  `Chocolatey Installation Guide`
+
+### Installing Chocolatey
+
+### Open PowerShell as Administrator
+- Right-click on the Start button.
+- Click on “Windows PowerShell (Admin)” or “Command Prompt (Admin)” if PowerShell is not available.
+
+### Run the Installation Command
+Paste the following command into the PowerShell window and press Enter:
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+```
+
+### Close and Reopen PowerShell
+- After the installation is complete, close the PowerShell window.
+- Reopen a new PowerShell window as an administrator to start using Chocolatey.
+
+### Verify Installation
+To verify that Chocolatey is installed, run:
+
+```powershell
+choco -?
+```
+
+### Using Chocolatey to Manage Go Spotify CLI
+
+### Installation
+To install Go Spotify CLI, run the following command from the command line or from PowerShell:
+
+```powershell
+choco install go-spotify-cli --version=<version here>
+```
+
+### Upgrade
+To upgrade Go Spotify CLI, run the following command from the command line or from PowerShell:
+
+```powershell
+choco upgrade go-spotify-cli --version=<version here>
+```
+
+### Uninstallation
+To uninstall Go Spotify CLI, run the following command from the command line or from PowerShell:
+
+```powershell
+choco uninstall go-spotify-cli --version=<version here>
+```
+
+
+#### Remember to replace `<version here>` with the specific version number of Go Spotify CLI you want to install, upgrade, or uninstall. This README provides clear and concise instructions for users to manage Go Spotify CLI via Chocolatey.
+
+---
 
 # 📌 Prerequisites
 
 - **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.
+
+---
 
 # 🔧 Configuration
 
@@ -58,6 +131,8 @@ Before using the Go Spotify CLI:
 
     **Note**: If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
 
+---
+
 # 🔑 Authentication
 
 🚀 On the first run, Go Spotify CLI will initiate an authentication process through the Spotify interface. 
@@ -67,6 +142,7 @@ This ensures that browser authentication is no longer required after initial acc
 
 **Note**: 📝 Tokens are stored in the `.go-spotify-cli` folder of root directory.
 
+---
 # 📟 Commands usage
 
 Type `go-spotify-cli` + `<command>`
@@ -93,6 +169,8 @@ Type `go-spotify-cli` + `<command>`
 
 **Note**: 📝`To make executing commands more convenient, aliases can be utilized.`
 
+---
+
 # 🌍 Endpoints
 
 The CLI communicates with the following Spotify API Endpoints:
@@ -108,10 +186,14 @@ The CLI communicates with the following Spotify API Endpoints:
 
 **Note**: 📝 More endpoints and functionality will be added once this project gains 25 stars.
 
+---
+
 # 🤝 Contributing
 
 Your contributions light up our world! 🌟 Feel free to submit pull requests or raise issues.
 There are still a lot of endpoints which can be implemented and a lot of room for improvement.
+
+---
 
 # 💻 Local Development
 
@@ -121,6 +203,8 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 4. Follow `Configuration` steps mentioned above
 5. Now commands can be executed from `cmd/gsc` folder e.g. `go run cmd/gsc/main.go play`
 
+---
+
 # 📝 TODO List
 
 1. Add liked songs command
@@ -128,6 +212,8 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 3. Add tests(use race flag to detect race conditions)
 4. Add more commands reflecting Spotify Api
 5. Test on Windows and Linux. Tested and developed only on Mac.
+
+---
 
 # 📜 License
 

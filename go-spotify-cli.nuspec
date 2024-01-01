@@ -2,15 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>go-spotify-cli</id>
-    <version>2.2.2</version>
+    <version>1.0.23</version>
     <title>Go Spotify CLI</title>
     <authors>Envoy49</authors>
     <owners>Envoy49</owners>
-    <description>CLI tool to control Spotify</description>
-    <iconUrl>http://example.com/icon.png</iconUrl> <!-- Replace with actual URL -->
-    <licenseUrl>http://example.com/license</licenseUrl> <!-- Replace with actual URL -->
-    <projectSourceUrl>http://example.com/source</projectSourceUrl> <!-- Replace with actual URL -->
-    <releaseNotes>http://example.com/release-notes</releaseNotes> <!-- Replace with actual URL -->
-    <summary>Control Spotify from the command line.</summary>
+    <description>Go Spotify CLI is an innovative and user-friendly command-line interface tool developed using GoLang (v1.21), specifically designed to interact with the Spotify Web API.</description>
+    <iconUrl>https://github.com/Envoy49/go-spotify-cli/blob/main/assets/emoji.png</iconUrl>
+    <licenseUrl>https://github.com/Envoy49/go-spotify-cli/blob/main/LICENSE</licenseUrl>
+    <projectSourceUrl>https://github.com/Envoy49/go-spotify-cli</projectSourceUrl>
+    <releaseNotes>Release notes not available.</releaseNotes>
+    <summary>Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more.</summary>
+    <projectUrl>https://github.com/Envoy49/go-spotify-cli</projectUrl>
+    <tags>spotify cli music</tags>
+    <packageSourceUrl>https://github.com/Envoy49/go-spotify-cli</packageSourceUrl>
   </metadata>
 </package>

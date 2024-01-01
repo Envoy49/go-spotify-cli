@@ -42,6 +42,12 @@ brew update
 brew upgrade go-spotify-cli
 ```
 
+###  `Uninstall`
+
+```
+brew uninstall go-spotify-cli
+```
+
 
 
 ### 🐧 `Linux`
@@ -54,57 +60,37 @@ Sure, here's a formatted and ready-to-use README for Chocolatey installation ste
 
 
 
-###  `Chocolatey Installation Guide`
+###  `Winget Installation Guide`
 
-### Installing Chocolatey
-
-### Open PowerShell as Administrator
-- Right-click on the Start button.
-- Click on “Windows PowerShell (Admin)” or “Command Prompt (Admin)” if PowerShell is not available.
+### Installing Winget
 
 ### Run the Installation Command
 Paste the following command into the PowerShell window and press Enter:
 
 ```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+winget install wingetcreate
 ```
+Once Winget is installed, below steps are required for installation.
 
-### Close and Reopen PowerShell
-- After the installation is complete, close the PowerShell window.
-- Reopen a new PowerShell window as an administrator to start using Chocolatey.
-
-### Verify Installation
-To verify that Chocolatey is installed, run:
-
-```powershell
-choco -?
-```
-
-### Using Chocolatey to Manage Go Spotify CLI
+### Using Winget to Manage Go Spotify CLI
 
 ### Installation
-To install Go Spotify CLI, run the following command from the command line or from PowerShell:
 
 ```powershell
-choco install go-spotify-cli --version=<version here>
+winget install go-spotify-cli
 ```
 
-### Upgrade
-To upgrade Go Spotify CLI, run the following command from the command line or from PowerShell:
+### Update
 
 ```powershell
-choco upgrade go-spotify-cli --version=<version here>
+winget upgrade go-spotify-cli
 ```
 
-### Uninstallation
-To uninstall Go Spotify CLI, run the following command from the command line or from PowerShell:
+### Uninstall
 
 ```powershell
-choco uninstall go-spotify-cli --version=<version here>
+winget uninstall go-spotify-cli
 ```
-
-
-#### Remember to replace `<version here>` with the specific version number from releases of Go Spotify CLI you want to install, upgrade, or uninstall.
 
 ---
 

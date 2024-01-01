@@ -91,6 +91,7 @@ jobs:
           AddOrUpdateNode "projectSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "releaseNotes" "${{ steps.release_notes.outputs.notes }}"
           AddOrUpdateNode "summary" "Control Spotify from the command line."
+          AddOrUpdateNode "tags" "spotify cli"
           
           # Save the updated nuspec file
           $nuspec.Save($nuspecPath)
@@ -99,6 +100,12 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path .\tools -Force
           Move-Item cmd\gsc\go-spotify-cli.exe .\tools\go-spotify-cli.exe
+          @"
+          VERIFICATION
+          Verification is intended to assist the Chocolatey moderators and community
+          in verifying that this package's contents are trustworthy.
+          The binaries are built from the source at:
+          https://github.com/Envoy
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec
@@ -111,5 +118,4 @@ jobs:
           } else {
             Write-Host "No .nupkg file found to push."
             exit 1
-          }
-     
+          }    

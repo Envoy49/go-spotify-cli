@@ -100,12 +100,14 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path .\tools -Force
           Move-Item cmd\gsc\go-spotify-cli.exe .\tools\go-spotify-cli.exe
+          # Create VERIFICATION.txt
           @"
           VERIFICATION
           Verification is intended to assist the Chocolatey moderators and community
           in verifying that this package's contents are trustworthy.
           The binaries are built from the source at:
-          https://github.com/Envoy
+          https://github.com/Envoy49/go-spotify-cli
+          "@ | Set-Content -Path .\tools\VERIFICATION.txt
       - name: Pack Chocolatey Package
         run: |
           choco pack go-spotify-cli.nuspec

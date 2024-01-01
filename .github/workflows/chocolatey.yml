@@ -83,19 +83,21 @@ jobs:
           Function AddOrUpdateNode($nodeName, $nodeValue) {
             $node = $nuspec.SelectSingleNode("//ns:metadata/ns:$nodeName", $ns)
             if ($node -eq $null) {
-              $node = $nuspec.CreateElement($nodeName, "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
-              $nuspec.SelectSingleNode("//ns:metadata", $ns).AppendChild($node)
-            }
+            $node = $nuspec.CreateElement($nodeName, "http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd")
+            $nuspec.SelectSingleNode("//ns:metadata", $ns).AppendChild($node)
+          }
             $node.InnerText = $nodeValue
           }
           
           # Add or update the specified nodes
+          AddOrUpdateNode "projectSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "iconUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/assets/emoji.png"
           AddOrUpdateNode "licenseUrl" "https://github.com/Envoy49/go-spotify-cli/blob/main/LICENSE"
           AddOrUpdateNode "projectUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "packageSourceUrl" "https://github.com/Envoy49/go-spotify-cli"
           AddOrUpdateNode "releaseNotes" "${{ steps.release_notes.outputs.notes }}"
           AddOrUpdateNode "summary" "Go Spotify CLI is an innovative and user-friendly command-line interface tool developed using GoLang (v1.21), specifically designed to interact with the Spotify Web API. This versatile tool offers a plethora of features that facilitate control over Spotify's playback, device management, and more, directly from the command line. It is meticulously crafted for users who prefer a streamlined, terminal-based interaction with Spotify, enabling them to play music, manage playlists, and access various Spotify functionalities with ease. The tool is compatible across different platforms including Mac, Windows, and Linux, ensuring a wide range of usability. Moreover, the Go Spotify CLI project is open for community contributions, encouraging developers to enhance its capabilities and integrate more Spotify endpoints. It stands out as a unique tool for Spotify enthusiasts and developers alike, who seek a more technical and direct approach to control their music experience."
+          AddOrUpdateNode "description" "Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that interfaces with the Spotify Web API, allowing users to control playback, manage devices, and more."
           AddOrUpdateNode "tags" "spotify cli music"
           
           # Save the updated nuspec file

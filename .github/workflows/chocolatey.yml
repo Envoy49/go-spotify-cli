@@ -99,7 +99,7 @@ jobs:
       - name: Prepare files for packaging
         run: |
           New-Item -ItemType Directory -Path .\tools -Force
-          Move-Item cmd\gsc\go-spotify-cli.exe .\tools\go-spotify-cli.exe
+          Move-Item .\go-spotify-cli.exe .\tools\go-spotify-cli.exe
           # Create VERIFICATION.txt
           @"
           VERIFICATION

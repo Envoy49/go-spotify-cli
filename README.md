@@ -56,10 +56,6 @@ brew uninstall go-spotify-cli
 
 ### 🪟 `Windows`
 
-Sure, here's a formatted and ready-to-use README for Chocolatey installation steps for Go Spotify CLI:
-
-
-
 ###  `Winget Installation Guide`
 
 ### Installing Winget

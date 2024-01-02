@@ -20,9 +20,16 @@ func init() {
 func main() {
 	loader.InitializeSpinner()
 
+	var silentMode bool
+	var silentProgressMode bool
+
 	var rootCmd = &cobra.Command{
 		Use: constants.ProjectName,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			if silentMode || silentProgressMode {
+				return
+			}
+
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
 				return
 			}
@@ -33,6 +40,9 @@ func main() {
 			loader.Stop()
 		},
 	}
+
+	rootCmd.PersistentFlags().BoolVarP(&silentMode, "silent", "s", false, "Run in silent mode without user interaction")
+	rootCmd.PersistentFlags().BoolVarP(&silentProgressMode, "silent-progress", "p", false, "Run in silent mode but show progress")
 
 	rootCmd.AddCommand(
 		player.PlayCommand,

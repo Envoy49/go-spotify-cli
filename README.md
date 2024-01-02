@@ -58,6 +58,8 @@ brew uninstall go-spotify-cli
 
 ###  `Winget Installation Guide`
 
+**Note**: 📝 Go Spotify CLI is not yet available on Winget. Updates will be shared once it is published. In the meantime, it can be used by pulling the code.
+
 ### Installing Winget
 
 ### Run the Installation Command

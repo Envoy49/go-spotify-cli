@@ -16,6 +16,12 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 ---
 
+# 📌 Prerequisites
+
+- **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.
+
+---
+
 # ⬇️ Installation
 
 ### 🍏 `Mac`
@@ -48,31 +54,29 @@ brew upgrade go-spotify-cli
 brew uninstall go-spotify-cli
 ```
 
-
-
 ### 🐧 `Linux`
 
 🧪 To be tested with Homebrew installation
 
 ### 🪟 `Windows`
 
-## Deployment Challenges
+#### Deployment Challenges
 Multiple attempts to deploy this application to Winget and Chocolatey have failed in the pipelines of both package managers.
 Another issue identified during testing is that Windows Defender treats this program as a potential threat, thereby blocking its installation.
 One solution is to sign the executable binary with a digital certificate, which will assure Windows Defender that the program is safe.
 Currently, these issues are acting as blockers to providing the Go Spotify CLI for Windows users.
 While work is in progress to resolve these blockers, Windows users can download the codebase and build the binary file themselves.
 
-### Building and Using Go Spotify CLI on Windows
+#### Building and Using Go Spotify CLI on Windows
 
-### 1. Clone the Repository
+#### 1. Clone the Repository
 Use Git to clone the repository to your local machine.
 
-### 2. Build the Executable
+#### 2. Build the Executable
 - Navigate to the `\cmd\gsc` folder.
 - Run the build command: `go build -o go-spotify-cli.exe`.
 
-### 3. Adding to Path for Easy Access
+#### 3. Adding to Path for Easy Access
 - Locate the `go-spotify-cli.exe` file in the directory where you cloned and built the repository.
 - Add it to your system's Path:
    - Right-click on 'This PC' or 'My Computer' → 'Properties'.
@@ -82,15 +86,9 @@ Use Git to clone the repository to your local machine.
    - Click 'New' and paste the full path to the directory containing `go-spotify-cli.exe`.
    - Click 'OK' on all windows to apply the changes.
 
-### 4. Using Go Spotify CLI
+#### 4. Using Go Spotify CLI
 - Open a new Command Prompt or PowerShell.
 - Type `go-spotify-cli` followed by your desired commands to use the tool.
-
----
-
-# 📌 Prerequisites
-
-- **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.
 
 ---
 
@@ -161,8 +159,7 @@ The CLI communicates with the following Spotify API Endpoints:
 4. `/v1/me/player/previous`
 5. `/v1/me/player/volume`
 6. `/v1/me/player/devices`
-7. `/v1/me/player/devices`
-8. `/v1/me/tracks`
+7. `/v1/me/tracks`
 
 **Note**: 📝 More endpoints and functionality will be added once this project gains 25 stars.
 

@@ -56,39 +56,30 @@ brew uninstall go-spotify-cli
 
 ### 🪟 `Windows`
 
-###  `Winget Installation Guide`
+Multiple attempts to deploy this application to Winget and Chocolatey have failed in the pipelines of both package managers. 
+Another issue identified during testing is that Windows Defender treats this program as a potential threat, thereby blocking its installation. 
+One solution is to sign the executable binary with a digital certificate, which will assure Windows Defender that the program is safe. 
+Currently, these issues are acting as blockers to providing the Go Spotify CLI for Windows users. 
+While work is in progress to resolve these blockers, Windows users can download the codebase and build the binary file themselves.
 
-**Note**: 📝 Go Spotify CLI is not yet available on Winget. Updates will be shared once it is published. In the meantime, it can be used by pulling the code.
+Building and Using Go Spotify CLI on Windows
 
-### Installing Winget
+1. Clone the Repository
+2. Navigate to the \cmd\gsc folder and run build command `go build -o go-spotify-cli.exe`
+3. Adding to Path for Easy Access
 
-### Run the Installation Command
-Paste the following command into the PowerShell window and press Enter:
+Find where go-spotify-cli.exe is located in your file system. It should be in the directory where you cloned and built the repository.
 
-```powershell
-winget install wingetcreate
-```
-Once Winget is installed, below steps are required for installation.
+Add to System Path
 
-### Using Winget to Manage Go Spotify CLI
-
-### Installation
-
-```powershell
-winget install go-spotify-cli
-```
-
-### Update
-
-```powershell
-winget upgrade go-spotify-cli
-```
-
-### Uninstall
-
-```powershell
-winget uninstall go-spotify-cli
-```
+Right-click on 'This PC' or 'My Computer' on your desktop or in File Explorer, and select 'Properties'.
+Click on 'Advanced system settings'.
+In the System Properties window, click on the 'Environment Variables...' button.
+In the Environment Variables window, under 'System variables', find and select the 'Path' variable, then click 'Edit...'.
+In the Edit Environment Variable window, click 'New' and paste the full path to the directory containing go-spotify-cli.exe.
+Click 'OK' on all windows to close them.
+Using Go Spotify CLI
+Now, you can open Command Prompt or PowerShell and type go-spotify-cli followed by the desired commands to use the tool.
 
 ---
 

@@ -187,7 +187,7 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 2. Clone repo
 3. Run `go mod tidy`
 4. Follow `Configuration` steps mentioned above
-5. Now commands can be executed from `cmd/gsc` folder e.g. `go run cmd/gsc/main.go play`
+5. Now commands can be executed from `root directory e.g. `go run main.go play`
 
 ---
 

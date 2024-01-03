@@ -170,7 +170,9 @@ The CLI communicates with the following Spotify API Endpoints:
 6. `/v1/me/player/devices`
 7. `/v1/me/tracks`
 
-**Note**: 📝 More endpoints and functionality will be added once this project gains 25 stars.
+~~**Note**: 📝 More endpoints and functionality will be added once this project gains 25 stars.~~
+
+#### Repo gained more stars than expected, so adding new functionality will be prioritised. 
 
 ---
 

@@ -193,11 +193,11 @@ There are still a lot of endpoints which can be implemented and a lot of room fo
 
 # 📝 TODO List
 
-1. Add liked songs command
-2. Add search options for `Artists`, `Albums`, `Playlists`, `Shows`
-3. Add tests(use race flag to detect race conditions)
-4. Add more commands reflecting Spotify Api
-5. Test on Windows and Linux. Tested and developed only on Mac.
+1. Add search options for `Artists`, `Albums`, `Playlists`, `Shows`.
+2. Add tests(use race flag to detect race conditions).
+3. Add more commands reflecting Spotify Api.
+4. Clean up global variables.
+5. Get rid of constants, common folders and refactor code.
 
 ---
 

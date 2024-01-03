@@ -7,7 +7,7 @@ import (
 	"go-spotify-cli/commands/player"
 	"go-spotify-cli/constants"
 	"go-spotify-cli/loader"
-	"go-spotify-cli/prompt/search_prompt"
+	"go-spotify-cli/prompt/searchPrompt"
 	"go-spotify-cli/server"
 	"go-spotify-cli/types"
 	"net/url"
@@ -54,7 +54,7 @@ func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string)
 		}
 
 	} else {
-		result := search_prompt.SpotifySearchResultsPrompt(body)
+		result := searchPrompt.SpotifySearchResultsPrompt(body)
 		if len(result.NextUrl) > 0 {
 			search(accessToken, nil, result.NextUrl)
 		}
@@ -74,7 +74,7 @@ var SendSearchCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		loader.Stop()
 		token := server.ReadUserModifyTokenOrFetchFromServer()
-		err, query := search_prompt.SpotifySearchQueryPrompt()
+		err, query := searchPrompt.SpotifySearchQueryPrompt()
 		if err != nil {
 			logrus.WithError(err).Error("Error getting Search Query Prompts")
 			return

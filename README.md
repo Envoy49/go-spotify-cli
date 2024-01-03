@@ -66,12 +66,6 @@ More information can be found here: https://github.com/microsoft/winget-cli
 
 ### Installing Winget
 
-Search the package
-
-```powershell
-winget search go-spotify-cli
-```
-
 #### Run the Installation Command
 Paste the following command into the PowerShell window and press Enter:
 
@@ -82,7 +76,7 @@ Once Winget is installed, below steps are required for installation.
 
 #### Using Winget to Manage Go Spotify CLI
 
-Search the package
+#### `Search` 
 
 ```powershell
 winget search go-spotify-cli

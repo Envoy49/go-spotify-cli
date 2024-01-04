@@ -1,13 +1,14 @@
 package config
 
 import (
+	"os"
+	"path/filepath"
+	"time"
+
 	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
-	"os"
-	"path/filepath"
-	"time"
 )
 
 func isTokenExpired(expiryTime time.Time) bool {
@@ -23,8 +24,8 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 	}
 
 	// Define the folder and file paths
-	folderPath := filepath.Join(homeDir, "."+constants.ProjectName)
-	filePath := filepath.Join(folderPath, constants.ProjectName+"-env.yaml")
+	folderPath := filepath.Join(homeDir, "."+projectName)
+	filePath := filepath.Join(folderPath, projectName+"-env.yaml")
 
 	// Define an instance to store the current file's data
 	currentData := &types.CombinedTokenStructure{}

@@ -3,11 +3,12 @@ package prompt
 import (
 	"bufio"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/loader"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/envoy49/go-spotify-cli/config"
+	"github.com/envoy49/go-spotify-cli/loader"
 )
 
 func EnvVarsPrompt() {

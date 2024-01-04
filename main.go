@@ -1,16 +1,20 @@
 package main
 
 import (
+	"os"
+
 	"github.com/envoy49/go-spotify-cli/commands/flush"
 	"github.com/envoy49/go-spotify-cli/commands/player"
 	"github.com/envoy49/go-spotify-cli/commands/search"
 	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"os"
+)
+
+const (
+	projectName = "go-spotify-cli"
 )
 
 func init() {
@@ -23,7 +27,7 @@ func main() {
 	loader.InitializeSpinner()
 
 	var rootCmd = &cobra.Command{
-		Use:     constants.ProjectName,
+		Use:     projectName,
 		Version: Version,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {

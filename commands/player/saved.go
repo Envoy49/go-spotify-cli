@@ -3,22 +3,22 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"strconv"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"log"
-	"strconv"
 )
 
 func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 	loader.Start()
-	var endpoint = constants.SpotifyPlayerEndpoint + "/tracks"
+	var endpoint = spotifyPlayerEndpoint + "/tracks"
 	if len(nextUrl) > 0 {
 		endpoint = nextUrl
 	}

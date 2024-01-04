@@ -1,13 +1,13 @@
 package config
 
 import (
-	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/types"
-	"github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/envoy49/go-spotify-cli/types"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 var AuthTokenData = make(chan types.CombinedTokenStructure)
@@ -64,8 +64,8 @@ func WriteTokenToHomeDirectory(configData *types.CombinedTokenStructure, initiat
 	}
 
 	// Define the folder and file paths
-	folderPath := filepath.Join(homeDir, "."+constants.ProjectName)
-	filePath := filepath.Join(folderPath, constants.ProjectName+"-env.yaml")
+	folderPath := filepath.Join(homeDir, "."+projectName)
+	filePath := filepath.Join(folderPath, projectName+"-env.yaml")
 
 	// Check if the folder already exists, if not then create it
 	if _, err := os.Stat(folderPath); os.IsNotExist(err) {

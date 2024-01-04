@@ -1,9 +1,11 @@
 package loader
 
 import (
-	"github.com/briandowns/spinner"
 	"sync"
 	"time"
+
+	"github.com/briandowns/spinner"
+	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -15,7 +17,9 @@ var (
 func InitializeSpinner() {
 	once.Do(func() {
 		instance = spinner.New(spinner.CharSets[17], 10*time.Millisecond)
-		instance.Color("bold", "yellow")
+		if err := instance.Color("bold", "yellow"); err != nil {
+			logrus.Error(err)
+		}
 	})
 }
 

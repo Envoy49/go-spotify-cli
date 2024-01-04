@@ -1,12 +1,12 @@
 package config
 
 import (
-	"github.com/envoy49/go-spotify-cli/constants"
+	"os"
+	"path/filepath"
+
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
-	"os"
-	"path/filepath"
 )
 
 func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
@@ -23,8 +23,8 @@ func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 	}
 
 	// Define the folder and file paths
-	folderPath := filepath.Join(homeDir, "."+constants.ProjectName)
-	filePath := filepath.Join(folderPath, constants.ProjectName+".yaml")
+	folderPath := filepath.Join(homeDir, "."+projectName)
+	filePath := filepath.Join(folderPath, projectName+".yaml")
 
 	// Check if the folder already exists, if not then create it
 	if _, err := os.Stat(folderPath); os.IsNotExist(err) {

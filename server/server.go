@@ -2,16 +2,21 @@ package server
 
 import (
 	"context"
-	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/routes"
 	"net/http"
 	"time"
+
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/routes"
+	"github.com/sirupsen/logrus"
+)
+
+const (
+	serverPort = ":4949"
 )
 
 func Server(ctx context.Context) {
 	// Create a new server instance each time
-	server := &http.Server{Addr: constants.Port}
+	server := &http.Server{Addr: serverPort}
 
 	routes.SetupRoutes()
 

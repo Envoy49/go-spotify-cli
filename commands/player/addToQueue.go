@@ -1,11 +1,11 @@
 package player
 
 import (
+	"time"
+
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 func AddToQueue(accessToken string, url string) {
@@ -13,7 +13,7 @@ func AddToQueue(accessToken string, url string) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "POST",
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player/queue" + "?uri=" + url,
+		Endpoint:    spotifyPlayerEndpoint + "/player/queue" + "?uri=" + url,
 	}
 	_, err := commands.Fetch(params)
 

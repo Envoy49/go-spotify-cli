@@ -3,17 +3,17 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"strings"
+
 	"github.com/charmbracelet/lipgloss"
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"log"
-	"strings"
 )
 
 type DeviceResponse struct {
@@ -25,7 +25,7 @@ func Device() {
 	params := &commands.PlayerParams{
 		AccessToken: token,
 		Method:      "GET",
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player/devices",
+		Endpoint:    spotifyPlayerEndpoint + "/player/devices",
 	}
 
 	var response DeviceResponse

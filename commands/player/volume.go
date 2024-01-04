@@ -2,13 +2,13 @@ package player
 
 import (
 	"fmt"
+	"net/url"
+
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"net/url"
 )
 
 var VolumeValue string
@@ -20,7 +20,7 @@ func volume(accessToken string) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "PUT",
-		Endpoint:    constants.SpotifyPlayerEndpoint + fullEndpoint,
+		Endpoint:    spotifyPlayerEndpoint + fullEndpoint,
 	}
 
 	_, err := commands.Fetch(params)

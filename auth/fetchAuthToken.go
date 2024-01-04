@@ -4,13 +4,14 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/types"
-	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/envoy49/go-spotify-cli/config"
+	"github.com/envoy49/go-spotify-cli/types"
+	"github.com/sirupsen/logrus"
 )
 
 func setAuthTokenQueryParams(authCode string, redirectURI string) url.Values {

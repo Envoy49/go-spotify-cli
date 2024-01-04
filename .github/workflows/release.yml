@@ -18,18 +18,21 @@ jobs:
         with:
           go-version: '1.21'
 
+      - name: Set version environment variable
+        run: echo "export APP_VERSION=${{ env.VERSION }}" >> $GITHUB_ENV
+
       - name: Get the version
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Build for Linux
-        run: GOOS=linux GOARCH=amd64 go build -ldflags "-X main.version=${{ env.VERSION }}" -o go-spotify-cli-linux-amd64
+        run: GOOS=linux GOARCH=amd64 go build -o go-spotify-cli-linux-amd64
 
       - name: Build for macOS
-        run: GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.version=${{ env.VERSION }}" -o go-spotify-cli-darwin-amd64
+        run: GOOS=darwin GOARCH=amd64 go build -o go-spotify-cli-darwin-amd64
 
       - name: Build for Windows
-        run: GOOS=windows GOARCH=amd64 go build -ldflags "-X main.version=${{ env.VERSION }}" -o go-spotify-cli-windows-amd64.exe
+        run: GOOS=windows GOARCH=amd64 go build -o go-spotify-cli-windows-amd64.exe
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

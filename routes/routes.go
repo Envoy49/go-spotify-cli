@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"go-spotify-cli/constants"
-	"go-spotify-cli/handlers"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/handlers"
 	"net/http"
 	"sync"
 )

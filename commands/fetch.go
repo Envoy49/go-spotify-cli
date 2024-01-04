@@ -3,8 +3,8 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/types"
 	"io"
 	"net/http"
 	"sync"

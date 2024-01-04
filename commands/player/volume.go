@@ -2,12 +2,12 @@ package player
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/server"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"go-spotify-cli/commands"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/server"
-	"go-spotify-cli/types"
 	"net/url"
 )
 

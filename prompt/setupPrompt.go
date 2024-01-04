@@ -3,7 +3,7 @@ package prompt
 import (
 	"fmt"
 	"github.com/charmbracelet/lipgloss"
-	"go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/constants"
 )
 
 func SetupPrompt() {

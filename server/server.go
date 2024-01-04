@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/routes"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/routes"
 	"net/http"
 	"time"
 )

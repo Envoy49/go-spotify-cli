@@ -2,8 +2,8 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
-	"go-spotify-cli/types"
 	"log"
 	"strconv"
 	"strings"

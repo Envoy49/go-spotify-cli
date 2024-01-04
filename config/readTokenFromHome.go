@@ -1,9 +1,9 @@
 package config
 
 import (
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/types"
 	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"

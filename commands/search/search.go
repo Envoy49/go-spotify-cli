@@ -1,15 +1,15 @@
 package search
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/commands/player"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/loader"
+	"github.com/envoy49/go-spotify-cli/prompt/searchPrompt"
+	"github.com/envoy49/go-spotify-cli/server"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"go-spotify-cli/commands"
-	"go-spotify-cli/commands/player"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/loader"
-	"go-spotify-cli/prompt/searchPrompt"
-	"go-spotify-cli/server"
-	"go-spotify-cli/types"
 	"net/url"
 )
 

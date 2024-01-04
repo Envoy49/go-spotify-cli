@@ -3,13 +3,13 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"go-spotify-cli/commands/flush"
-	"go-spotify-cli/commands/player"
-	"go-spotify-cli/commands/search"
-	"go-spotify-cli/config"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/loader"
-	"go-spotify-cli/prompt"
+	"github.com/envoy49/go-spotify-cli/commands/flush"
+	"github.com/envoy49/go-spotify-cli/commands/player"
+	"github.com/envoy49/go-spotify-cli/commands/search"
+	"github.com/envoy49/go-spotify-cli/config"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/loader"
+	"github.com/envoy49/go-spotify-cli/prompt"
 	"os"
 )
 

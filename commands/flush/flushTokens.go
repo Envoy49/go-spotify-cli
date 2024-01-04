@@ -1,8 +1,8 @@
 package flush
 
 import (
+	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/spf13/cobra"
-	"go-spotify-cli/config"
 )
 
 var FlushTokensCommand = &cobra.Command{

@@ -3,8 +3,8 @@ package prompt
 import (
 	"bufio"
 	"fmt"
-	"go-spotify-cli/config"
-	"go-spotify-cli/loader"
+	"github.com/envoy49/go-spotify-cli/config"
+	"github.com/envoy49/go-spotify-cli/loader"
 	"os"
 	"regexp"
 	"strings"

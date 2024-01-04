@@ -2,7 +2,7 @@ package searchPrompt
 
 import (
 	"encoding/json"
-	"go-spotify-cli/types"
+	"github.com/envoy49/go-spotify-cli/types"
 	"log"
 )
 

@@ -3,10 +3,10 @@ package player
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/commands"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/server"
 )
 
 func ActivateDevice(deviceIds string) {

@@ -1,10 +1,10 @@
 package player
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/constants"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/commands"
-	"go-spotify-cli/constants"
-	"go-spotify-cli/types"
 	"time"
 )
 

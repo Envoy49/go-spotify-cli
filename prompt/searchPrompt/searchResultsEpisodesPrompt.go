@@ -3,9 +3,9 @@ package searchPrompt
 import (
 	"fmt"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/common"
-	"go-spotify-cli/prompt"
-	"go-spotify-cli/types"
+	"github.com/envoy49/go-spotify-cli/common"
+	"github.com/envoy49/go-spotify-cli/prompt"
+	"github.com/envoy49/go-spotify-cli/types"
 	"strconv"
 )
 

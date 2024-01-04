@@ -2,7 +2,7 @@ package prompt
 
 import (
 	"github.com/manifoldco/promptui"
-	"go-spotify-cli/types"
+	"github.com/envoy49/go-spotify-cli/types"
 	"strings"
 )
 

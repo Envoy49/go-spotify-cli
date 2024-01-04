@@ -2,8 +2,8 @@ package auth
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/pkg/browser"
-	"go-spotify-cli/types"
 )
 
 func buildSpotifyURL(params *types.UrlParams) string {

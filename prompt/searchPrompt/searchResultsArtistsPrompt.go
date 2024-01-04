@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"go-spotify-cli/common"
-	"go-spotify-cli/types"
+	"github.com/envoy49/go-spotify-cli/common"
+	"github.com/envoy49/go-spotify-cli/types"
 	"strconv"
 	"strings"
 )

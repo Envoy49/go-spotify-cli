@@ -24,81 +24,21 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 # ⬇️ Installation
 
-## 🍏 `Mac`
-Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
+## 🍏 `Mac`, 🐧 `Linux`, 🪟 `Windows`
 
-Once brew is installed, below steps are required for installation.
+### To install `go-spotify-cli`, follow these steps:
 
-###  `Homebrew Installation Guide`
+### Using `go install` (Recommended)
 
-```bash
-brew tap Envoy49/homebrew-go-spotify-cli
-```
-```
-brew install go-spotify-cli
-```
-
-####  `Update`
+This method will install the latest version of `go-spotify-cli`:
 
 ```bash
-brew update
+go install github.com/envoy49/go-spotify-cli@latest
 ```
 
-```
-brew upgrade go-spotify-cli
-```
+After the installation is complete, open a new terminal and run any command, for example, `go-spotify-cli search`
 
-####  `Uninstall`
-
-```
-brew uninstall go-spotify-cli
-```
-
-## 🐧 `Linux`
-
-🧪 To be tested with Homebrew installation
-
-## 🪟 `Windows`
-
-###  `Winget Installation Guide`
-
-More information can be found here: https://github.com/microsoft/winget-cli
-
-### Installing Winget
-
-#### Run the Installation Command
-Paste the following command into the PowerShell window and press Enter:
-
-```powershell
-winget install wingetcreate
-```
-Once Winget is installed, below steps are required for installation.
-
-#### Using Winget to Manage Go Spotify CLI
-
-#### `Search` 
-
-```powershell
-winget search go-spotify-cli
-```
-
-#### `Installation`
-
-```powershell
-winget install Envoy49.go-spotify-cli
-```
-
-#### `Update`
-
-```powershell
-winget upgrade Envoy49.go-spotify-cli
-```
-
-#### `Uninstall`
-
-```powershell
-winget uninstall Envoy49.go-spotify-cli
-```
+      Note: 📝 `go-spotify-cli --version` command is not available yet and will be added soon.
 ---
 
 # 🔧 Configuration
@@ -116,7 +56,7 @@ Before using the Go Spotify CLI:
     - On first execution, there will be a prompt asking you to enter the `ClientId` and `ClientSecret`.
     - After entering these details, they will be saved in the `.go-spotify-cli` folder in the root directory for future use.
 
-    **Note**: If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
+    **Note**: 📝 If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
 
 ---
 

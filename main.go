@@ -17,14 +17,14 @@ func init() {
 	config.LoadConfiguration()
 }
 
-var version = os.Getenv("VERSION")
+var Version = os.Getenv("VERSION")
 
 func main() {
 	loader.InitializeSpinner()
 
 	var rootCmd = &cobra.Command{
 		Use:     constants.ProjectName,
-		Version: version,
+		Version: Version,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
 				return

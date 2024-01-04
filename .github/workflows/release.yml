@@ -31,9 +31,6 @@ jobs:
       - name: Build for Windows
         run: GOOS=windows GOARCH=amd64 go build -o go-spotify-cli-windows-amd64.exe
 
-      - name: Echo VERSION
-        run: echo "VERSION=${{ env.VERSION }}"
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -42,9 +39,6 @@ jobs:
             go-spotify-cli-linux-amd64
             go-spotify-cli-darwin-amd64
             go-spotify-cli-windows-amd64.exe
-
-      - name: Echo VERSION 2
-        run: echo "VERSION=${{ env.VERSION }}"
 
       - name: Create Release
         id: create_release

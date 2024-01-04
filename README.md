@@ -38,7 +38,7 @@ Note: 📝 Previous installation methods using Homebrew and Winget have been pha
 go install github.com/envoy49/go-spotify-cli@latest
 ```
 
-After the installation is complete, open a new terminal and run any command,
+After the installation is complete, open a new terminal and run any command.
 
       Note: 📝 `go-spotify-cli --version` command is not available yet and will be added soon.
 ---

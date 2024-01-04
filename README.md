@@ -24,19 +24,21 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 # ⬇️ Installation
 
-## 🍏 `Mac`, 🐧 `Linux`, 🪟 `Windows`
+### 🍏 `Mac`, 🐧 `Linux`, 🪟 `Windows`
+
+Note: 📝 Previous installation methods using Homebrew and Winget have been phased out in favor of the more direct `go install` method.
 
 ### To install `go-spotify-cli`, follow these steps:
 
-### Using `go install` (Recommended)
+- Install Go version 1.21 or above https://go.dev/
 
-This method will install the latest version of `go-spotify-cli`:
+- Paste below command in terminal:
 
 ```bash
 go install github.com/envoy49/go-spotify-cli@latest
 ```
 
-After the installation is complete, open a new terminal and run any command, for example, `go-spotify-cli search`
+After the installation is complete, open a new terminal and run any command,
 
       Note: 📝 `go-spotify-cli --version` command is not available yet and will be added soon.
 ---

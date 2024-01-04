@@ -41,17 +41,15 @@ jobs:
             go-spotify-cli-windows-amd64.exe
 
       - name: Create Release
-        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
         with:
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
-          release_name: Release ${{ steps.get_version.outputs.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }} 
           draft: false
           prerelease: false
-          body: |
-            Release of version ${{ steps.get_version.outputs.VERSION }}
+          body: Release of version ${{ env.VERSION }}
 
       - name: Upload Linux Release Asset
         uses: actions/upload-release-asset@v1

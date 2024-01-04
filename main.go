@@ -17,7 +17,7 @@ func init() {
 	config.LoadConfiguration()
 }
 
-var version = os.Getenv("APP_VERSION")
+var version = os.Getenv("VERSION")
 
 func main() {
 	loader.InitializeSpinner()

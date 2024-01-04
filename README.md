@@ -40,7 +40,7 @@ go install github.com/envoy49/go-spotify-cli@latest
 
 After the installation is complete, open a new terminal and run any command.
 
-      Note: 📝 `go-spotify-cli --version` command is not available yet and will be added soon.
+> **Note** 📝: `go-spotify-cli --version` command is not available yet and will be added soon.
 ---
 
 # 🔧 Configuration
@@ -58,7 +58,7 @@ Before using the Go Spotify CLI:
     - On first execution, there will be a prompt asking you to enter the `ClientId` and `ClientSecret`.
     - After entering these details, they will be saved in the `.go-spotify-cli` folder in the root directory for future use.
 
-    **Note**: 📝 If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
+>**Note**: 📝 If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
 
 ---
 
@@ -69,7 +69,7 @@ A browser window will open, requesting access grant. Once access is granted, Spo
 The refresh token will be used to obtain a new token after the original token has expired. 
 This ensures that browser authentication is no longer required after initial access has been granted.
 
-**Note**: 📝 Tokens are stored in the `.go-spotify-cli` folder of root directory.
+>**Note**: 📝 Tokens are stored in the `.go-spotify-cli` folder of root directory.
 
 ---
 # 📟 Commands usage
@@ -96,7 +96,7 @@ Type `go-spotify-cli` + `<command>`
 
 🔄 **`flush-secrets`**: This command will delete all secrets saved in `.go-spotify-cli` folder.
 
-**Note**: 📝`To make executing commands more convenient, aliases can be utilized.`
+>**Note**: 📝`To make executing commands more convenient, aliases can be utilized.`
 
 ---
 

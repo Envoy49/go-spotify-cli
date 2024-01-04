@@ -40,18 +40,19 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-          body: Release of version ${{ github.ref_name }}
+          body: |
+            Release of version ${{ github.ref }}
 
       - name: Upload Linux Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./go-spotify-cli-linux-amd64
@@ -61,7 +62,7 @@ jobs:
       - name: Upload macOS Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./go-spotify-cli-darwin-amd64
@@ -71,7 +72,7 @@ jobs:
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./go-spotify-cli-windows-amd64.exe

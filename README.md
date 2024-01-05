@@ -35,7 +35,7 @@ Note: 📝 Previous installation methods using Homebrew and Winget have been pha
 ```bash
 go install github.com/envoy49/go-spotify-cli@latest
 ```
-- To install a specific version of go-spotify-cli, first obtain the latest release number from the [Releases](https://github.com/Envoy49/go-spotify-cli/releases) page. Then, use the following command in the terminal, replacing <version> with the release number you obtained:
+- To install a specific version of go-spotify-cli, first obtain the release number from the [Releases](https://github.com/Envoy49/go-spotify-cli/releases) page. Then, use the following command in the terminal, replacing <version> with the release number you obtained:
 
 ```bash
 go install github.com/envoy49/go-spotify-cli@<version>

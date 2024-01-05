@@ -31,19 +31,15 @@ Note: 📝 Previous installation methods using Homebrew and Winget have been pha
 ### To install `go-spotify-cli`, follow these steps:
 
 - Install Go version 1.21 or above https://go.dev/
-
+- To install latest version run the following command
+```bash
+go install github.com/envoy49/go-spotify-cli@latest
+```
 - To install a specific version of go-spotify-cli, first obtain the latest release number from the [Releases](https://github.com/Envoy49/go-spotify-cli/releases) page. Then, use the following command in the terminal, replacing <version> with the release number you obtained:
 
 ```bash
 go install github.com/envoy49/go-spotify-cli@<version>
 ```
-
-For example, to install version 1.0.0, you would use:
-
-```bash
-go install github.com/envoy49/go-spotify-cli@v1.0.0
-```
-
 
 After the installation is complete, open a new terminal and run `go-spotify-cli --version`.
 

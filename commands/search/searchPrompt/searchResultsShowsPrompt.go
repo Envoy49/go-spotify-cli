@@ -2,10 +2,10 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/types"
 	"strings"
 )
 
@@ -46,13 +46,13 @@ func ShowsResultsPrompt(shows *types.Shows) string {
 			"Show ID                : %s\n"+
 			"Total Episodes         : %d\n"+
 			"Show URI               : %s\n",
-		common.ValueStyle.Render(selectedShow.Name),
-		common.ValueStyle.Render(selectedShow.ID),
+		commands.ValueStyle.Render(selectedShow.Name),
+		commands.ValueStyle.Render(selectedShow.ID),
 		selectedShow.TotalEpisodes,
-		common.ValueStyle.Render(selectedShow.URI),
+		commands.ValueStyle.Render(selectedShow.URI),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("       SELECTED SHOW INFO         ") + "\n" + formattedShowInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("       SELECTED SHOW INFO         ") + "\n" + formattedShowInfo + "\n")
 
 	fmt.Println(fullBox)
 

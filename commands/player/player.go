@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/common"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
@@ -39,15 +38,15 @@ func Player() {
 				"Album                : %s\n"+
 				"Album Type           : %s\n"+
 				"Album Release Date   : %s\n",
-			common.ValueStyle.Render(response.Item.Artists[0].Name),
-			common.ValueStyle.Render(" - "),
-			common.ValueStyle.Render(response.Item.Name),
-			common.ValueStyle.Render(response.Item.Album.Name),
-			common.ValueStyle.Render(response.Item.Album.AlbumType),
-			common.ValueStyle.Render(response.Item.Album.ReleaseDate),
+			commands.ValueStyle.Render(response.Item.Artists[0].Name),
+			commands.ValueStyle.Render(" - "),
+			commands.ValueStyle.Render(response.Item.Name),
+			commands.ValueStyle.Render(response.Item.Album.Name),
+			commands.ValueStyle.Render(response.Item.Album.AlbumType),
+			commands.ValueStyle.Render(response.Item.Album.ReleaseDate),
 		)
 
-		fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("         SONG INFORMATION          ") + "\n" + formattedSongInfo + "\n")
+		fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("         SONG INFORMATION          ") + "\n" + formattedSongInfo + "\n")
 
 		fmt.Println(fullBox)
 	}

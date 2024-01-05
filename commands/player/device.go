@@ -8,7 +8,6 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/common"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
@@ -92,7 +91,7 @@ func printDeviceInfo(device types.DeviceType) {
 	} else {
 		privateSessionSymbol = "🔓"
 	}
-	privateSessionStyle := common.ValueStyle.Render(privateSessionSymbol)
+	privateSessionStyle := commands.ValueStyle.Render(privateSessionSymbol)
 
 	var typeSymbol string
 	if device.Type == "Smartphone" {
@@ -102,7 +101,7 @@ func printDeviceInfo(device types.DeviceType) {
 	} else {
 		typeSymbol = ""
 	}
-	typeStyle := common.ValueStyle.Render(typeSymbol)
+	typeStyle := commands.ValueStyle.Render(typeSymbol)
 
 	// Calculate the number of emojis to represent the volume level
 	numEmojis := device.VolumePercent / 10 // Assuming you want 10 emojis to represent 100%
@@ -119,22 +118,22 @@ func printDeviceInfo(device types.DeviceType) {
 			"Supports Volume   : %s\n"+
 			"Type              : %s %s\n"+
 			"Volume Percent    : %d%% %s\n",
-		common.ValueStyle.Render(device.Name),
+		commands.ValueStyle.Render(device.Name),
 		activeStatusStyle.Render(activeStatusSymbol),
-		common.ValueStyle.Render(fmt.Sprintf("%v", device.IsActive)),
-		common.ValueStyle.Render(device.ID),
+		commands.ValueStyle.Render(fmt.Sprintf("%v", device.IsActive)),
+		commands.ValueStyle.Render(device.ID),
 		privateSessionStyle,
-		common.ValueStyle.Render(fmt.Sprintf("%v", device.IsPrivateSession)),
-		common.ValueStyle.Render(fmt.Sprintf("%v", device.IsRestricted)),
-		common.ValueStyle.Render(fmt.Sprintf("%v", device.SupportsVolume)),
+		commands.ValueStyle.Render(fmt.Sprintf("%v", device.IsPrivateSession)),
+		commands.ValueStyle.Render(fmt.Sprintf("%v", device.IsRestricted)),
+		commands.ValueStyle.Render(fmt.Sprintf("%v", device.SupportsVolume)),
 		typeStyle,
-		common.ValueStyle.Render(device.Type),
+		commands.ValueStyle.Render(device.Type),
 		device.VolumePercent,
 		volumeEmojis,
 	)
 
 	// Combine header and formatted info inside a box
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("         Device Information          ") + "\n" + formattedInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("         Device Information          ") + "\n" + formattedInfo + "\n")
 
 	fmt.Println(fullBox)
 }

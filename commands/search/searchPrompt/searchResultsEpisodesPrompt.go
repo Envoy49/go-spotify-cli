@@ -2,18 +2,34 @@ package searchPrompt
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
+	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/envoy49/go-spotify-cli/types"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/term"
+	"os"
 	"strconv"
 )
 
 func EpisodesResultsPrompt(episodes *types.Episodes) *types.SearchPromptResults {
 	formattedInfo := make([]string, len(episodes.Items))
 
+	// Get the terminal width
+	width, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		logrus.WithError(err).Error("Failed to get terminal size")
+		width = 80
+	}
+
+	const padding = 30
+	maxNameLength := width - padding
+
 	for i, item := range episodes.Items {
-		episodeInfo := fmt.Sprintf("%s (Duration: %s minutes)", item.Name, strconv.Itoa(item.DurationMS/60000))
+		episodeName := item.Name
+		if len(episodeName) > maxNameLength {
+			episodeName = episodeName[:maxNameLength] + "…" // Truncate and add ellipsis
+		}
+		episodeInfo := fmt.Sprintf("%s (Dur: %s mins)", episodeName, strconv.Itoa(item.DurationMS/60000))
 		formattedInfo[i] = episodeInfo
 	}
 
@@ -58,13 +74,13 @@ func EpisodesResultsPrompt(episodes *types.Episodes) *types.SearchPromptResults 
 			"Episode ID             : %s\n"+
 			"Duration               : %s minutes\n"+
 			"Episode URI            : %s\n",
-		common.ValueStyle.Render(selectedEpisode.Name),
-		common.ValueStyle.Render(selectedEpisode.ID),
-		common.ValueStyle.Render(strconv.Itoa(selectedEpisode.DurationMS/60000)),
-		common.ValueStyle.Render(selectedEpisode.URI),
+		commands.ValueStyle.Render(selectedEpisode.Name),
+		commands.ValueStyle.Render(selectedEpisode.ID),
+		commands.ValueStyle.Render(strconv.Itoa(selectedEpisode.DurationMS/60000)),
+		commands.ValueStyle.Render(selectedEpisode.URI),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("       SELECTED EPISODE INFO        ") + "\n" + formattedEpisodeInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("       SELECTED EPISODE INFO        ") + "\n" + formattedEpisodeInfo + "\n")
 
 	fmt.Println(fullBox)
 

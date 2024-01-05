@@ -2,10 +2,10 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/types"
 	"strconv"
 	"strings"
 )
@@ -48,14 +48,14 @@ func AudiobooksResultsPrompt(audiobooks *types.Audiobooks) string {
 			"Audiobook ID            : %s\n"+
 			"Audiobook URI           : %s\n"+
 			"Total Chapters          : %s\n",
-		common.ValueStyle.Render(selectedAudiobook.Authors[0].Name),
-		common.ValueStyle.Render(selectedAudiobook.Name),
-		common.ValueStyle.Render(selectedAudiobook.ID),
-		common.ValueStyle.Render(selectedAudiobook.URI),
-		common.ValueStyle.Render(strconv.Itoa(selectedAudiobook.TotalChapters)),
+		commands.ValueStyle.Render(selectedAudiobook.Authors[0].Name),
+		commands.ValueStyle.Render(selectedAudiobook.Name),
+		commands.ValueStyle.Render(selectedAudiobook.ID),
+		commands.ValueStyle.Render(selectedAudiobook.URI),
+		commands.ValueStyle.Render(strconv.Itoa(selectedAudiobook.TotalChapters)),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("      SELECTED AUDIOBOOK INFO       ") + "\n" + formattedBookInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("      SELECTED AUDIOBOOK INFO       ") + "\n" + formattedBookInfo + "\n")
 
 	fmt.Println(fullBox)
 

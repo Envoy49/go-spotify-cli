@@ -2,10 +2,10 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/types"
 	"strings"
 )
 
@@ -47,14 +47,14 @@ func PlaylistsResultsPrompt(playlists *types.Playlists) string {
 			"Total Tracks           : %d\n"+
 			"Owner                  : %s\n"+
 			"Playlist URI           : %s\n",
-		common.ValueStyle.Render(selectedPlaylist.Name),
-		common.ValueStyle.Render(selectedPlaylist.ID),
+		commands.ValueStyle.Render(selectedPlaylist.Name),
+		commands.ValueStyle.Render(selectedPlaylist.ID),
 		selectedPlaylist.Tracks.Total,
-		common.ValueStyle.Render(selectedPlaylist.Owner.DisplayName),
-		common.ValueStyle.Render(selectedPlaylist.URI),
+		commands.ValueStyle.Render(selectedPlaylist.Owner.DisplayName),
+		commands.ValueStyle.Render(selectedPlaylist.URI),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("       SELECTED PLAYLIST INFO         ") + "\n" + formattedPlaylistInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("       SELECTED PLAYLIST INFO         ") + "\n" + formattedPlaylistInfo + "\n")
 
 	fmt.Println(fullBox)
 

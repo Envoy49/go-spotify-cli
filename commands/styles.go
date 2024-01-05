@@ -1,4 +1,4 @@
-package common
+package commands
 
 import "github.com/charmbracelet/lipgloss"
 

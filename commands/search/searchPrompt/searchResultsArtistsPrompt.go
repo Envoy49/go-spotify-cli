@@ -2,10 +2,10 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/types"
 	"strconv"
 	"strings"
 )
@@ -47,13 +47,13 @@ func ArtistsResultsPrompt(artists *types.Artists) string {
 			"Artist ID               : %s\n"+
 			"Artist Popularity       : %s\n"+
 			"Artist URI              : %s\n",
-		common.ValueStyle.Render(selectedArtist.Name),
-		common.ValueStyle.Render(selectedArtist.ID),
-		common.ValueStyle.Render(strconv.Itoa(selectedArtist.Popularity)),
-		common.ValueStyle.Render(selectedArtist.URI),
+		commands.ValueStyle.Render(selectedArtist.Name),
+		commands.ValueStyle.Render(selectedArtist.ID),
+		commands.ValueStyle.Render(strconv.Itoa(selectedArtist.Popularity)),
+		commands.ValueStyle.Render(selectedArtist.URI),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("         SELECTED ARTIST INFO          ") + "\n" + formattedArtistInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("         SELECTED ARTIST INFO          ") + "\n" + formattedArtistInfo + "\n")
 
 	fmt.Println(fullBox)
 

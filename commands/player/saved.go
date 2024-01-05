@@ -3,11 +3,12 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"golang.org/x/term"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/common"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/envoy49/go-spotify-cli/server"
@@ -44,9 +45,26 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 
 	formattedInfo := make([]string, len(response.Items))
 
+	// Get the terminal width
+	width, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		logrus.WithError(err).Error("Failed to get terminal size")
+		width = 80 // Default width in case of error
+	}
+
+	const padding = 30
+	maxNameLength := width - padding
+
 	for i, item := range response.Items {
-		trackInfo := fmt.Sprintf("%s - %s", item.Track.Artists[0].Name, item.Track.Name)
-		formattedInfo[i] = trackInfo
+		artistName := item.Track.Artists[0].Name
+		trackName := item.Track.Name
+
+		combinedName := fmt.Sprintf("%s - %s", artistName, trackName)
+		if len(combinedName) > maxNameLength {
+			combinedName = combinedName[:maxNameLength] + "…" // Truncate and add ellipsis
+		}
+
+		formattedInfo[i] = combinedName
 	}
 
 	if len(response.Next) > 0 {
@@ -87,14 +105,14 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 			"Track ID                : %s\n"+
 			"Track Popularity        : %s\n"+
 			"Track URI               : %s\n",
-		common.ValueStyle.Render(selectedTrack.Track.Artists[0].Name),
-		common.ValueStyle.Render(selectedTrack.Track.Name),
-		common.ValueStyle.Render(selectedTrack.Track.ID),
-		common.ValueStyle.Render(strconv.Itoa(selectedTrack.Track.Popularity)),
-		common.ValueStyle.Render(selectedTrack.Track.Uri),
+		commands.ValueStyle.Render(selectedTrack.Track.Artists[0].Name),
+		commands.ValueStyle.Render(selectedTrack.Track.Name),
+		commands.ValueStyle.Render(selectedTrack.Track.ID),
+		commands.ValueStyle.Render(strconv.Itoa(selectedTrack.Track.Popularity)),
+		commands.ValueStyle.Render(selectedTrack.Track.Uri),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("         SELECTED SAVED TRACKs INFO          ") + "\n" + formattedSongInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("         SELECTED SAVED TRACKs INFO          ") + "\n" + formattedSongInfo + "\n")
 
 	fmt.Println(fullBox)
 

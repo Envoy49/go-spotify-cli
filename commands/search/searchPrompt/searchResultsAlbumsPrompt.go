@@ -2,10 +2,10 @@ package searchPrompt
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands"
+	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/types"
 	"strconv"
 	"strings"
 )
@@ -49,15 +49,15 @@ func AlbumsResultsPrompt(albums *types.Albums) string {
 			"Total Tracks        : %s\n"+
 			"Album Id            : %s\n"+
 			"Album URI           : %s\n",
-		common.ValueStyle.Render(selectedAlbum.Name),
-		common.ValueStyle.Render(selectedAlbum.AlbumType),
-		common.ValueStyle.Render(selectedAlbum.ReleaseDate),
-		common.ValueStyle.Render(strconv.Itoa(selectedAlbum.TotalTracks)),
-		common.ValueStyle.Render(selectedAlbum.ID),
-		common.ValueStyle.Render(selectedAlbum.URI),
+		commands.ValueStyle.Render(selectedAlbum.Name),
+		commands.ValueStyle.Render(selectedAlbum.AlbumType),
+		commands.ValueStyle.Render(selectedAlbum.ReleaseDate),
+		commands.ValueStyle.Render(strconv.Itoa(selectedAlbum.TotalTracks)),
+		commands.ValueStyle.Render(selectedAlbum.ID),
+		commands.ValueStyle.Render(selectedAlbum.URI),
 	)
 
-	fullBox := common.BoxStyle.Render(common.HeaderStyle.Render("         SELECTED ALBUM INFO          ") + "\n" + formattedAlbumInfo + "\n")
+	fullBox := commands.BoxStyle.Render(commands.HeaderStyle.Render("         SELECTED ALBUM INFO          ") + "\n" + formattedAlbumInfo + "\n")
 
 	fmt.Println(fullBox)
 

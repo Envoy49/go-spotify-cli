@@ -1,16 +1,16 @@
 package config
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
 func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
-	configData := &types.EnvVarConfig{
+	configData := &commandTypes.EnvVarConfig{
 		ClientId:     clientId,
 		ClientSecret: clientSecret,
 	}
@@ -48,7 +48,7 @@ func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 		return
 	}
 
-	GlobalConfig = types.Config{
+	GlobalConfig = commandTypes.Config{
 		ClientId:     configData.ClientId,
 		ClientSecret: configData.ClientSecret,
 	}

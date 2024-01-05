@@ -1,4 +1,4 @@
-package types
+package commandTypes
 
 type SpotifySearchResponse struct {
 	Tracks     *Tracks     `json:"tracks"`

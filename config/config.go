@@ -1,10 +1,10 @@
 package config
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
@@ -13,7 +13,7 @@ const (
 	projectName = "go-spotify-cli"
 )
 
-var GlobalConfig types.Config
+var GlobalConfig commandTypes.Config
 
 func LoadConfiguration() {
 	homeDir, err := os.UserHomeDir()
@@ -30,7 +30,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	var config types.EnvVarConfig
+	var config commandTypes.EnvVarConfig
 	// Unmarshal the YAML data into a Configuration struct
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
@@ -38,7 +38,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	GlobalConfig = types.Config{
+	GlobalConfig = commandTypes.Config{
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
 	}

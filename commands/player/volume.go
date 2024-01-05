@@ -2,11 +2,11 @@ package player
 
 import (
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"net/url"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/server"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +27,7 @@ func volume(accessToken string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case types.SpotifyAPIError:
+		case commandTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				// Handle the case where no active device is found
 				Device() // This function should ideally select or activate a default device

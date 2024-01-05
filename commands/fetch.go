@@ -3,7 +3,7 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/types"
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
@@ -54,11 +54,11 @@ func Fetch(playerParams *PlayerParams) ([]byte, error) {
 	}()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		var errorDetails types.SpotifyError
+		var errorDetails commandTypes.SpotifyError
 		if jsonErr := json.Unmarshal(body, &errorDetails); jsonErr != nil {
 			return nil, fmt.Errorf("unexpected error format from Spotify API: %s", string(body))
 		}
-		return nil, types.SpotifyAPIError{Detail: errorDetails}
+		return nil, commandTypes.SpotifyAPIError{Detail: errorDetails}
 	}
 
 	return body, nil

@@ -2,15 +2,15 @@ package server
 
 import (
 	"github.com/envoy49/go-spotify-cli/auth"
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/types"
 )
 
 func ReadUserModifyTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ModifyToken)
 	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ModifyToken.UserModifyRefreshToken,
 		})
 
@@ -18,8 +18,8 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 			return FetchUserModifyTokenFromBrowser()
 		}
 
-		userModifyToken := types.CombinedTokenStructure{
-			ModifyToken: types.UserModifyTokenStructure{
+		userModifyToken := commandTypes.CombinedTokenStructure{
+			ModifyToken: commandTypes.UserModifyTokenStructure{
 				UserModifyToken:          newToken.AccessToken,
 				UserModifyTokenExpiresIn: int64(newToken.ExpiresIn),
 			},
@@ -39,7 +39,7 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 func ReadUserReadTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.ReadToken)
 	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ReadToken.UserReadRefreshToken,
 		})
 
@@ -47,8 +47,8 @@ func ReadUserReadTokenOrFetchFromServer() string {
 			return FetchUserReadTokenFromBrowser()
 		}
 
-		userReadToken := types.CombinedTokenStructure{
-			ReadToken: types.UserReadTokenStructure{
+		userReadToken := commandTypes.CombinedTokenStructure{
+			ReadToken: commandTypes.UserReadTokenStructure{
 				UserReadToken:          newToken.AccessToken,
 				UserReadTokenExpiresIn: int64(newToken.ExpiresIn),
 			},
@@ -66,7 +66,7 @@ func ReadUserReadTokenOrFetchFromServer() string {
 func ReadUserLibraryReadTokenOrFetchFromServer() string {
 	tokenInstance := config.ReadTokenFromHome(constants.LibraryRead)
 	if len(tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken,
 		})
 
@@ -74,8 +74,8 @@ func ReadUserLibraryReadTokenOrFetchFromServer() string {
 			return FetchLibraryReadTokenFromBrowser()
 		}
 
-		userLibraryReadToken := types.CombinedTokenStructure{
-			LibraryReadToken: types.UserLibraryReadTokenStructure{
+		userLibraryReadToken := commandTypes.CombinedTokenStructure{
+			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
 				UserLibraryReadToken:          newToken.AccessToken,
 				UserLibraryReadTokenExpiresIn: int64(newToken.ExpiresIn),
 			},

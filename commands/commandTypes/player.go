@@ -1,4 +1,4 @@
-package types
+package commandTypes
 
 type SpotifyResponse struct {
 	Device               DeviceType `json:"device"`

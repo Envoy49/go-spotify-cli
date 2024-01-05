@@ -3,20 +3,20 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"log"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/server"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
 type DeviceResponse struct {
-	Devices []types.DeviceType `json:"devices"`
+	Devices []commandTypes.DeviceType `json:"devices"`
 }
 
 func Device() {
@@ -71,7 +71,7 @@ func Device() {
 	ActivateDevice(selectedDevice.ID)
 }
 
-func printDeviceInfo(device types.DeviceType) {
+func printDeviceInfo(device commandTypes.DeviceType) {
 	volumeRectStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#51e2f5"))
 
 	var activeStatusColor string

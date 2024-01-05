@@ -1,12 +1,12 @@
 package handlers
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"net/http"
 
 	"github.com/envoy49/go-spotify-cli/auth"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,7 +21,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		callbackURL += constants.UserLibraryReadRouteCallback
 	}
 
-	response, err := auth.FetchAuthToken(&types.FetchAuthTokenParams{
+	response, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 		AuthCode:    authCode,
 		RedirectURI: callbackURL,
 	})
@@ -31,11 +31,11 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		return
 	}
 
-	var tokenData types.CombinedTokenStructure
+	var tokenData commandTypes.CombinedTokenStructure
 
 	if tokenType == constants.ModifyToken {
-		tokenData = types.CombinedTokenStructure{
-			ModifyToken: types.UserModifyTokenStructure{
+		tokenData = commandTypes.CombinedTokenStructure{
+			ModifyToken: commandTypes.UserModifyTokenStructure{
 				UserModifyToken:          response.AccessToken,
 				UserModifyRefreshToken:   response.RefreshToken,
 				UserModifyTokenExpiresIn: int64(response.ExpiresIn),
@@ -44,8 +44,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	}
 
 	if tokenType == constants.ReadToken {
-		tokenData = types.CombinedTokenStructure{
-			ReadToken: types.UserReadTokenStructure{
+		tokenData = commandTypes.CombinedTokenStructure{
+			ReadToken: commandTypes.UserReadTokenStructure{
 				UserReadToken:          response.AccessToken,
 				UserReadRefreshToken:   response.RefreshToken,
 				UserReadTokenExpiresIn: int64(response.ExpiresIn),
@@ -55,8 +55,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	}
 
 	if tokenType == constants.LibraryRead {
-		tokenData = types.CombinedTokenStructure{
-			LibraryReadToken: types.UserLibraryReadTokenStructure{
+		tokenData = commandTypes.CombinedTokenStructure{
+			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
 				UserLibraryReadToken:          response.AccessToken,
 				UserLibraryReadRefreshToken:   response.RefreshToken,
 				UserLibraryReadTokenExpiresIn: int64(response.ExpiresIn),

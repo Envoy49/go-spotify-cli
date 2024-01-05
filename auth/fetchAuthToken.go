@@ -10,9 +10,27 @@ import (
 	"strings"
 
 	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 )
+
+type TokenResponse struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	ExpiresIn    uint   `json:"expires_in"`
+	TokenType    string `json:"token_type"`
+}
+
+type FetchTokenResponse struct {
+	AccessToken  string
+	RefreshToken string
+	ExpiresIn    uint
+}
+
+type FetchAuthTokenParams struct {
+	AuthCode     string
+	RedirectURI  string
+	RefreshToken string
+}
 
 func setAuthTokenQueryParams(authCode string, redirectURI string) url.Values {
 	data := url.Values{}
@@ -30,7 +48,7 @@ func setRefreshTokenQueryParams(refreshToken string) url.Values {
 	return data
 }
 
-func FetchAuthToken(params *types.FetchAuthTokenParams) (*types.FetchTokenResponse, error) {
+func FetchAuthToken(params *FetchAuthTokenParams) (*FetchTokenResponse, error) {
 	var data url.Values
 
 	if len(params.RefreshToken) > 0 {
@@ -70,14 +88,14 @@ func FetchAuthToken(params *types.FetchAuthTokenParams) (*types.FetchTokenRespon
 		return nil, fmt.Errorf("spotify: got %d status code: %s", resp.StatusCode, body)
 	}
 
-	var tokenResponse types.TokenResponse
+	var tokenResponse TokenResponse
 	err = json.Unmarshal(body, &tokenResponse)
 
 	if err != nil {
 		return nil, err
 	}
 
-	fetchResponse := &types.FetchTokenResponse{
+	fetchResponse := &FetchTokenResponse{
 		AccessToken:  tokenResponse.AccessToken,
 		RefreshToken: tokenResponse.RefreshToken,
 		ExpiresIn:    tokenResponse.ExpiresIn,

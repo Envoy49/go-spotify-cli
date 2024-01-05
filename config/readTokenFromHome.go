@@ -1,12 +1,12 @@
 package config
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
@@ -15,7 +15,7 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStructure {
+func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedTokenStructure {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -28,7 +28,7 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 	filePath := filepath.Join(folderPath, projectName+"-env.yaml")
 
 	// Define an instance to store the current file's data
-	currentData := &types.CombinedTokenStructure{}
+	currentData := &commandTypes.CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {
@@ -41,15 +41,15 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 	if tokenType == constants.ReadToken {
 		expiresIn := time.Unix(currentData.ReadToken.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &types.CombinedTokenStructure{
-				ReadToken: types.UserReadTokenStructure{
+			return &commandTypes.CombinedTokenStructure{
+				ReadToken: commandTypes.UserReadTokenStructure{
 					UserReadRefreshToken: currentData.ReadToken.UserReadRefreshToken,
 				},
 			}
 		}
 
-		return &types.CombinedTokenStructure{
-			ReadToken: types.UserReadTokenStructure{
+		return &commandTypes.CombinedTokenStructure{
+			ReadToken: commandTypes.UserReadTokenStructure{
 				UserReadToken: currentData.ReadToken.UserReadToken,
 			},
 		}
@@ -58,14 +58,14 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 	if tokenType == constants.ModifyToken {
 		expiresIn := time.Unix(currentData.ModifyToken.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &types.CombinedTokenStructure{
-				ModifyToken: types.UserModifyTokenStructure{
+			return &commandTypes.CombinedTokenStructure{
+				ModifyToken: commandTypes.UserModifyTokenStructure{
 					UserModifyRefreshToken: currentData.ModifyToken.UserModifyRefreshToken,
 				},
 			}
 		}
-		return &types.CombinedTokenStructure{
-			ModifyToken: types.UserModifyTokenStructure{
+		return &commandTypes.CombinedTokenStructure{
+			ModifyToken: commandTypes.UserModifyTokenStructure{
 				UserModifyToken: currentData.ModifyToken.UserModifyToken,
 			},
 		}
@@ -74,14 +74,14 @@ func ReadTokenFromHome(tokenType constants.TokenType) *types.CombinedTokenStruct
 	if tokenType == constants.LibraryRead {
 		expiresIn := time.Unix(currentData.LibraryReadToken.UserLibraryReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &types.CombinedTokenStructure{
-				LibraryReadToken: types.UserLibraryReadTokenStructure{
+			return &commandTypes.CombinedTokenStructure{
+				LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
 					UserLibraryReadRefreshToken: currentData.LibraryReadToken.UserLibraryReadRefreshToken,
 				},
 			}
 		}
-		return &types.CombinedTokenStructure{
-			LibraryReadToken: types.UserLibraryReadTokenStructure{
+		return &commandTypes.CombinedTokenStructure{
+			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
 				UserLibraryReadToken: currentData.LibraryReadToken.UserLibraryReadToken,
 			},
 		}

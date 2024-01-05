@@ -3,6 +3,7 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"github.com/envoy49/go-spotify-cli/commands/search/searchPrompt"
 	"golang.org/x/term"
 	"log"
@@ -12,12 +13,11 @@ import (
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/envoy49/go-spotify-cli/server"
-	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
+func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults {
 	loader.Start()
 	var endpoint = spotifyPlayerEndpoint + "/tracks"
 	if len(nextUrl) > 0 {
@@ -34,13 +34,13 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 	if fetchErr != nil {
 		logrus.WithError(fetchErr).Error("Error fetching saved tracks")
 	}
-	var response *types.SavedTracks
+	var response *commandTypes.SavedTracks
 
 	unmarshalErr := json.Unmarshal(body, &response)
 
 	if unmarshalErr != nil {
 		log.Fatalf("Error decoding JSON: %v", unmarshalErr)
-		return &types.SearchPromptResults{}
+		return &commandTypes.SearchPromptResults{}
 	}
 
 	formattedInfo := make([]string, len(response.Items))
@@ -75,7 +75,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
 	}
 
-	config := &types.SelectionPromptConfig{
+	config := &commandTypes.SelectionPromptConfig{
 		Label:         "Select saved track",
 		FormattedInfo: formattedInfo,
 	}
@@ -85,7 +85,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 	index, _, err := savedPrompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return &types.SearchPromptResults{}
+		return &commandTypes.SearchPromptResults{}
 	}
 
 	lastIndex := len(response.Items)
@@ -116,7 +116,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 
 	fmt.Println(fullBox)
 
-	return &types.SearchPromptResults{
+	return &commandTypes.SearchPromptResults{
 		PlayUrl: selectedTrack.Track.Uri,
 	}
 }

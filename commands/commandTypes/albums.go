@@ -1,4 +1,4 @@
-package types
+package commandTypes
 
 type Albums struct {
 	Body

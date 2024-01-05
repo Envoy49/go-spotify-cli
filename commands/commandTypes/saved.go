@@ -1,4 +1,4 @@
-package types
+package commandTypes
 
 type SavedTracks struct {
 	Body

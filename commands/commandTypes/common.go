@@ -1,4 +1,4 @@
-package types
+package commandTypes
 
 type Image struct {
 	URL    string `json:"url"`

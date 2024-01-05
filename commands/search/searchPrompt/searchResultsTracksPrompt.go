@@ -3,7 +3,6 @@ package searchPrompt
 import (
 	"fmt"
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/term"
@@ -49,7 +48,7 @@ func TracksResultsPrompt(tracks *types.Tracks) *types.SearchPromptResults {
 		FormattedInfo: formattedInfo,
 	}
 
-	selectionPrompt := prompt.CreateSelectionPrompt(config)
+	selectionPrompt := CreateSelectionPrompt(config)
 
 	index, _, err := selectionPrompt.Run()
 	if err != nil {

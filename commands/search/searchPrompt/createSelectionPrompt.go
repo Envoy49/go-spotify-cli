@@ -1,8 +1,8 @@
-package prompt
+package searchPrompt
 
 import (
-	"github.com/manifoldco/promptui"
 	"github.com/envoy49/go-spotify-cli/types"
+	"github.com/manifoldco/promptui"
 	"strings"
 )
 

@@ -3,6 +3,7 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/commands/search/searchPrompt"
 	"golang.org/x/term"
 	"log"
 	"os"
@@ -10,7 +11,6 @@ import (
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/loader"
-	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
@@ -80,7 +80,7 @@ func saved(accessToken string, nextUrl string) *types.SearchPromptResults {
 		FormattedInfo: formattedInfo,
 	}
 
-	savedPrompt := prompt.CreateSelectionPrompt(config)
+	savedPrompt := searchPrompt.CreateSelectionPrompt(config)
 
 	index, _, err := savedPrompt.Run()
 	if err != nil {

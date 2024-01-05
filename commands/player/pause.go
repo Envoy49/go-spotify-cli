@@ -2,7 +2,6 @@ package player
 
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
@@ -13,7 +12,7 @@ func pause(accessToken string) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "PUT",
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player/pause",
+		Endpoint:    spotifyPlayerEndpoint + "/player/pause",
 	}
 	_, err := commands.Fetch(params)
 

@@ -3,8 +3,8 @@ package player
 import (
 	"bytes"
 	"encoding/json"
+
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 )
@@ -29,7 +29,7 @@ func ActivateDevice(deviceIds string) {
 		AccessToken: token,
 		Method:      "PUT",
 		Body:        requestBody,
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player",
+		Endpoint:    spotifyPlayerEndpoint + "/player",
 	}
 
 	_, err := commands.Fetch(params)

@@ -1,6 +1,7 @@
-package html
+package handlers
 
-var ContentOfHTML = `
+const (
+	content = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -74,3 +75,4 @@ var ContentOfHTML = `
 </html>
 
 `
+)

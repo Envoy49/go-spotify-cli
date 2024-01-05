@@ -3,8 +3,8 @@ package player
 import (
 	"bytes"
 	"encoding/json"
+
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
@@ -25,7 +25,7 @@ func Play(accessToken string, URI string) {
 	var params = &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "PUT",
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player/play",
+		Endpoint:    spotifyPlayerEndpoint + "/player/play",
 	}
 
 	if len(URI) > 0 {

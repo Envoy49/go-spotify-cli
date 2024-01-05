@@ -1,16 +1,20 @@
 package search
 
 import (
+	"net/url"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/player"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/envoy49/go-spotify-cli/prompt/searchPrompt"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"net/url"
+)
+
+const (
+	spotifySearchEndpoint = "https://api.spotify.com/v1/search"
 )
 
 func buildSpotifySearchURL(baseEndpoint string, prompt *types.SpotifySearchQuery) string {
@@ -28,7 +32,7 @@ func search(accessToken string, query *types.SpotifySearchQuery, nextUrl string)
 	loader.Start()
 	var endpoint string
 	if query != nil {
-		endpoint = buildSpotifySearchURL(constants.SpotifySearchEndpoint, query)
+		endpoint = buildSpotifySearchURL(spotifySearchEndpoint, query)
 	} else {
 		endpoint = nextUrl
 	}

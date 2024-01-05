@@ -1,13 +1,13 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/envoy49/go-spotify-cli/auth"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/constants"
-	"github.com/envoy49/go-spotify-cli/html"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"net/http"
 )
 
 func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.TokenType) {
@@ -68,5 +68,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	config.WriteTokenToHomeDirectory(&tokenData, true)
 
 	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(html.ContentOfHTML))
+	if _, err := w.Write([]byte(content)); err != nil {
+		logrus.Error(err)
+	}
 }

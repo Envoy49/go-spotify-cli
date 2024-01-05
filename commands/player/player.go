@@ -3,13 +3,13 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/common"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/envoy49/go-spotify-cli/types"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 func Player() {
@@ -19,7 +19,7 @@ func Player() {
 	params := &commands.PlayerParams{
 		AccessToken: token,
 		Method:      "GET",
-		Endpoint:    constants.SpotifyPlayerEndpoint + "/player",
+		Endpoint:    spotifyPlayerEndpoint + "/player",
 	}
 	var response types.SpotifyResponse
 	body, err := commands.Fetch(params)

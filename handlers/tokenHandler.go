@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"net/http"
 
 	"github.com/envoy49/go-spotify-cli/auth"
@@ -31,11 +30,11 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		return
 	}
 
-	var tokenData commandTypes.CombinedTokenStructure
+	var tokenData config.CombinedTokenStructure
 
 	if tokenType == constants.ModifyToken {
-		tokenData = commandTypes.CombinedTokenStructure{
-			ModifyToken: commandTypes.UserModifyTokenStructure{
+		tokenData = config.CombinedTokenStructure{
+			ModifyToken: config.UserModifyTokenStructure{
 				UserModifyToken:          response.AccessToken,
 				UserModifyRefreshToken:   response.RefreshToken,
 				UserModifyTokenExpiresIn: int64(response.ExpiresIn),
@@ -44,8 +43,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	}
 
 	if tokenType == constants.ReadToken {
-		tokenData = commandTypes.CombinedTokenStructure{
-			ReadToken: commandTypes.UserReadTokenStructure{
+		tokenData = config.CombinedTokenStructure{
+			ReadToken: config.UserReadTokenStructure{
 				UserReadToken:          response.AccessToken,
 				UserReadRefreshToken:   response.RefreshToken,
 				UserReadTokenExpiresIn: int64(response.ExpiresIn),
@@ -55,8 +54,8 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 	}
 
 	if tokenType == constants.LibraryRead {
-		tokenData = commandTypes.CombinedTokenStructure{
-			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
+		tokenData = config.CombinedTokenStructure{
+			LibraryReadToken: config.UserLibraryReadTokenStructure{
 				UserLibraryReadToken:          response.AccessToken,
 				UserLibraryReadRefreshToken:   response.RefreshToken,
 				UserLibraryReadTokenExpiresIn: int64(response.ExpiresIn),

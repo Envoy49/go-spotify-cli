@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/envoy49/go-spotify-cli/auth"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/constants"
 )
@@ -18,8 +17,8 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 			return FetchUserModifyTokenFromBrowser()
 		}
 
-		userModifyToken := commandTypes.CombinedTokenStructure{
-			ModifyToken: commandTypes.UserModifyTokenStructure{
+		userModifyToken := config.CombinedTokenStructure{
+			ModifyToken: config.UserModifyTokenStructure{
 				UserModifyToken:          newToken.AccessToken,
 				UserModifyTokenExpiresIn: int64(newToken.ExpiresIn),
 			},
@@ -47,8 +46,8 @@ func ReadUserReadTokenOrFetchFromServer() string {
 			return FetchUserReadTokenFromBrowser()
 		}
 
-		userReadToken := commandTypes.CombinedTokenStructure{
-			ReadToken: commandTypes.UserReadTokenStructure{
+		userReadToken := config.CombinedTokenStructure{
+			ReadToken: config.UserReadTokenStructure{
 				UserReadToken:          newToken.AccessToken,
 				UserReadTokenExpiresIn: int64(newToken.ExpiresIn),
 			},
@@ -74,8 +73,8 @@ func ReadUserLibraryReadTokenOrFetchFromServer() string {
 			return FetchLibraryReadTokenFromBrowser()
 		}
 
-		userLibraryReadToken := commandTypes.CombinedTokenStructure{
-			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
+		userLibraryReadToken := config.CombinedTokenStructure{
+			LibraryReadToken: config.UserLibraryReadTokenStructure{
 				UserLibraryReadToken:          newToken.AccessToken,
 				UserLibraryReadTokenExpiresIn: int64(newToken.ExpiresIn),
 			},

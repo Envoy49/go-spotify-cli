@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 	"time"
@@ -10,13 +9,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AuthTokenData = make(chan commandTypes.CombinedTokenStructure)
+var AuthTokenData = make(chan CombinedTokenStructure)
 
 func getTokenExpiryTime(expiresIn int64) time.Time { // expiresIn should be actual time when it is going to expire
 	return time.Now().Add(time.Second * time.Duration(expiresIn))
 }
 
-func checkModifyToken(current, newToken commandTypes.UserModifyTokenStructure) commandTypes.UserModifyTokenStructure {
+func checkModifyToken(current, newToken UserModifyTokenStructure) UserModifyTokenStructure {
 	if newToken.UserModifyToken != "" {
 		current.UserModifyToken = newToken.UserModifyToken
 	}
@@ -29,7 +28,7 @@ func checkModifyToken(current, newToken commandTypes.UserModifyTokenStructure) c
 	return current
 }
 
-func checkReadToken(current, newToken commandTypes.UserReadTokenStructure) commandTypes.UserReadTokenStructure {
+func checkReadToken(current, newToken UserReadTokenStructure) UserReadTokenStructure {
 	if newToken.UserReadToken != "" {
 		current.UserReadToken = newToken.UserReadToken
 	}
@@ -42,7 +41,7 @@ func checkReadToken(current, newToken commandTypes.UserReadTokenStructure) comma
 	return current
 }
 
-func checkLibraryReadToken(current, newToken commandTypes.UserLibraryReadTokenStructure) commandTypes.UserLibraryReadTokenStructure {
+func checkLibraryReadToken(current, newToken UserLibraryReadTokenStructure) UserLibraryReadTokenStructure {
 	if newToken.UserLibraryReadToken != "" {
 		current.UserLibraryReadToken = newToken.UserLibraryReadToken
 	}
@@ -55,7 +54,7 @@ func checkLibraryReadToken(current, newToken commandTypes.UserLibraryReadTokenSt
 	return current
 }
 
-func WriteTokenToHomeDirectory(configData *commandTypes.CombinedTokenStructure, initiateChannel bool) {
+func WriteTokenToHomeDirectory(configData *CombinedTokenStructure, initiateChannel bool) {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -76,7 +75,7 @@ func WriteTokenToHomeDirectory(configData *commandTypes.CombinedTokenStructure, 
 		logrus.Println("Folder created:", folderPath)
 	}
 	// Define an instance to store the current file's data
-	currentData := commandTypes.CombinedTokenStructure{}
+	currentData := CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {

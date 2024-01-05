@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 	"time"
@@ -15,7 +14,7 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedTokenStructure {
+func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -28,7 +27,7 @@ func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedToke
 	filePath := filepath.Join(folderPath, projectName+"-env.yaml")
 
 	// Define an instance to store the current file's data
-	currentData := &commandTypes.CombinedTokenStructure{}
+	currentData := &CombinedTokenStructure{}
 
 	// Read the existing file (if it exists) and unmarshal its data
 	if fileData, err := os.ReadFile(filePath); err == nil {
@@ -41,15 +40,15 @@ func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedToke
 	if tokenType == constants.ReadToken {
 		expiresIn := time.Unix(currentData.ReadToken.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &commandTypes.CombinedTokenStructure{
-				ReadToken: commandTypes.UserReadTokenStructure{
+			return &CombinedTokenStructure{
+				ReadToken: UserReadTokenStructure{
 					UserReadRefreshToken: currentData.ReadToken.UserReadRefreshToken,
 				},
 			}
 		}
 
-		return &commandTypes.CombinedTokenStructure{
-			ReadToken: commandTypes.UserReadTokenStructure{
+		return &CombinedTokenStructure{
+			ReadToken: UserReadTokenStructure{
 				UserReadToken: currentData.ReadToken.UserReadToken,
 			},
 		}
@@ -58,14 +57,14 @@ func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedToke
 	if tokenType == constants.ModifyToken {
 		expiresIn := time.Unix(currentData.ModifyToken.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &commandTypes.CombinedTokenStructure{
-				ModifyToken: commandTypes.UserModifyTokenStructure{
+			return &CombinedTokenStructure{
+				ModifyToken: UserModifyTokenStructure{
 					UserModifyRefreshToken: currentData.ModifyToken.UserModifyRefreshToken,
 				},
 			}
 		}
-		return &commandTypes.CombinedTokenStructure{
-			ModifyToken: commandTypes.UserModifyTokenStructure{
+		return &CombinedTokenStructure{
+			ModifyToken: UserModifyTokenStructure{
 				UserModifyToken: currentData.ModifyToken.UserModifyToken,
 			},
 		}
@@ -74,14 +73,14 @@ func ReadTokenFromHome(tokenType constants.TokenType) *commandTypes.CombinedToke
 	if tokenType == constants.LibraryRead {
 		expiresIn := time.Unix(currentData.LibraryReadToken.UserLibraryReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
-			return &commandTypes.CombinedTokenStructure{
-				LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
+			return &CombinedTokenStructure{
+				LibraryReadToken: UserLibraryReadTokenStructure{
 					UserLibraryReadRefreshToken: currentData.LibraryReadToken.UserLibraryReadRefreshToken,
 				},
 			}
 		}
-		return &commandTypes.CombinedTokenStructure{
-			LibraryReadToken: commandTypes.UserLibraryReadTokenStructure{
+		return &CombinedTokenStructure{
+			LibraryReadToken: UserLibraryReadTokenStructure{
 				UserLibraryReadToken: currentData.LibraryReadToken.UserLibraryReadToken,
 			},
 		}

@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
 	"os"
 	"path/filepath"
 
@@ -13,7 +12,42 @@ const (
 	projectName = "go-spotify-cli"
 )
 
-var GlobalConfig commandTypes.Config
+type Config struct {
+	ClientId        string
+	ClientSecret    string
+	RequestedScopes string
+}
+
+type EnvVarConfig struct {
+	ClientId     string `yaml:"ClientId"`
+	ClientSecret string `yaml:"ClientSecret"`
+}
+
+type CombinedTokenStructure struct {
+	ModifyToken      UserModifyTokenStructure      `yaml:"ModifyToken"`
+	ReadToken        UserReadTokenStructure        `yaml:"ReadToken"`
+	LibraryReadToken UserLibraryReadTokenStructure `yaml:"LibraryReadToken"`
+}
+
+type UserModifyTokenStructure struct {
+	UserModifyToken          string `yaml:"UserModifyToken"`
+	UserModifyRefreshToken   string `yaml:"UserModifyRefreshToken"`
+	UserModifyTokenExpiresIn int64  `yaml:"UserModifyTokenExpiresIn"`
+}
+
+type UserReadTokenStructure struct {
+	UserReadToken          string `yaml:"UserReadToken"`
+	UserReadRefreshToken   string `yaml:"UserReadRefreshToken"`
+	UserReadTokenExpiresIn int64  `yaml:"UserReadTokenExpiresIn"`
+}
+
+type UserLibraryReadTokenStructure struct {
+	UserLibraryReadToken          string `yaml:"UserLibraryReadToken"`
+	UserLibraryReadRefreshToken   string `yaml:"UserLibraryReadRefreshToken"`
+	UserLibraryReadTokenExpiresIn int64  `yaml:"UserLibraryReadTokenExpiresIn"`
+}
+
+var GlobalConfig Config
 
 func LoadConfiguration() {
 	homeDir, err := os.UserHomeDir()
@@ -30,7 +64,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	var config commandTypes.EnvVarConfig
+	var config EnvVarConfig
 	// Unmarshal the YAML data into a Configuration struct
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
@@ -38,7 +72,7 @@ func LoadConfiguration() {
 		return
 	}
 
-	GlobalConfig = commandTypes.Config{
+	GlobalConfig = Config{
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
 	}

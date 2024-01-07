@@ -20,7 +20,7 @@ func init() {
 	config.LoadConfiguration()
 }
 
-var Version string = "v1.0.62" // hardcode version for now until issue with dynamic assignment is resolved
+var Version string = "v1.0.64" // hardcode version for now until issue with dynamic assignment is resolved
 
 func main() {
 	loader.InitializeSpinner()

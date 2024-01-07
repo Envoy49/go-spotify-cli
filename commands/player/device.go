@@ -51,7 +51,7 @@ func Device() {
 	}
 
 	if len(deviceNames) == 0 {
-		fmt.Println("No devices available. Please activate at least one device.")
+		fmt.Println("No devices available. Please activate/open at least one device.")
 		return
 	}
 

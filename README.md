@@ -26,9 +26,7 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 ### 🍏 `Mac`, 🐧 `Linux`, 🪟 `Windows`
 
-Note: 📝 Previous installation methods using Homebrew and Winget have been phased out in favor of the more direct `go install` method.
-
-### To install `go-spotify-cli`, follow these steps:
+## Using `go install` method
 
 - Install Go version 1.21 or above https://go.dev/
 - To install latest version run the following command
@@ -43,25 +41,120 @@ go install github.com/envoy49/go-spotify-cli@<version>
 
 After the installation is complete, open a new terminal and run `go-spotify-cli --version`.
 
+## Using Homebrew for 🍏 `Mac`
+
+Brew package manager is required to install Go Spotify CLI. More information on steps to download brew can be found here: `https://brew.sh/`
+
+Once brew is installed, below steps are required for installation.
+
+```bash
+brew tap Envoy49/homebrew-go-spotify-cli
+```
+```
+brew install go-spotify-cli
+```
+After the installation is complete, open a new terminal and run `go-spotify-cli --version`.
+
+####  `Update`
+
+```bash
+brew update
+```
+
+```
+brew upgrade go-spotify-cli
+```
+
+####  `Uninstall`
+
+```
+brew uninstall go-spotify-cli
+```
+
+
+
+## 🐧 `Linux`
+
+🧪 At the moment only `go install` method is available although Homebrew can be tried.
+
+## 🪟 `Windows`
+
+###  `Winget Installation Guide`
+
+More information can be found here: [Winget CLI](https://github.com/microsoft/winget-cli) 
+
+### Installing Winget
+
+Paste the following command into the PowerShell window to install Winget and press Enter:
+
+```powershell
+winget install wingetcreate
+```
+Once Winget is installed, below steps are required for installation.
+
+#### Using Winget to Manage Go Spotify CLI
+
+#### `Search`
+
+```powershell
+winget search go-spotify-cli
+```
+
+#### `Installation`
+
+```powershell
+winget install Envoy49.go-spotify-cli
+```
+
+After the installation is complete, open a new terminal and run `go-spotify-cli --version`.
+
+#### `Update`
+
+```powershell
+winget upgrade Envoy49.go-spotify-cli
+```
+
+#### `Uninstall`
+
+```powershell
+winget uninstall Envoy49.go-spotify-cli
+```
+---
+
 > **Note** 📝: `go-spotify-cli --version` command is hardcoded at this point until the issue with dynamic assignment is resolved.
+
 ---
 
 # 🔧 Configuration
 
-Before using the Go Spotify CLI:
+To get started, you'll need a 'Client ID' and 'Client Secret' from Spotify's Developer Dashboard:
 
-1. **Obtain Credentials**:
-    - Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
-    - Log in and create a new app.
-    - Once the app is created, you can retrieve the `ClientId` and `ClientSecret` from the dashboard of the created application.
+1. 🔗 **Navigate to**: [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
 
+2. 🚪 **Sign in or create a Spotify account**.
 
-2. **Input Credentials**:
+3. ➕ **Click on 'Create An App'**.
+
+4. 📜 **Fill in the app details**.
+
+5. ❗ **In the app settings, set your Redirect URIs**. Ensure your CLI tool's callback URL is added. App won't work without redirect URLs.
+
+6. 🌐 **Authenticate with Spotify**. In the Redirect URIs field of the app you created, please enter the following URLs:
+
+   - 📎 `http://localhost:4949/user-modify-playback-state-auth-callback`
+   - 📎 `http://localhost:4949/user-read-playback-state-auth-callback`
+   - 📎 `http://localhost:4949/user-library-read-auth-callback`
+
+7. 🛍 **Once the App is created**, you'll find the 'Client ID' and 'Client Secret' on the app details page.
+
+8. 🔑 **Input Credentials**:
     - Execute any command using the Go Spotify CLI.
     - On first execution, there will be a prompt asking you to enter the `ClientId` and `ClientSecret`.
     - After entering these details, they will be saved in the `.go-spotify-cli` folder in the root directory for future use.
 
->**Note**: 📝 If secrets entered are wrong although validation is in place, `flush-secrets` can be used to delete saved secrets.
+🚫 **Remember**: Keep your 'Client Secret and Client Id' confidential. Never share it! They are a key to control your Spotify data.
+
+>**Note**: 📝 If secrets entered are wrong although validation is in place, `go-spotify-cli flush-secrets` command can be used to delete saved secrets to start process again.
 
 ---
 

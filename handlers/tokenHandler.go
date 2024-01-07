@@ -5,19 +5,18 @@ import (
 
 	"github.com/envoy49/go-spotify-cli/auth"
 	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/sirupsen/logrus"
 )
 
-func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.TokenType) {
+func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType config.TokenType) {
 	authCode := r.URL.Query().Get("code")
-	callbackURL := constants.ServerUrl
-	if tokenType == constants.ModifyToken {
-		callbackURL += constants.UserModifyPlaybackStateRouteCallback
-	} else if tokenType == constants.ReadToken {
-		callbackURL += constants.UserReadPlaybackStateRouteCallback
-	} else if tokenType == constants.LibraryRead {
-		callbackURL += constants.UserLibraryReadRouteCallback
+	callbackURL := config.ServerUrl
+	if tokenType == config.ModifyToken {
+		callbackURL += config.UserModifyPlaybackStateRouteCallback
+	} else if tokenType == config.ReadToken {
+		callbackURL += config.UserReadPlaybackStateRouteCallback
+	} else if tokenType == config.LibraryRead {
+		callbackURL += config.UserLibraryReadRouteCallback
 	}
 
 	response, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
@@ -32,7 +31,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 
 	var tokenData config.CombinedTokenStructure
 
-	if tokenType == constants.ModifyToken {
+	if tokenType == config.ModifyToken {
 		tokenData = config.CombinedTokenStructure{
 			ModifyToken: config.UserModifyTokenStructure{
 				UserModifyToken:          response.AccessToken,
@@ -42,7 +41,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 		}
 	}
 
-	if tokenType == constants.ReadToken {
+	if tokenType == config.ReadToken {
 		tokenData = config.CombinedTokenStructure{
 			ReadToken: config.UserReadTokenStructure{
 				UserReadToken:          response.AccessToken,
@@ -53,7 +52,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType constants.To
 
 	}
 
-	if tokenType == constants.LibraryRead {
+	if tokenType == config.LibraryRead {
 		tokenData = config.CombinedTokenStructure{
 			LibraryReadToken: config.UserLibraryReadTokenStructure{
 				UserLibraryReadToken:          response.AccessToken,

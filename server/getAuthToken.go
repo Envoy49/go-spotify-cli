@@ -3,11 +3,10 @@ package server
 import (
 	"github.com/envoy49/go-spotify-cli/auth"
 	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/constants"
 )
 
 func ReadUserModifyTokenOrFetchFromServer() string {
-	tokenInstance := config.ReadTokenFromHome(constants.ModifyToken)
+	tokenInstance := config.ReadTokenFromHome(config.ModifyToken)
 	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
 		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ModifyToken.UserModifyRefreshToken,
@@ -36,7 +35,7 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 }
 
 func ReadUserReadTokenOrFetchFromServer() string {
-	tokenInstance := config.ReadTokenFromHome(constants.ReadToken)
+	tokenInstance := config.ReadTokenFromHome(config.ReadToken)
 	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
 		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ReadToken.UserReadRefreshToken,
@@ -63,7 +62,7 @@ func ReadUserReadTokenOrFetchFromServer() string {
 }
 
 func ReadUserLibraryReadTokenOrFetchFromServer() string {
-	tokenInstance := config.ReadTokenFromHome(constants.LibraryRead)
+	tokenInstance := config.ReadTokenFromHome(config.LibraryRead)
 	if len(tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken) > 0 {
 		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken,
@@ -90,24 +89,24 @@ func ReadUserLibraryReadTokenOrFetchFromServer() string {
 }
 
 func FetchUserModifyTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = constants.UserModifyPlaybackStateScope
-	cancel := StartServer(constants.UserModifyPlaybackStateRoute)
+	config.GlobalConfig.RequestedScopes = config.UserModifyPlaybackStateScope
+	cancel := StartServer(config.UserModifyPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.ModifyToken.UserModifyToken
 }
 
 func FetchUserReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = constants.UserReadPlaybackState
-	cancel := StartServer(constants.UserReadPlaybackStateRoute)
+	config.GlobalConfig.RequestedScopes = config.UserReadPlaybackState
+	cancel := StartServer(config.UserReadPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.ReadToken.UserReadToken
 }
 
 func FetchLibraryReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = constants.UserLibraryRead
-	cancel := StartServer(constants.UserLibraryReadRoute)
+	config.GlobalConfig.RequestedScopes = config.UserLibraryRead
+	cancel := StartServer(config.UserLibraryReadRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.LibraryReadToken.UserLibraryReadToken

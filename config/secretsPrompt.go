@@ -1,4 +1,4 @@
-package prompt
+package config
 
 import (
 	"bufio"
@@ -7,22 +7,21 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/loader"
 )
 
-func EnvVarsPrompt() {
-	if len(config.GlobalConfig.ClientSecret) > 0 || len(config.GlobalConfig.ClientId) > 0 {
+func SecretsPrompt() {
+	if len(GlobalConfig.ClientSecret) > 0 || len(GlobalConfig.ClientId) > 0 {
 		return
 	}
 
-	if config.VerifyConfigExists() {
+	if VerifyConfigExists() {
 		return
 	}
 
 	loader.Stop()
 
-	SetupPrompt()
+	SecretsSetupPrompt()
 
 	// Function to validate Spotify Client ID and Client Secret
 	validate := func(input string) bool {
@@ -54,5 +53,5 @@ func EnvVarsPrompt() {
 	// Get Client Secret from user (no format validation)
 	clientSecret := promptInput("Enter your Client Secret: ", validate)
 
-	config.WriteSecretsToHomeDirectory(clientSecret, clientId)
+	WriteSecretsToHomeDirectory(clientSecret, clientId)
 }

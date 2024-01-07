@@ -1,12 +1,11 @@
-package prompt
+package config
 
 import (
 	"fmt"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/envoy49/go-spotify-cli/constants"
 )
 
-func SetupPrompt() {
+func SecretsSetupPrompt() {
 	// Header box style
 	headerBoxStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("black")).
@@ -39,9 +38,9 @@ func SetupPrompt() {
 		Foreground(lipgloss.Color("#007AFF")) // Blue color for URLs
 
 	// URLs
-	url1 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserModifyPlaybackStateRouteCallback))
-	url2 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserReadPlaybackStateRouteCallback))
-	url3 := urlStyle.Render(fmt.Sprintf("%s%s", constants.ServerUrl, constants.UserLibraryReadRouteCallback))
+	url1 := urlStyle.Render(fmt.Sprintf("%s%s", ServerUrl, UserModifyPlaybackStateRouteCallback))
+	url2 := urlStyle.Render(fmt.Sprintf("%s%s", ServerUrl, UserReadPlaybackStateRouteCallback))
+	url3 := urlStyle.Render(fmt.Sprintf("%s%s", ServerUrl, UserLibraryReadRouteCallback))
 
 	// Prepare body and footer content with highlighted URLs
 	body := bodyStyle.Render(fmt.Sprintf(`To get started, you'll need a 'Client ID' and 'Client Secret' from Spotify's Developer Dashboard:

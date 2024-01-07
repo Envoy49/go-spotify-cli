@@ -2,10 +2,10 @@ package server
 
 import (
 	"context"
+	"github.com/envoy49/go-spotify-cli/config"
 	"net/http"
 	"time"
 
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/envoy49/go-spotify-cli/routes"
 	"github.com/sirupsen/logrus"
 )
@@ -22,7 +22,7 @@ func Server(ctx context.Context) {
 
 	// Start the server in a goroutine
 	go func() {
-		logrus.Println("Opened server to get an auth token on " + constants.ServerUrl)
+		logrus.Println("Opened server to get an auth token on " + config.ServerUrl)
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
 			logrus.WithError(err).Error("Error starting the server")
 		}
@@ -45,7 +45,7 @@ func StartServer(route string) context.CancelFunc {
 	ctx, cancel := context.WithCancel(context.Background())
 	go Server(ctx)
 
-	resp, err := http.Get(constants.ServerUrl + route)
+	resp, err := http.Get(config.ServerUrl + route)
 	if err != nil {
 		logrus.WithError(err).Error("Error making the GET request to: " + route)
 		return cancel

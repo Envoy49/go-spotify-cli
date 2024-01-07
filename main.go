@@ -8,7 +8,6 @@ import (
 	"github.com/envoy49/go-spotify-cli/commands/search"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/loader"
-	"github.com/envoy49/go-spotify-cli/prompt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -34,7 +33,7 @@ func main() {
 				return
 			}
 			loader.Start()
-			prompt.EnvVarsPrompt()
+			config.SecretsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
 			loader.Stop()

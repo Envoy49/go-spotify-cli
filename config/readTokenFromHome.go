@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/envoy49/go-spotify-cli/constants"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
@@ -14,7 +13,7 @@ func isTokenExpired(expiryTime time.Time) bool {
 	return time.Now().After(expiryTime)
 }
 
-func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
+func ReadTokenFromHome(tokenType TokenType) *CombinedTokenStructure {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -37,7 +36,7 @@ func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
 		}
 	}
 
-	if tokenType == constants.ReadToken {
+	if tokenType == ReadToken {
 		expiresIn := time.Unix(currentData.ReadToken.UserReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
 			return &CombinedTokenStructure{
@@ -54,7 +53,7 @@ func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
 		}
 	}
 
-	if tokenType == constants.ModifyToken {
+	if tokenType == ModifyToken {
 		expiresIn := time.Unix(currentData.ModifyToken.UserModifyTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
 			return &CombinedTokenStructure{
@@ -70,7 +69,7 @@ func ReadTokenFromHome(tokenType constants.TokenType) *CombinedTokenStructure {
 		}
 	}
 
-	if tokenType == constants.LibraryRead {
+	if tokenType == LibraryRead {
 		expiresIn := time.Unix(currentData.LibraryReadToken.UserLibraryReadTokenExpiresIn, 0)
 		if isTokenExpired(expiresIn) {
 			return &CombinedTokenStructure{

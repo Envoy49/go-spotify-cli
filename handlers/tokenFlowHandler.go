@@ -7,11 +7,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func StartAuthTokenFlow(redirectionRoute string) {
+func StartAuthTokenFlow(cfg *config.Config, redirectionRoute string) {
 	params := &commandTypes.UrlParams{
-		ClientID:        config.GlobalConfig.ClientId,
+		ClientID:        cfg.ClientId,
 		RedirectURI:     config.ServerUrl + redirectionRoute,
-		RequestedScopes: config.GlobalConfig.RequestedScopes,
+		RequestedScopes: cfg.RequestedScopes,
 	}
 
 	if authUrlErr := auth.OpenAuthUrl(params); authUrlErr != nil {

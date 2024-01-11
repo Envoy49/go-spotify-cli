@@ -9,6 +9,6 @@ var FlushSecretsCommand = &cobra.Command{
 	Use:   "flush-secrets",
 	Short: "Flush Secrets",
 	Run: func(cmd *cobra.Command, args []string) {
-		config.WriteSecretsToHomeDirectory("", "")
+		config.WriteSecretsToHomeDirectory(nil) // fix this
 	},
 }

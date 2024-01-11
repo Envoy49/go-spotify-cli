@@ -5,15 +5,15 @@ import (
 	"github.com/envoy49/go-spotify-cli/config"
 )
 
-func ReadUserModifyTokenOrFetchFromServer() string {
+func ReadUserModifyTokenOrFetchFromServer(cfg *config.Config) string {
 	tokenInstance := config.ReadTokenFromHome(config.ModifyToken)
 	if len(tokenInstance.ModifyToken.UserModifyRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(cfg, &auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ModifyToken.UserModifyRefreshToken,
 		})
 
 		if err != nil {
-			return FetchUserModifyTokenFromBrowser()
+			return FetchUserModifyTokenFromBrowser(cfg)
 		}
 
 		userModifyToken := config.CombinedTokenStructure{
@@ -28,21 +28,21 @@ func ReadUserModifyTokenOrFetchFromServer() string {
 	}
 
 	if len(tokenInstance.ModifyToken.UserModifyToken) == 0 {
-		return FetchUserModifyTokenFromBrowser()
+		return FetchUserModifyTokenFromBrowser(cfg)
 	}
 
 	return tokenInstance.ModifyToken.UserModifyToken
 }
 
-func ReadUserReadTokenOrFetchFromServer() string {
+func ReadUserReadTokenOrFetchFromServer(cfg *config.Config) string {
 	tokenInstance := config.ReadTokenFromHome(config.ReadToken)
 	if len(tokenInstance.ReadToken.UserReadRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(cfg, &auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.ReadToken.UserReadRefreshToken,
 		})
 
 		if err != nil {
-			return FetchUserReadTokenFromBrowser()
+			return FetchUserReadTokenFromBrowser(cfg)
 		}
 
 		userReadToken := config.CombinedTokenStructure{
@@ -56,20 +56,20 @@ func ReadUserReadTokenOrFetchFromServer() string {
 	}
 
 	if len(tokenInstance.ReadToken.UserReadToken) == 0 {
-		return FetchUserReadTokenFromBrowser()
+		return FetchUserReadTokenFromBrowser(cfg)
 	}
 	return tokenInstance.ReadToken.UserReadToken
 }
 
-func ReadUserLibraryReadTokenOrFetchFromServer() string {
+func ReadUserLibraryReadTokenOrFetchFromServer(cfg *config.Config) string {
 	tokenInstance := config.ReadTokenFromHome(config.LibraryRead)
 	if len(tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken) > 0 {
-		newToken, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+		newToken, err := auth.FetchAuthToken(cfg, &auth.FetchAuthTokenParams{
 			RefreshToken: tokenInstance.LibraryReadToken.UserLibraryReadRefreshToken,
 		})
 
 		if err != nil {
-			return FetchLibraryReadTokenFromBrowser()
+			return FetchLibraryReadTokenFromBrowser(cfg)
 		}
 
 		userLibraryReadToken := config.CombinedTokenStructure{
@@ -83,30 +83,30 @@ func ReadUserLibraryReadTokenOrFetchFromServer() string {
 	}
 
 	if len(tokenInstance.LibraryReadToken.UserLibraryReadToken) == 0 {
-		return FetchLibraryReadTokenFromBrowser()
+		return FetchLibraryReadTokenFromBrowser(cfg)
 	}
 	return tokenInstance.LibraryReadToken.UserLibraryReadToken
 }
 
-func FetchUserModifyTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = config.UserModifyPlaybackStateScope
-	cancel := StartServer(config.UserModifyPlaybackStateRoute)
+func FetchUserModifyTokenFromBrowser(cfg *config.Config) string {
+	cfg.RequestedScopes = config.UserModifyPlaybackStateScope
+	cancel := StartServer(cfg, config.UserModifyPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.ModifyToken.UserModifyToken
 }
 
-func FetchUserReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = config.UserReadPlaybackState
-	cancel := StartServer(config.UserReadPlaybackStateRoute)
+func FetchUserReadTokenFromBrowser(cfg *config.Config) string {
+	cfg.RequestedScopes = config.UserReadPlaybackState
+	cancel := StartServer(cfg, config.UserReadPlaybackStateRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.ReadToken.UserReadToken
 }
 
-func FetchLibraryReadTokenFromBrowser() string {
-	config.GlobalConfig.RequestedScopes = config.UserLibraryRead
-	cancel := StartServer(config.UserLibraryReadRoute)
+func FetchLibraryReadTokenFromBrowser(cfg *config.Config) string {
+	cfg.RequestedScopes = config.UserLibraryRead
+	cancel := StartServer(cfg, config.UserLibraryReadRoute)
 	receivedToken := <-config.AuthTokenData
 	cancel()
 	return receivedToken.LibraryReadToken.UserLibraryReadToken

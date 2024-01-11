@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"log"
 	"strings"
 
@@ -19,8 +20,8 @@ type DeviceResponse struct {
 	Devices []commandTypes.DeviceType `json:"devices"`
 }
 
-func Device() {
-	token := server.ReadUserReadTokenOrFetchFromServer()
+func Device(cfg *config.Config) {
+	token := server.ReadUserReadTokenOrFetchFromServer(cfg)
 	params := &commands.PlayerParams{
 		AccessToken: token,
 		Method:      "GET",
@@ -68,7 +69,7 @@ func Device() {
 
 	selectedDevice := response.Devices[selectedIndex]
 
-	ActivateDevice(selectedDevice.ID)
+	ActivateDevice(cfg, selectedDevice.ID)
 }
 
 func printDeviceInfo(device commandTypes.DeviceType) {
@@ -138,10 +139,12 @@ func printDeviceInfo(device commandTypes.DeviceType) {
 	fmt.Println(fullBox)
 }
 
-var DeviceCommand = &cobra.Command{
-	Use:   "device",
-	Short: "Get all connected devices",
-	Run: func(cmd *cobra.Command, args []string) {
-		Device()
-	},
+func DeviceCommand(cfg *config.Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "device",
+		Short: "Get all connected devices",
+		Run: func(cmd *cobra.Command, args []string) {
+			Device(cfg)
+		},
+	}
 }

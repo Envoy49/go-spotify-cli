@@ -16,13 +16,19 @@ const (
 	projectName = "go-spotify-cli"
 )
 
-func init() {
-	config.LoadConfiguration()
-}
-
 var Version string = "v1.0.64" // hardcode version for now until issue with dynamic assignment is resolved
 
 func main() {
+	var cfg *config.Config
+	cfgService := config.NewConfigService()
+	cfg = cfgService.GetConfig()
+
+	secretsCfg := config.SecretsPrompt(cfg)
+
+	if secretsCfg != nil {
+		cfg = secretsCfg
+	}
+
 	loader.InitializeSpinner()
 
 	var rootCmd = &cobra.Command{
@@ -33,7 +39,6 @@ func main() {
 				return
 			}
 			loader.Start()
-			config.SecretsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
 			loader.Stop()
@@ -41,14 +46,14 @@ func main() {
 	}
 
 	rootCmd.AddCommand(
-		player.PlayCommand,
-		player.PauseCommand,
-		player.NextCommand,
-		player.PreviousCommand,
-		player.DeviceCommand,
-		player.VolumeCommand,
-		player.SavedCommand,
-		search.SendSearchCommand,
+		player.PlayCommand(cfg),
+		player.PauseCommand(cfg),
+		player.NextCommand(cfg),
+		player.PreviousCommand(cfg),
+		player.DeviceCommand(cfg),
+		player.VolumeCommand(cfg),
+		player.SavedCommand(cfg),
+		search.SendSearchCommand(cfg),
 		flush.FlushTokensCommand,
 		flush.FlushSecretsCommand,
 	)

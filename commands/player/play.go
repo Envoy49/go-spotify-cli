@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-func Play(accessToken string, URI string) {
+func Play(cfg *config.Config, accessToken string, URI string) {
 	playBody := map[string][]string{
 		"uris": {URI},
 	}
@@ -37,7 +38,7 @@ func Play(accessToken string, URI string) {
 		switch e := err.(type) {
 		case commandTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				Device(cfg)
 			}
 		default:
 			logrus.WithError(err).Error("Some other SpotifyAPIError occurred")
@@ -45,16 +46,18 @@ func Play(accessToken string, URI string) {
 		}
 	} else {
 		if len(URI) == 0 {
-			Player()
+			Player(cfg)
 		}
 	}
 }
 
-var PlayCommand = &cobra.Command{
-	Use:   "play",
-	Short: "Play spotify song",
-	Run: func(cmd *cobra.Command, args []string) {
-		token := server.ReadUserModifyTokenOrFetchFromServer()
-		Play(token, "")
-	},
+func PlayCommand(cfg *config.Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "play",
+		Short: "Play spotify song",
+		Run: func(cmd *cobra.Command, args []string) {
+			token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
+			Play(cfg, token, "")
+		},
+	}
 }

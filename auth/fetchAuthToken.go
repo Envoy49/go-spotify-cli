@@ -40,19 +40,19 @@ func setAuthTokenQueryParams(authCode string, redirectURI string) url.Values {
 	return data
 }
 
-func setRefreshTokenQueryParams(refreshToken string) url.Values {
+func setRefreshTokenQueryParams(cfg *config.Config, refreshToken string) url.Values {
 	data := url.Values{}
 	data.Set("grant_type", "refresh_token")
-	data.Set("client_id", config.GlobalConfig.ClientId)
+	data.Set("client_id", cfg.ClientId)
 	data.Set("refresh_token", refreshToken)
 	return data
 }
 
-func FetchAuthToken(params *FetchAuthTokenParams) (*FetchTokenResponse, error) {
+func FetchAuthToken(cfg *config.Config, params *FetchAuthTokenParams) (*FetchTokenResponse, error) {
 	var data url.Values
 
 	if len(params.RefreshToken) > 0 {
-		data = setRefreshTokenQueryParams(params.RefreshToken)
+		data = setRefreshTokenQueryParams(cfg, params.RefreshToken)
 	} else {
 		data = setAuthTokenQueryParams(params.AuthCode, params.RedirectURI)
 	}
@@ -63,7 +63,7 @@ func FetchAuthToken(params *FetchAuthTokenParams) (*FetchTokenResponse, error) {
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(config.GlobalConfig.ClientId+":"+config.GlobalConfig.ClientSecret)))
+	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(cfg.ClientId+":"+cfg.ClientSecret)))
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

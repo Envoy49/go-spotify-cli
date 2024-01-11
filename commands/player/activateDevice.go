@@ -3,13 +3,14 @@ package player
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/envoy49/go-spotify-cli/config"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 )
 
-func ActivateDevice(deviceIds string) {
+func ActivateDevice(cfg *config.Config, deviceIds string) {
 	jsonData := map[string]interface{}{
 		"device_ids": []string{deviceIds},
 		"play":       true,
@@ -23,7 +24,7 @@ func ActivateDevice(deviceIds string) {
 	}
 	requestBody := bytes.NewBuffer(jsonDataBytes)
 
-	token := server.ReadUserModifyTokenOrFetchFromServer()
+	token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
 
 	params := &commands.PlayerParams{
 		AccessToken: token,

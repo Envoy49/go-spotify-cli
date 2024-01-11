@@ -14,11 +14,11 @@ const (
 	serverPort = ":4949"
 )
 
-func Server(ctx context.Context) {
+func Server(ctx context.Context, cfg *config.Config) {
 	// Create a new server instance each time
 	server := &http.Server{Addr: serverPort}
 
-	routes.SetupRoutes()
+	routes.SetupRoutes(cfg)
 
 	// Start the server in a goroutine
 	go func() {
@@ -41,9 +41,9 @@ func Server(ctx context.Context) {
 	}
 }
 
-func StartServer(route string) context.CancelFunc {
+func StartServer(cfg *config.Config, route string) context.CancelFunc {
 	ctx, cancel := context.WithCancel(context.Background())
-	go Server(ctx)
+	go Server(ctx, cfg)
 
 	resp, err := http.Get(config.ServerUrl + route)
 	if err != nil {

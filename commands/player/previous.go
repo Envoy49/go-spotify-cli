@@ -3,12 +3,13 @@ package player
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-func previous(accessToken string) {
+func previous(cfg *config.Config, accessToken string) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "POST",
@@ -20,22 +21,24 @@ func previous(accessToken string) {
 		switch e := err.(type) {
 		case commandTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				Device(cfg)
 			}
 		default:
 			logrus.WithError(err).Error("Error going to the previous track")
 			return
 		}
 	} else {
-		Player()
+		Player(cfg)
 	}
 }
 
-var PreviousCommand = &cobra.Command{
-	Use:   "previous",
-	Short: "Previous spotify song",
-	Run: func(cmd *cobra.Command, args []string) {
-		token := server.ReadUserModifyTokenOrFetchFromServer()
-		previous(token)
-	},
+func PreviousCommand(cfg *config.Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "previous",
+		Short: "Previous spotify song",
+		Run: func(cmd *cobra.Command, args []string) {
+			token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
+			previous(cfg, token)
+		},
+	}
 }

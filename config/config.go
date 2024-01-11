@@ -24,13 +24,24 @@ type EnvVarConfig struct {
 	ClientSecret string `yaml:"ClientSecret"`
 }
 
-var GlobalConfig Config
+type ConfigService struct {
+	config *Config
+}
 
-func LoadConfiguration() {
+func NewConfigService() *ConfigService {
+	cfg, _ := LoadConfiguration() // handle error
+	return &ConfigService{config: cfg}
+}
+
+func (c *ConfigService) GetConfig() *Config {
+	return c.config
+}
+
+func LoadConfiguration() (*Config, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		logrus.WithError(err).Error("Error getting home directory")
-		return
+		return nil, err
 	}
 
 	folderPath := filepath.Join(homeDir, "."+projectName)
@@ -38,7 +49,7 @@ func LoadConfiguration() {
 
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	var config EnvVarConfig
@@ -46,16 +57,16 @@ func LoadConfiguration() {
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
 		logrus.WithError(err).Error("Error unmarshalling YAML data")
-		return
+		return nil, err
 	}
 
-	GlobalConfig = Config{
+	return &Config{
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
-	}
+	}, nil
 }
 
-func VerifyConfigExists() bool {
+func VerifyConfigExists(cfg *Config) bool {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -79,7 +90,7 @@ func VerifyConfigExists() bool {
 		return false
 	}
 
-	if len(GlobalConfig.ClientSecret) == 0 || len(GlobalConfig.ClientId) == 0 {
+	if len(cfg.ClientSecret) == 0 || len(cfg.ClientId) == 0 {
 		return false
 	}
 

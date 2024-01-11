@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType config.TokenType) {
+func TokenHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config, tokenType config.TokenType) {
 	authCode := r.URL.Query().Get("code")
 	callbackURL := config.ServerUrl
 	if tokenType == config.ModifyToken {
@@ -19,7 +19,7 @@ func TokenHandler(w http.ResponseWriter, r *http.Request, tokenType config.Token
 		callbackURL += config.UserLibraryReadRouteCallback
 	}
 
-	response, err := auth.FetchAuthToken(&auth.FetchAuthTokenParams{
+	response, err := auth.FetchAuthToken(cfg, &auth.FetchAuthTokenParams{
 		AuthCode:    authCode,
 		RedirectURI: callbackURL,
 	})

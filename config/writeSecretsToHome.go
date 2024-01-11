@@ -8,17 +8,21 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
-	configData := &EnvVarConfig{
-		ClientId:     clientId,
-		ClientSecret: clientSecret,
+func WriteSecretsToHomeDirectory(cfg *Config) (*Config, error) { // pass this a struct one parameter
+	var configData *EnvVarConfig
+
+	if cfg != nil {
+		configData = &EnvVarConfig{
+			ClientId:     cfg.ClientId,
+			ClientSecret: cfg.ClientSecret,
+		}
 	}
 
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		logrus.WithError(err).Error("Error getting home directory")
-		return
+		return nil, err
 	}
 
 	// Define the folder and file paths
@@ -29,7 +33,7 @@ func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
 		if err := os.Mkdir(folderPath, 0755); err != nil {
 			logrus.WithError(err).Error("Error creating folder")
-			return
+			return nil, err
 		}
 		logrus.Println("Folder created:", folderPath)
 	}
@@ -38,22 +42,23 @@ func WriteSecretsToHomeDirectory(clientSecret string, clientId string) {
 	data, err := yaml.Marshal(configData)
 	if err != nil {
 		logrus.WithError(err).Error("Error marshalling data to YAML")
-		return
+		return nil, err
 	}
 
 	// Write the YAML data to the file
 	if err := os.WriteFile(filePath, data, 0644); err != nil {
 		logrus.WithError(err).Error("Error writing to file")
-		return
+		return nil, err
 	}
 
-	GlobalConfig = Config{
-		ClientId:     configData.ClientId,
-		ClientSecret: configData.ClientSecret,
-	}
-	if len(clientSecret) > 0 && len(clientId) > 0 {
+	if cfg != nil {
 		logrus.Println("Configuration saved:", filePath)
 	} else {
 		logrus.Println("All saved secrets deleted")
 	}
+
+	return &Config{
+		ClientId:     configData.ClientId,
+		ClientSecret: configData.ClientSecret,
+	}, nil
 }

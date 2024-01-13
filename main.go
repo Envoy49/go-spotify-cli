@@ -29,6 +29,12 @@ func main() {
 	var rootCmd = &cobra.Command{
 		Use:     projectName,
 		Version: Version,
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
+				return
+			}
+			loader.Start()
+		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
 			loader.Stop()
 		},

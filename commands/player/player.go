@@ -3,7 +3,7 @@ package player
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"time"
 
@@ -21,7 +21,7 @@ func Player(cfg *config.Config) {
 		Method:      "GET",
 		Endpoint:    spotifyPlayerEndpoint + "/player",
 	}
-	var response commandTypes.SpotifyResponse
+	var response cmdTypes.SpotifyResponse
 	body, err := commands.Fetch(params)
 
 	if err != nil {

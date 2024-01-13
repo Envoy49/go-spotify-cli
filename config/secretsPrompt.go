@@ -3,15 +3,14 @@ package config
 import (
 	"bufio"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/loader"
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/envoy49/go-spotify-cli/loader"
 )
 
 func SecretsPrompt(cfg *Config) *Config {
-	if cfg == nil {
+	if !IsEmptyConfig(cfg) {
 		return nil
 	}
 

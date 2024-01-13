@@ -2,7 +2,7 @@ package player
 
 import (
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"net/url"
 
@@ -28,7 +28,7 @@ func volume(cfg *config.Config, accessToken string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				// Handle the case where no active device is found
 				Device(cfg) // This function should ideally select or activate a default device
@@ -45,7 +45,7 @@ func volume(cfg *config.Config, accessToken string) {
 }
 
 func VolumeCommand(cfg *config.Config) *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "volume [value]",
 		Short: "Set volume",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
@@ -59,12 +59,13 @@ func VolumeCommand(cfg *config.Config) *cobra.Command {
 			volume(cfg, token)
 		},
 	}
-}
 
-//func init() {
-//	VolumeCommand.Flags().StringVarP(&VolumeValue, "volume", "v", "", "Volume to add")
-//	err := VolumeCommand.MarkFlagRequired("volume")
-//	if err != nil {
-//		logrus.WithError(err).Error("Error setting up volume command")
-//	}
-//}
+	// Add a flag to the command
+	cmd.Flags().StringVarP(&VolumeValue, "volume", "v", "", "Volume to set (0-100)")
+	err := cmd.MarkFlagRequired("volume")
+	if err != nil {
+		logrus.WithError(err).Error("Error setting up volume command")
+	}
+
+	return cmd
+}

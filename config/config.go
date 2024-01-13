@@ -1,11 +1,11 @@
 package config
 
 import (
-	"os"
-	"path/filepath"
-
+	"errors"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
+	"os"
+	"path/filepath"
 )
 
 const (
@@ -24,17 +24,46 @@ type EnvVarConfig struct {
 	ClientSecret string `yaml:"ClientSecret"`
 }
 
+type FetchType struct {
+	NewFetch bool
+}
+
 type ConfigService struct {
-	config *Config
+	config    *Config
+	fetchType *FetchType
 }
 
 func NewConfigService() *ConfigService {
-	cfg, _ := LoadConfiguration() // handle error
-	return &ConfigService{config: cfg}
+	cfg, err := LoadConfiguration()
+
+	if err != nil {
+		secretsCfg := SecretsPrompt(cfg)
+
+		return &ConfigService{
+			config: secretsCfg,
+			fetchType: &FetchType{
+				NewFetch: true,
+			},
+		}
+	}
+	return &ConfigService{
+		config: cfg,
+		fetchType: &FetchType{
+			NewFetch: false,
+		},
+	}
 }
 
 func (c *ConfigService) GetConfig() *Config {
 	return c.config
+}
+
+func (c *ConfigService) GetFetchType() *FetchType {
+	return c.fetchType
+}
+
+func IsEmptyConfig(cfg *Config) bool {
+	return cfg == nil || (*cfg == Config{})
 }
 
 func LoadConfiguration() (*Config, error) {
@@ -58,6 +87,11 @@ func LoadConfiguration() (*Config, error) {
 	if err != nil {
 		logrus.WithError(err).Error("Error unmarshalling YAML data")
 		return nil, err
+	}
+
+	if config.ClientId == "" || config.ClientSecret == "" {
+		logrus.Error("ClientId or ClientSecret is missing in the configuration")
+		return nil, errors.New("missing configuration data")
 	}
 
 	return &Config{
@@ -90,7 +124,7 @@ func VerifyConfigExists(cfg *Config) bool {
 		return false
 	}
 
-	if len(cfg.ClientSecret) == 0 || len(cfg.ClientId) == 0 {
+	if IsEmptyConfig(cfg) {
 		return false
 	}
 

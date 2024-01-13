@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"time"
 
@@ -20,7 +20,7 @@ func AddToQueue(cfg *config.Config, accessToken string, url string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device(cfg)
 			}

@@ -2,12 +2,12 @@ package searchPrompt
 
 import (
 	"encoding/json"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"log"
 )
 
-func SpotifySearchResultsPrompt(body []byte) *commandTypes.SearchPromptResults {
-	var response *commandTypes.SpotifySearchResponse
+func SpotifySearchResultsPrompt(body []byte) *cmdTypes.SearchPromptResults {
+	var response *cmdTypes.SpotifySearchResponse
 	err := json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
@@ -29,6 +29,6 @@ func SpotifySearchResultsPrompt(body []byte) *commandTypes.SearchPromptResults {
 	//case response.Playlists != nil:
 	//	return PlaylistsResultsPrompt(response.Playlists)
 	default:
-		return &commandTypes.SearchPromptResults{}
+		return &cmdTypes.SearchPromptResults{}
 	}
 }

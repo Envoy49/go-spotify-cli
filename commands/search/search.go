@@ -1,7 +1,7 @@
 package search
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"net/url"
 
@@ -18,7 +18,7 @@ const (
 	spotifySearchEndpoint = "https://api.spotify.com/v1/search"
 )
 
-func buildSpotifySearchURL(baseEndpoint string, prompt *commandTypes.SpotifySearchQuery) string {
+func buildSpotifySearchURL(baseEndpoint string, prompt *cmdTypes.SpotifySearchQuery) string {
 	values := url.Values{}
 	values.Add("q", prompt.Query)
 	values.Add("type", prompt.Type)
@@ -29,7 +29,7 @@ func buildSpotifySearchURL(baseEndpoint string, prompt *commandTypes.SpotifySear
 	return fullURL
 }
 
-func search(cfg *config.Config, accessToken string, query *commandTypes.SpotifySearchQuery, nextUrl string) {
+func search(cfg *config.Config, accessToken string, query *cmdTypes.SpotifySearchQuery, nextUrl string) {
 	loader.Start()
 	var endpoint string
 	if query != nil {
@@ -49,7 +49,7 @@ func search(cfg *config.Config, accessToken string, query *commandTypes.SpotifyS
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				player.Device(cfg)
 			}

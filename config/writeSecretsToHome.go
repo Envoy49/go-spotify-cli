@@ -55,6 +55,7 @@ func WriteSecretsToHomeDirectory(cfg *Config) (*Config, error) { // pass this a 
 		logrus.Println("Configuration saved:", filePath)
 	} else {
 		logrus.Println("All saved secrets deleted")
+		return nil, nil
 	}
 
 	return &Config{

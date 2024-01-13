@@ -2,7 +2,7 @@ package player
 
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
@@ -19,7 +19,7 @@ func pause(cfg *config.Config, accessToken string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
 				Device(cfg)
 			}

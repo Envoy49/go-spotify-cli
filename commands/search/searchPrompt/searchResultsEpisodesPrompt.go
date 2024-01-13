@@ -3,14 +3,14 @@ package searchPrompt
 import (
 	"fmt"
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/term"
 	"os"
 	"strconv"
 )
 
-func EpisodesResultsPrompt(episodes *commandTypes.Episodes) *commandTypes.SearchPromptResults {
+func EpisodesResultsPrompt(episodes *cmdTypes.Episodes) *cmdTypes.SearchPromptResults {
 	formattedInfo := make([]string, len(episodes.Items))
 
 	// Get the terminal width
@@ -40,7 +40,7 @@ func EpisodesResultsPrompt(episodes *commandTypes.Episodes) *commandTypes.Search
 		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
 	}
 
-	config := &commandTypes.SelectionPromptConfig{
+	config := &cmdTypes.SelectionPromptConfig{
 		Label:         "Select Episode",
 		FormattedInfo: formattedInfo,
 	}
@@ -50,19 +50,19 @@ func EpisodesResultsPrompt(episodes *commandTypes.Episodes) *commandTypes.Search
 	index, _, err := selectionPrompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return &commandTypes.SearchPromptResults{}
+		return &cmdTypes.SearchPromptResults{}
 	}
 
 	lastIndex := len(episodes.Items)
 
 	if lastIndex == index {
-		return &commandTypes.SearchPromptResults{
+		return &cmdTypes.SearchPromptResults{
 			NextUrl: episodes.Next,
 		}
 	}
 
 	if lastIndex+1 == index {
-		return &commandTypes.SearchPromptResults{
+		return &cmdTypes.SearchPromptResults{
 			NextUrl: episodes.Previous,
 		}
 	}
@@ -83,7 +83,7 @@ func EpisodesResultsPrompt(episodes *commandTypes.Episodes) *commandTypes.Search
 
 	fmt.Println(fullBox)
 
-	return &commandTypes.SearchPromptResults{
+	return &cmdTypes.SearchPromptResults{
 		PlayUrl: selectedEpisode.URI,
 	}
 }

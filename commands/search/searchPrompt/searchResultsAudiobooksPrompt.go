@@ -3,14 +3,14 @@ package searchPrompt
 import (
 	"fmt"
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
 )
 
-func AudiobooksResultsPrompt(audiobooks *commandTypes.Audiobooks) string {
+func AudiobooksResultsPrompt(audiobooks *cmdTypes.Audiobooks) string {
 	formattedInfo := make([]string, len(audiobooks.Items))
 
 	for i, item := range audiobooks.Items {

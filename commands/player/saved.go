@@ -3,7 +3,7 @@ package player
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/commands/search/searchPrompt"
 	"github.com/envoy49/go-spotify-cli/config"
 	"golang.org/x/term"
@@ -18,7 +18,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults {
+func saved(accessToken string, nextUrl string) *cmdTypes.SearchPromptResults {
 	loader.Start()
 	var endpoint = spotifyPlayerEndpoint + "/tracks"
 	if len(nextUrl) > 0 {
@@ -35,13 +35,13 @@ func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults
 	if fetchErr != nil {
 		logrus.WithError(fetchErr).Error("Error fetching saved tracks")
 	}
-	var response *commandTypes.SavedTracks
+	var response *cmdTypes.SavedTracks
 
 	unmarshalErr := json.Unmarshal(body, &response)
 
 	if unmarshalErr != nil {
 		log.Fatalf("Error decoding JSON: %v", unmarshalErr)
-		return &commandTypes.SearchPromptResults{}
+		return &cmdTypes.SearchPromptResults{}
 	}
 
 	formattedInfo := make([]string, len(response.Items))
@@ -76,7 +76,7 @@ func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults
 		formattedInfo = append(formattedInfo, "<<< PREVIOUS <<<")
 	}
 
-	config := &commandTypes.SelectionPromptConfig{
+	config := &cmdTypes.SelectionPromptConfig{
 		Label:         "Select saved track",
 		FormattedInfo: formattedInfo,
 	}
@@ -86,7 +86,7 @@ func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults
 	index, _, err := savedPrompt.Run()
 	if err != nil {
 		logrus.WithError(err).Error("Prompt failed")
-		return &commandTypes.SearchPromptResults{}
+		return &cmdTypes.SearchPromptResults{}
 	}
 
 	lastIndex := len(response.Items)
@@ -117,7 +117,7 @@ func saved(accessToken string, nextUrl string) *commandTypes.SearchPromptResults
 
 	fmt.Println(fullBox)
 
-	return &commandTypes.SearchPromptResults{
+	return &cmdTypes.SearchPromptResults{
 		PlayUrl: selectedTrack.Track.Uri,
 	}
 }

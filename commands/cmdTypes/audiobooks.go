@@ -1,4 +1,4 @@
-package commandTypes
+package cmdTypes
 
 type Audiobooks struct {
 	Body

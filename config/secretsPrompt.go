@@ -3,20 +3,19 @@ package config
 import (
 	"bufio"
 	"fmt"
+	"github.com/envoy49/go-spotify-cli/loader"
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/envoy49/go-spotify-cli/loader"
 )
 
-func SecretsPrompt() {
-	if len(GlobalConfig.ClientSecret) > 0 || len(GlobalConfig.ClientId) > 0 {
-		return
+func SecretsPrompt(cfg *Config) *Config {
+	if !IsEmptyConfig(cfg) {
+		return nil
 	}
 
-	if VerifyConfigExists() {
-		return
+	if VerifyConfigExists(cfg) {
+		return nil
 	}
 
 	loader.Stop()
@@ -53,5 +52,10 @@ func SecretsPrompt() {
 	// Get Client Secret from user (no format validation)
 	clientSecret := promptInput("Enter your Client Secret: ", validate)
 
-	WriteSecretsToHomeDirectory(clientSecret, clientId)
+	configuration, _ := WriteSecretsToHomeDirectory(&Config{
+		ClientId:     clientId,
+		ClientSecret: clientSecret,
+	})
+
+	return configuration
 }

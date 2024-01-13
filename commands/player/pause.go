@@ -2,13 +2,14 @@ package player
 
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-func pause(accessToken string) {
+func pause(cfg *config.Config, accessToken string) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "PUT",
@@ -18,9 +19,9 @@ func pause(accessToken string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				Device(cfg)
 			}
 		default:
 			logrus.WithError(err).Error("Error pausing your track")
@@ -32,11 +33,13 @@ func pause(accessToken string) {
 	}
 }
 
-var PauseCommand = &cobra.Command{
-	Use:   "pause",
-	Short: "Pause spotify song",
-	Run: func(cmd *cobra.Command, args []string) {
-		token := server.ReadUserModifyTokenOrFetchFromServer()
-		pause(token)
-	},
+func PauseCommand(cfg *config.Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "pause",
+		Short: "Pause spotify song",
+		Run: func(cmd *cobra.Command, args []string) {
+			token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
+			pause(cfg, token)
+		},
+	}
 }

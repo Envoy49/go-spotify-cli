@@ -3,13 +3,13 @@ package searchPrompt
 import (
 	"fmt"
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"strings"
 )
 
-func ShowsResultsPrompt(shows *commandTypes.Shows) string {
+func ShowsResultsPrompt(shows *cmdTypes.Shows) string {
 	formattedInfo := make([]string, len(shows.Items))
 
 	for i, item := range shows.Items {

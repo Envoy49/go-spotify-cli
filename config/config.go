@@ -1,11 +1,11 @@
 package config
 
 import (
-	"os"
-	"path/filepath"
-
+	"errors"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
+	"os"
+	"path/filepath"
 )
 
 const (
@@ -24,13 +24,53 @@ type EnvVarConfig struct {
 	ClientSecret string `yaml:"ClientSecret"`
 }
 
-var GlobalConfig Config
+type FetchType struct {
+	NewFetch bool
+}
 
-func LoadConfiguration() {
+type ConfigService struct {
+	config    *Config
+	fetchType *FetchType
+}
+
+func NewConfigService() *ConfigService {
+	cfg, err := LoadConfiguration()
+
+	if err != nil {
+		secretsCfg := SecretsPrompt(cfg)
+
+		return &ConfigService{
+			config: secretsCfg,
+			fetchType: &FetchType{
+				NewFetch: true,
+			},
+		}
+	}
+	return &ConfigService{
+		config: cfg,
+		fetchType: &FetchType{
+			NewFetch: false,
+		},
+	}
+}
+
+func (c *ConfigService) GetConfig() *Config {
+	return c.config
+}
+
+func (c *ConfigService) GetFetchType() *FetchType {
+	return c.fetchType
+}
+
+func IsEmptyConfig(cfg *Config) bool {
+	return cfg == nil || (*cfg == Config{})
+}
+
+func LoadConfiguration() (*Config, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		logrus.WithError(err).Error("Error getting home directory")
-		return
+		return nil, err
 	}
 
 	folderPath := filepath.Join(homeDir, "."+projectName)
@@ -38,7 +78,7 @@ func LoadConfiguration() {
 
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	var config EnvVarConfig
@@ -46,16 +86,21 @@ func LoadConfiguration() {
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
 		logrus.WithError(err).Error("Error unmarshalling YAML data")
-		return
+		return nil, err
 	}
 
-	GlobalConfig = Config{
+	if config.ClientId == "" || config.ClientSecret == "" {
+		logrus.Error("ClientId or ClientSecret is missing in the configuration")
+		return nil, errors.New("missing configuration data")
+	}
+
+	return &Config{
 		ClientId:     config.ClientId,
 		ClientSecret: config.ClientSecret,
-	}
+	}, nil
 }
 
-func VerifyConfigExists() bool {
+func VerifyConfigExists(cfg *Config) bool {
 	// Get the home directory for the current user
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -79,7 +124,7 @@ func VerifyConfigExists() bool {
 		return false
 	}
 
-	if len(GlobalConfig.ClientSecret) == 0 || len(GlobalConfig.ClientId) == 0 {
+	if IsEmptyConfig(cfg) {
 		return false
 	}
 

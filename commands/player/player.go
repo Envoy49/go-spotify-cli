@@ -3,7 +3,8 @@ package player
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"time"
 
 	"github.com/envoy49/go-spotify-cli/commands"
@@ -11,16 +12,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func Player() {
+func Player(cfg *config.Config) {
 	time.Sleep(1 * time.Second) // add 1-second delay so spotify has time to update previous track
 
-	token := server.ReadUserReadTokenOrFetchFromServer()
+	token := server.ReadUserReadTokenOrFetchFromServer(cfg)
 	params := &commands.PlayerParams{
 		AccessToken: token,
 		Method:      "GET",
 		Endpoint:    spotifyPlayerEndpoint + "/player",
 	}
-	var response commandTypes.SpotifyResponse
+	var response cmdTypes.SpotifyResponse
 	body, err := commands.Fetch(params)
 
 	if err != nil {

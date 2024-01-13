@@ -1,12 +1,12 @@
 package searchPrompt
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/manifoldco/promptui"
 	"strings"
 )
 
-func CreateSelectionPrompt(config *commandTypes.SelectionPromptConfig) promptui.Select {
+func CreateSelectionPrompt(config *cmdTypes.SelectionPromptConfig) promptui.Select {
 	return promptui.Select{
 		Label: config.Label,
 		Items: config.FormattedInfo,

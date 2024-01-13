@@ -1,14 +1,15 @@
 package player
 
 import (
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"time"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/sirupsen/logrus"
 )
 
-func AddToQueue(accessToken string, url string) {
+func AddToQueue(cfg *config.Config, accessToken string, url string) {
 	time.Sleep(1 * time.Second) // add 1-second delay so spotify has time to update previous track
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
@@ -19,9 +20,9 @@ func AddToQueue(accessToken string, url string) {
 
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				Device(cfg)
 			}
 		default:
 			logrus.WithError(err).Error("Error adding item to the queue")

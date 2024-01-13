@@ -1,4 +1,4 @@
-package commandTypes
+package cmdTypes
 
 type ArtistsExternalURLs struct {
 	Spotify string `json:"spotify"`

@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/envoy49/go-spotify-cli/commands/player"
+	"github.com/envoy49/go-spotify-cli/commands/search"
 	"os"
 
 	"github.com/envoy49/go-spotify-cli/commands/flush"
-	"github.com/envoy49/go-spotify-cli/commands/player"
-	"github.com/envoy49/go-spotify-cli/commands/search"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/loader"
 	"github.com/sirupsen/logrus"
@@ -16,14 +16,15 @@ const (
 	projectName = "go-spotify-cli"
 )
 
-func init() {
-	config.LoadConfiguration()
-}
-
-var Version string = "v1.0.64" // hardcode version for now until issue with dynamic assignment is resolved
+var Version string = "v1.0.65" // hardcode version for now until issue with dynamic assignment is resolved
 
 func main() {
+	var cfg *config.Config
 	loader.InitializeSpinner()
+
+	cfgService := config.NewConfigService()
+	cfg = cfgService.GetConfig()
+	fetchType := cfgService.GetFetchType()
 
 	var rootCmd = &cobra.Command{
 		Use:     projectName,
@@ -33,24 +34,22 @@ func main() {
 				return
 			}
 			loader.Start()
-			config.SecretsPrompt()
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
 			loader.Stop()
 		},
 	}
-
 	rootCmd.AddCommand(
-		player.PlayCommand,
-		player.PauseCommand,
-		player.NextCommand,
-		player.PreviousCommand,
-		player.DeviceCommand,
-		player.VolumeCommand,
-		player.SavedCommand,
-		search.SendSearchCommand,
+		player.PlayCommand(cfg),
+		player.PauseCommand(cfg),
+		player.NextCommand(cfg),
+		player.PreviousCommand(cfg),
+		player.DeviceCommand(cfg),
+		player.VolumeCommand(cfg),
+		player.SavedCommand(cfg),
+		search.SendSearchCommand(cfg),
+		flush.FlushSecretsCommand(fetchType),
 		flush.FlushTokensCommand,
-		flush.FlushSecretsCommand,
 	)
 
 	if err := rootCmd.Execute(); err != nil {

@@ -2,13 +2,14 @@ package player
 
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/commandTypes"
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-func Next(accessToken string, callPlayer bool) {
+func Next(cfg *config.Config, accessToken string, callPlayer bool) {
 	params := &commands.PlayerParams{
 		AccessToken: accessToken,
 		Method:      "POST",
@@ -17,9 +18,9 @@ func Next(accessToken string, callPlayer bool) {
 	_, err := commands.Fetch(params)
 	if err != nil {
 		switch e := err.(type) {
-		case commandTypes.SpotifyAPIError:
+		case cmdTypes.SpotifyAPIError:
 			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device()
+				Device(cfg)
 				return
 			}
 		default:
@@ -28,16 +29,18 @@ func Next(accessToken string, callPlayer bool) {
 		}
 	} else {
 		if callPlayer {
-			Player()
+			Player(cfg)
 		}
 	}
 }
 
-var NextCommand = &cobra.Command{
-	Use:   "next",
-	Short: "Next spotify song",
-	Run: func(cmd *cobra.Command, args []string) {
-		token := server.ReadUserModifyTokenOrFetchFromServer()
-		Next(token, true)
-	},
+func NextCommand(cfg *config.Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "next",
+		Short: "Next spotify song",
+		Run: func(cmd *cobra.Command, args []string) {
+			token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
+			Next(cfg, token, true)
+		},
+	}
 }

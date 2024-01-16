@@ -2,9 +2,10 @@ package player
 
 import (
 	"fmt"
+	"net/url"
+
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
-	"net/url"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/server"

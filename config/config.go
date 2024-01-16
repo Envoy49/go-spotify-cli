@@ -2,10 +2,11 @@ package config
 
 import (
 	"errors"
-	"github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 	"os"
 	"path/filepath"
+
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 const (

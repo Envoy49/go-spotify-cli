@@ -3,9 +3,10 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
-	"time"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/server"

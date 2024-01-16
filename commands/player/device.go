@@ -3,10 +3,11 @@ package player
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
-	"github.com/envoy49/go-spotify-cli/config"
 	"log"
 	"strings"
+
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/envoy49/go-spotify-cli/config"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/envoy49/go-spotify-cli/commands"

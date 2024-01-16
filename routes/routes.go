@@ -1,10 +1,11 @@
 package routes
 
 import (
-	"github.com/envoy49/go-spotify-cli/config"
-	"github.com/envoy49/go-spotify-cli/handlers"
 	"net/http"
 	"sync"
+
+	"github.com/envoy49/go-spotify-cli/config"
+	"github.com/envoy49/go-spotify-cli/handlers"
 )
 
 var once sync.Once

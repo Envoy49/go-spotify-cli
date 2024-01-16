@@ -3,13 +3,14 @@ package player
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
+
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/commands/search/searchPrompt"
 	"github.com/envoy49/go-spotify-cli/config"
 	"golang.org/x/term"
-	"log"
-	"os"
-	"strconv"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/loader"

@@ -27,3 +27,5 @@ config.json
 Thumbs.db
 temp.txt
 
+
+dist/

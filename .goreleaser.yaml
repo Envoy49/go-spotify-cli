@@ -4,10 +4,9 @@ builds:
   - main: .
     env:
       - CGO_ENABLED=0
-#    flags:
-#      - -trimpath
-#    ldflags: "-s -w -X main.version={{ .Version }}"
-#    disabling this to test the release as after this change I don't see artifacts in the releases and it is not publishing the release number
+    flags:
+      - -trimpath
+    ldflags: "-s -w -X main.version={{ .Version }}"
     goos:
       - linux
       - windows

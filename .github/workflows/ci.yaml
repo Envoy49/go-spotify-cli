@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Go cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ github.job }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ github.job }}-${{ runner.os }}-go-
+        
+      - name: Build
+        run: go build -v ./...
+
+  artifacts:
+    name: Artifacts
+    uses: ./.github/workflows/artifacts.yaml
+    with:
+      publish: ${{ github.event_name == 'push' }}
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+      security-events: write

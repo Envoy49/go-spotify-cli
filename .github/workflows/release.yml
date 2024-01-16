@@ -1,83 +1,21 @@
 name: Release
-
 on:
   push:
     tags:
       - '*'
 
+permissions:
+  contents: read
+
 jobs:
-  build:
-    name: Build and Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.21'
-
-      - name: Get the version
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      - name: Build for Linux
-        run: GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=${{ env.VERSION }}" -o go-spotify-cli-linux-amd64
-
-      - name: Build for macOS
-        run: GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.Version=${{ env.VERSION }}" -o go-spotify-cli-darwin-amd64
-
-      - name: Build for Windows
-        run: GOOS=windows GOARCH=amd64 go build -ldflags "-X main.Version=${{ env.VERSION }}" -o go-spotify-cli-windows-amd64.exe
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Release Binaries
-          path: |
-            go-spotify-cli-linux-amd64
-            go-spotify-cli-darwin-amd64
-            go-spotify-cli-windows-amd64.exe
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
-        with:
-          tag_name: ${{ env.VERSION }}
-          release_name: Release ${{ env.VERSION }}
-          draft: false
-          prerelease: false
-          body: Release of version ${{ env.VERSION }}
-
-      - name: Upload Linux Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./go-spotify-cli-linux-amd64
-          asset_name: go-spotify-cli-linux-amd64
-          asset_content_type: application/octet-stream
-
-      - name: Upload macOS Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./go-spotify-cli-darwin-amd64
-          asset_name: go-spotify-cli-darwin-amd64
-          asset_content_type: application/octet-stream
-
-      - name: Upload Windows Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GO_SPOTIFY_CLI }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./go-spotify-cli-windows-amd64.exe
-          asset_name: go-spotify-cli-windows-amd64.exe
-          asset_content_type: application/octet-stream
+  artifacts:
+    name: Artifacts
+    uses: ./.github/workflows/artifacts.yaml
+    with:
+      publish: true
+      release: true
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+      security-events: write

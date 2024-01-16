@@ -1,3 +1,7 @@
+# A Self-Documenting Makefile: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+
+export PATH := $(abspath bin/):${PATH}
+
 # Dependency versions
 GORELEASER_VERSION = 1.18.2
 
@@ -30,7 +34,7 @@ binary-snapshot: ## Build binary snapshot
 
 .PHONY: test
 test: ## Run tests
-	go test -race -v ./..
+	go test -race -v ./
 
 ##@ Dependencies
 

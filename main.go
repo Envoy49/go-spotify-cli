@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/envoy49/go-spotify-cli/commands/player"
 	"github.com/envoy49/go-spotify-cli/commands/search"
-	"os"
 
 	"github.com/envoy49/go-spotify-cli/commands/flush"
 	"github.com/envoy49/go-spotify-cli/config"
@@ -16,8 +17,6 @@ const (
 	projectName = "go-spotify-cli"
 )
 
-var Version string = "v1.0.65" // hardcode version for now until issue with dynamic assignment is resolved
-
 func main() {
 	var cfg *config.Config
 	loader.InitializeSpinner()
@@ -27,8 +26,7 @@ func main() {
 	fetchType := cfgService.GetFetchType()
 
 	var rootCmd = &cobra.Command{
-		Use:     projectName,
-		Version: Version,
+		Use: projectName,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
 				return

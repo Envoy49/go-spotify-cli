@@ -3,11 +3,12 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
-	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"sync"
+
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/sirupsen/logrus"
 )
 
 type PlayerParams struct {

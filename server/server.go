@@ -2,9 +2,10 @@ package server
 
 import (
 	"context"
-	"github.com/envoy49/go-spotify-cli/config"
 	"net/http"
 	"time"
+
+	"github.com/envoy49/go-spotify-cli/config"
 
 	"github.com/envoy49/go-spotify-cli/routes"
 	"github.com/sirupsen/logrus"

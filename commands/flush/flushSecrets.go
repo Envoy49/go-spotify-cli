@@ -1,10 +1,11 @@
 package flush
 
 import (
+	"os"
+
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func FlushSecretsCommand(fetchType *config.FetchType) *cobra.Command {
@@ -12,7 +13,7 @@ func FlushSecretsCommand(fetchType *config.FetchType) *cobra.Command {
 		Use:   "flush-secrets",
 		Short: "Flush Secrets",
 		Run: func(cmd *cobra.Command, args []string) {
-			if fetchType.NewFetch == true {
+			if fetchType.NewFetch {
 				os.Exit(0)
 			} else {
 				_, err := config.WriteSecretsToHomeDirectory(nil)

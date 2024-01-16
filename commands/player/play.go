@@ -3,6 +3,7 @@ package player
 import (
 	"bytes"
 	"encoding/json"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/pkg/browser"
 )

@@ -15,6 +15,7 @@ import (
 
 const (
 	projectName = "go-spotify-cli"
+	version     = "dev"
 )
 
 func main() {
@@ -26,7 +27,8 @@ func main() {
 	fetchType := cfgService.GetFetchType()
 
 	var rootCmd = &cobra.Command{
-		Use: projectName,
+		Use:     projectName,
+		Version: version,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if cmd.Name() == "flush-tokens" || cmd.Name() == "flush-secrets" {
 				return

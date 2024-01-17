@@ -2,11 +2,12 @@ package searchPrompt
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
-	"strings"
 )
 
 func ShowsResultsPrompt(shows *cmdTypes.Shows) string {

@@ -1,0 +1,55 @@
+run:
+  timeout: 5m                     # Maximum duration for linting processes
+  modules-download-mode: readonly  # Prevents updating the go.mod file during linting for reproducibility
+
+linters:
+  enable:
+    - bodyclose                    # Ensures HTTP response bodies are closed properly
+    - dogsled                      # Checks for excessive use of blank identifiers in assignments
+    - dupl                         # Reports duplicated code blocks
+    - gochecknoglobals             # Checks for global variables
+    - gochecknoinits               # Warns about the use of init functions
+    - goconst                      # Finds repeated strings that could be replaced by constants
+    - gocritic                     # A comprehensive linter with a wide range of checks
+    - gocyclo                      # Measures cyclomatic complexity of functions
+    - gofmt                        # Formats Go code according to standard style guidelines
+    - godot                        # Checks if comments end in a period
+    - goimports                    # Formats import lines, adding missing ones and removing unreferenced ones
+    - gosec                        # Scans code for security vulnerabilities
+    - gomnd                        # Detects magic numbers and suggests naming them
+    - gomodguard                   # Manages allowed and blocked Go module dependencies
+    - govet                        # Analyzes code for suspicious constructs
+    - ineffassign                  # Detects ineffectual assignments in Go code
+    - lll                          # Ensures lines do not exceed a specified length
+    - misspell                     # Checks for misspelled words in the code
+    - nakedret                     # Identifies naked returns in functions larger than a specified size
+    - revive                       # Performs a range of static analysis checks for cleaner, more reliable, and more efficient Go code
+    - prealloc                     # Suggests preallocations in loops to improve performance
+    - staticcheck                  # Performs a range of static analysis checks for cleaner, more reliable, and more efficient Go code
+    - testpackage                  # Encourages writing tests in a separate _test package
+    - unconvert                    # Identifies unnecessary type conversions
+    - unparam                      # Reports unused function parameters
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true    # Checks for unchecked type assertions
+    check-blank: true              # Checks for blank identifiers in error handling
+  lll:
+    line-length: 120               # Maximum allowed line length
+    tab-width: 8                   # Width of a tab character (for line length calculation)
+  gocyclo:
+    min-complexity: 15             # Minimum complexity threshold to trigger a warning or error
+  misspell:
+    locale: US
+  revive:
+    confidence: 0
+
+# Exclude specific files or paths from linting by certain linters
+issues:
+  exclude-rules:
+    - path: _test\.go              # Exclude test files from errcheck linting
+      linters:
+        - errcheck
+    - path: api/.*\.go             # Exclude API-related files from duplicate code checks
+      linters:
+        - dupl

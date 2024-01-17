@@ -2,12 +2,13 @@ package searchPrompt
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/term"
-	"os"
-	"strconv"
 )
 
 func TracksResultsPrompt(tracks *cmdTypes.Tracks) *cmdTypes.SearchPromptResults {

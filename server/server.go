@@ -29,7 +29,7 @@ func Server(ctx context.Context, cfg *config.Config) {
 		}
 	}()
 
-	// Listen for the context being cancelled
+	// Listen for the context being canceled
 	<-ctx.Done()
 
 	// Create a deadline to wait for

@@ -3,6 +3,7 @@
 export PATH := $(abspath bin/):${PATH}
 
 # Dependency versions
+GOLANGCI_VERSION = 1.53.3
 GORELEASER_VERSION = 1.18.2
 
 ##@ General
@@ -36,11 +37,28 @@ binary-snapshot: ## Build binary snapshot
 test: ## Run tests
 	go test -race -v ./
 
+.PHONY: lint
+lint: lint-go
+lint: ## Run linters
+
+.PHONY: lint-go
+lint-go:
+	golangci-lint run $(if ${CI},--out-format github-actions,)
+
+.PHONY: fmt
+fmt: ## Format code
+	golangci-lint run --fix
+
 ##@ Dependencies
 
-deps: bin/goreleaser 
+deps: golangci-lint goreleaser
 deps: ## Install dependencies
 
-bin/goreleaser:
+golangci-lint:
+	@mkdir -p bin
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- v${GOLANGCI_VERSION}
+
+goreleaser:
+	@mkdir -p bin
 	go install github.com/sigstore/cosign/v2/cmd/cosign@latest
 	curl -sfL https://goreleaser.com/static/run | VERSION=v${GORELEASER_VERSION} bash -s -- --version

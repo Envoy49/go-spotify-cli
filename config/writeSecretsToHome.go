@@ -41,7 +41,7 @@ func WriteSecretsToHomeDirectory(cfg *Config) (*Config, error) { // pass this a 
 	// Marshal the configData into YAML format
 	data, err := yaml.Marshal(configData)
 	if err != nil {
-		logrus.WithError(err).Error("Error marshalling data to YAML")
+		logrus.WithError(err).Error("Error marshaling data to YAML")
 		return nil, err
 	}
 

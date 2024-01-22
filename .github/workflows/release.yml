@@ -11,7 +11,7 @@ permissions:
 jobs:
   artifacts:
     # This job references a reusable workflow for handling artifacts.
-    uses: ./.github/workflows/artifacts.yaml
+    uses: ./.github/workflows/artifacts.yml
     with:
       publish: true
       release: true

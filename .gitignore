@@ -28,4 +28,6 @@ Thumbs.db
 temp.txt
 
 
-dist/
+/dist/
+/build/
+/bin/

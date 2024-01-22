@@ -30,6 +30,27 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Go cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ github.job }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ github.job }}-${{ runner.os }}-go-
+        
+      - name: Lint
+        run: make lint
+
   artifacts:
     name: Artifacts
     uses: ./.github/workflows/artifacts.yaml

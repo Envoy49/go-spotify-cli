@@ -2,14 +2,15 @@ package searchPrompt
 
 import (
 	"fmt"
-	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
-	"github.com/manifoldco/promptui"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
+	"github.com/manifoldco/promptui"
 )
 
-// var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}
+// var searchTypes = []string{"Track", "Artist", "Album", "Playlist", "Show", "Episode", "Audiobook"}.
 var searchTypes = []string{"Track", "Episode"}
 
 func SpotifySearchQueryPrompt() (error, *cmdTypes.SpotifySearchQuery) {

@@ -101,7 +101,7 @@ func WriteTokenToHomeDirectory(configData *CombinedTokenStructure, initiateChann
 		// Marshal the updated data
 		data, err := yaml.Marshal(currentData)
 		if err != nil {
-			logrus.WithError(err).Error("Error marshalling data to YAML")
+			logrus.WithError(err).Error("Error marshaling data to YAML")
 			return
 		}
 

@@ -1,9 +1,10 @@
 package search
 
 import (
+	"net/url"
+
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
-	"net/url"
 
 	"github.com/envoy49/go-spotify-cli/commands"
 	"github.com/envoy49/go-spotify-cli/commands/player"
@@ -66,7 +67,7 @@ func search(cfg *config.Config, accessToken string, query *cmdTypes.SpotifySearc
 		if len(result.PlayUrl) > 0 {
 			// instead of Calling Play function, we are adding song to the queue and using Next function
 			// otherwise song playing further nexts is not possible
-			//player.Play(accessToken, playUrl)
+			// player.Play(accessToken, playUrl)
 			player.AddToQueue(cfg, accessToken, result.PlayUrl)
 			player.Next(cfg, accessToken, false)
 		}

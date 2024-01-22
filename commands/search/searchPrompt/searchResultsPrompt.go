@@ -2,8 +2,9 @@ package searchPrompt
 
 import (
 	"encoding/json"
-	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"log"
+
+	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 )
 
 func SpotifySearchResultsPrompt(body []byte) *cmdTypes.SearchPromptResults {
@@ -18,7 +19,7 @@ func SpotifySearchResultsPrompt(body []byte) *cmdTypes.SearchPromptResults {
 		return TracksResultsPrompt(response.Tracks)
 	case response.Episodes != nil:
 		return EpisodesResultsPrompt(response.Episodes)
-	//case response.Albums != nil:
+	// case response.Albums != nil:
 	//	return AlbumsResultsPrompt(response.Albums)
 	//case response.Artists != nil:
 	//	return ArtistsResultsPrompt(response.Artists)

@@ -1,4 +1,5 @@
 name: Release
+
 on:
   push:
     tags:
@@ -9,7 +10,7 @@ permissions:
 
 jobs:
   artifacts:
-    name: Artifacts
+    # This job references a reusable workflow for handling artifacts.
     uses: ./.github/workflows/artifacts.yaml
     with:
       publish: true
@@ -19,3 +20,11 @@ jobs:
       packages: write
       id-token: write
       security-events: write
+
+  call-homebrew-workflow:
+    # This job references another reusable workflow for the Homebrew update.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    uses: ./.github/workflows/homebrew.yml
+    with:
+      tag_name: ${{ github.ref_name }}
+    secrets: inherit

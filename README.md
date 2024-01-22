@@ -16,6 +16,14 @@ Go Spotify CLI is a command-line interface tool built with GoLang (v1.21) that i
 
 ---
 
+### Contact 📬
+
+For any questions, suggestions, or collaborations, feel free to reach out to me on Discord!
+
+- Discord: envoy49 💬
+
+---
+
 # 📌 Prerequisites
 
 - **Spotify Account** is required to obtain `ClientId` and `ClientSecret`.

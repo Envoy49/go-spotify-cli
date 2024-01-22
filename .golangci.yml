@@ -40,7 +40,7 @@ linters-settings:
   gocyclo:
     min-complexity: 15             # Minimum complexity threshold to trigger a warning or error
   misspell:
-    locale: US
+    locale: UK
   revive:
     confidence: 0
 
@@ -50,6 +50,4 @@ issues:
     - path: _test\.go              # Exclude test files from errcheck linting
       linters:
         - errcheck
-    - path: api/.*\.go             # Exclude API-related files from duplicate code checks
-      linters:
-        - dupl
+

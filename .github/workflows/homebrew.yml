@@ -19,21 +19,21 @@ jobs:
 
       - name: Compute SHA256 of the release tarball
         run: |
-          wget https://github.com/Envoy49/go-spotify-cli/archive/refs/tags/${{ github.event.release.tag_name }}.tar.gz -O go-spotify-cli-${{ github.event.release.tag_name }}.tar.gz
-          echo "NEW_SHA256=$(sha256sum go-spotify-cli-${{ github.event.release.tag_name }}.tar.gz | awk '{ print $1 }')" >> $GITHUB_ENV
+          wget https://github.com/Envoy49/go-spotify-cli/archive/refs/tags/${{ inputs.tag_name }}.tar.gz -O go-spotify-cli-${{ inputs.tag_name }}.tar.gz
+          echo "NEW_SHA256=$(sha256sum go-spotify-cli-${{ inputs.tag_name }}.tar.gz | awk '{ print $1 }')" >> $GITHUB_ENV
       - name: Update homebrew-go-spotify-cli Formula
         uses: actions/checkout@v2
         with:
-          repository: 'Envoy49/homebrew-go-spotify-cli'
+          repository: "Envoy49/homebrew-go-spotify-cli"
           token: ${{ secrets.HOMEBREW_GO_SPOTIFY_CLI }}
-          path: 'homebrew-go-spotify-cli'
+          path: "homebrew-go-spotify-cli"
 
       - name: Update go-spotify-cli Formula File
         run: |
           cd homebrew-go-spotify-cli
-          sed -i "s/url \".*\"/url \"https:\/\/github.com\/Envoy49\/go-spotify-cli\/archive\/refs\/tags\/${{ github.event.release.tag_name }}.tar.gz\"/" go-spotify-cli.rb
+          sed -i "s/url \".*\"/url \"https:\/\/github.com\/Envoy49\/go-spotify-cli\/archive\/refs\/tags\/${{ inputs.tag_name }}.tar.gz\"/" go-spotify-cli.rb
           sed -i "s/sha256 \".*\"/sha256 \"${{ env.NEW_SHA256 }}\"/" go-spotify-cli.rb
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -am "Update go-spotify-cli formula to version ${{ github.event.release.tag_name }}"
+          git commit -am "Update go-spotify-cli formula to version ${{ inputs.tag_name }}"
           git push

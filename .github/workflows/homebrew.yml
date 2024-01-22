@@ -1,8 +1,11 @@
 name: Update Homebrew Formula
 
 on:
-  release:
-    types: [created]
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
 
 jobs:
   update-homebrew-formula:

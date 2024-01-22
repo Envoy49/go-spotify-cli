@@ -53,15 +53,13 @@ jobs:
 #      - name: Lint
 #        run: make lint
 
-# create artifacts only on tag push
-
-#  artifacts:
-#    name: Artifacts
-#    uses: ./.github/workflows/artifacts.yaml
-#    with:
-#      publish: ${{ github.event_name == 'push' }}
-#    permissions:
-#      contents: write
-#      packages: write
-#      id-token: write
-#      security-events: write
+  artifacts:
+    name: Artifacts
+    uses: ./.github/workflows/artifacts.yaml
+    with:
+      publish: ${{ github.event_name == 'push' }}
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+      security-events: write

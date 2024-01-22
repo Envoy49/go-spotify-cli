@@ -53,7 +53,7 @@ jobs:
 #      - name: Lint
 #        run: make lint
 
-# create artifacts only on tag push
+# create artifacts only on tag push, running them on each push is consuming a lot of resources
 
 #  artifacts:
 #    name: Artifacts

@@ -23,6 +23,8 @@ jobs:
 
   call-homebrew-workflow:
     # This job references another reusable workflow for the Homebrew update.
+    # It starts only after the 'artifacts' job has completed successfully.
+    needs: artifacts
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     uses: ./.github/workflows/homebrew.yml
     with:

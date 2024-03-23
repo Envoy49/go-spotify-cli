@@ -2,11 +2,19 @@ package config
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
+	"runtime"
 
 	"github.com/charmbracelet/lipgloss"
+	"golang.org/x/term"
 )
 
 func SecretsSetupPrompt() {
+	clearTerminal()
+	// Get terminal width 
+	tw, _, _ := term.GetSize(int(os.Stdout.Fd()))
+
 	// Header box style
 	headerBoxStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("black")).
@@ -88,10 +96,22 @@ func SecretsSetupPrompt() {
 	box := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("#51e2f5")).
-		Width(maxWidth + 2). // Adding some extra space for padding
+		Width(tw-2).
 		MarginTop(1).
 		MarginBottom(1)
 
 	// Render the box with centered content
 	fmt.Println(box.Render(lipgloss.JoinVertical(lipgloss.Center, header, body, footer)))
+}
+
+func clearTerminal() {
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "cls")
+	} else {
+		cmd = exec.Command("clear")
+	}
+
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }

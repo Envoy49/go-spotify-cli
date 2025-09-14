@@ -11,7 +11,7 @@ import (
 
 const (
 	projectName = "go-spotify-cli"
-	ServerUrl   = "http://localhost:4949"
+	ServerUrl   = "http://127.0.0.1:4949"
 )
 
 type Config struct {

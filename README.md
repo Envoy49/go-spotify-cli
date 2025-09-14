@@ -149,9 +149,9 @@ To get started, you'll need a 'Client ID' and 'Client Secret' from Spotify's Dev
 
 6. 🌐 **Authenticate with Spotify**. In the Redirect URIs field of the app you created, please enter the following URLs:
 
-   - 📎 `http://localhost:4949/user-modify-playback-state-auth-callback`
-   - 📎 `http://localhost:4949/user-read-playback-state-auth-callback`
-   - 📎 `http://localhost:4949/user-library-read-auth-callback`
+   - 📎 `http://127.0.0.1:4949/user-modify-playback-state-auth-callback`
+   - 📎 `http://127.0.0.1:4949/user-read-playback-state-auth-callback`
+   - 📎 `http://127.0.0.1:4949/user-library-read-auth-callback`
 
 7. 🛍 **Once the App is created**, you'll find the 'Client ID' and 'Client Secret' on the app details page.
 

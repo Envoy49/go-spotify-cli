@@ -46,6 +46,9 @@ func StartServer(cfg *config.Config, route string) context.CancelFunc {
 	ctx, cancel := context.WithCancel(context.Background())
 	go Server(ctx, cfg)
 
+	// Wait for server to start up
+	time.Sleep(100 * time.Millisecond)
+
 	resp, err := http.Get(config.ServerUrl + route)
 	if err != nil {
 		logrus.WithError(err).Error("Error making the GET request to: " + route)

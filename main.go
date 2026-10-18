@@ -6,9 +6,11 @@ import (
 	"github.com/envoy49/go-spotify-cli/commands/player"
 	"github.com/envoy49/go-spotify-cli/commands/search"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/envoy49/go-spotify-cli/commands/flush"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/loader"
+	"github.com/muesli/termenv"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -20,6 +22,14 @@ const (
 var Version string
 
 func main() {
+	restoreTerminal, err := termenv.EnableVirtualTerminalProcessing(termenv.DefaultOutput())
+	if err != nil {
+		// Avoid emitting ANSI escapes when the Windows console cannot interpret them.
+		lipgloss.SetColorProfile(termenv.Ascii)
+	} else {
+		defer restoreTerminal()
+	}
+
 	var cfg *config.Config
 	loader.InitializeSpinner()
 

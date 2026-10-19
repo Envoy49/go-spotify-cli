@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"runtime"
 	"strings"
 
 	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
@@ -74,6 +75,7 @@ func Device(cfg *config.Config) {
 }
 
 func printDeviceInfo(device cmdTypes.DeviceType) {
+	windowsConsole := runtime.GOOS == "windows"
 	volumeRectStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#51e2f5"))
 
 	var activeStatusColor string
@@ -81,35 +83,59 @@ func printDeviceInfo(device cmdTypes.DeviceType) {
 	if device.IsActive {
 		activeStatusColor = "#00FF00" // Green
 		activeStatusSymbol = "✔"
+		if windowsConsole {
+			activeStatusSymbol = "OK"
+		}
 	} else {
 		activeStatusColor = "#FF0000" // Red
 		activeStatusSymbol = "✖"
+		if windowsConsole {
+			activeStatusSymbol = "NO"
+		}
 	}
 	activeStatusStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(activeStatusColor)).Bold(true)
 
 	var privateSessionSymbol string
 	if device.IsPrivateSession {
 		privateSessionSymbol = "🔒"
+		if windowsConsole {
+			privateSessionSymbol = "LOCKED"
+		}
 	} else {
 		privateSessionSymbol = "🔓"
+		if windowsConsole {
+			privateSessionSymbol = "OPEN"
+		}
 	}
 	privateSessionStyle := commands.ValueStyle.Render(privateSessionSymbol)
 
 	var typeSymbol string
 	if device.Type == "Smartphone" {
 		typeSymbol = "📱"
+		if windowsConsole {
+			typeSymbol = "PHONE"
+		}
 	} else if device.Type == "Computer" {
 		typeSymbol = "💻"
+		if windowsConsole {
+			typeSymbol = "PC"
+		}
 	} else {
 		typeSymbol = ""
 	}
 	typeStyle := commands.ValueStyle.Render(typeSymbol)
 
-	// Calculate the number of emojis to represent the volume level
-	numEmojis := device.VolumePercent / 10 // Assuming you want 10 emojis to represent 100%
+	// Calculate the number of filled segments to represent the volume level.
+	filledBars := device.VolumePercent / 10
 
-	// Generate the string of emojis representing the volume level
-	volumeEmojis := volumeRectStyle.Render(strings.Repeat("▓", numEmojis)) + strings.Repeat("░", 10-numEmojis)
+	filledSegment := "▓"
+	emptySegment := "░"
+	if windowsConsole {
+		// ASCII fallbacks avoid missing block glyphs in classic Windows consoles.
+		filledSegment = "#"
+		emptySegment = "-"
+	}
+	volumeMeter := volumeRectStyle.Render(strings.Repeat(filledSegment, filledBars)) + strings.Repeat(emptySegment, 10-filledBars)
 
 	formattedInfo := fmt.Sprintf(
 		"Device Name       : %s\n"+
@@ -131,7 +157,7 @@ func printDeviceInfo(device cmdTypes.DeviceType) {
 		typeStyle,
 		commands.ValueStyle.Render(device.Type),
 		device.VolumePercent,
-		volumeEmojis,
+		volumeMeter,
 	)
 
 	// Combine header and formatted info inside a box

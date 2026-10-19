@@ -2,7 +2,9 @@ package server
 
 import (
 	"context"
+	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/envoy49/go-spotify-cli/config"
@@ -46,6 +48,11 @@ func StartServer(cfg *config.Config, route string) context.CancelFunc {
 	ctx, cancel := context.WithCancel(context.Background())
 	go Server(ctx, cfg)
 
+	if err := waitForServerReady(); err != nil {
+		logrus.WithError(err).Error("Error waiting for the server to start")
+		return cancel
+	}
+
 	resp, err := http.Get(config.ServerUrl + route)
 	if err != nil {
 		logrus.WithError(err).Error("Error making the GET request to: " + route)
@@ -60,4 +67,25 @@ func StartServer(cfg *config.Config, route string) context.CancelFunc {
 	}()
 
 	return cancel
+}
+
+func waitForServerReady() error {
+	parsedURL, err := url.Parse(config.ServerUrl)
+	if err != nil {
+		return err
+	}
+
+	deadline := time.Now().Add(2 * time.Second)
+	var lastErr error
+
+	for time.Now().Before(deadline) {
+		conn, err := net.DialTimeout("tcp", parsedURL.Host, 50*time.Millisecond)
+		if err == nil {
+			return conn.Close()
+		}
+		lastErr = err
+		time.Sleep(50 * time.Millisecond)
+	}
+
+	return lastErr
 }

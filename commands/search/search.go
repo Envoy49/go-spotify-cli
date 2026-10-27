@@ -68,8 +68,14 @@ func search(cfg *config.Config, accessToken string, query *cmdTypes.SpotifySearc
 			// instead of Calling Play function, we are adding song to the queue and using Next function
 			// otherwise song playing further nexts is not possible
 			// player.Play(accessToken, playUrl)
-			player.AddToQueue(cfg, accessToken, result.PlayUrl)
-			player.Next(cfg, accessToken, false)
+			startedSelectedTrack, err := player.AddToQueue(cfg, accessToken, result.PlayUrl)
+			if err != nil {
+				logrus.WithError(err).Error("Error playing selected search track")
+				return
+			}
+			if !startedSelectedTrack {
+				player.Next(cfg, accessToken, false)
+			}
 		}
 	}
 }

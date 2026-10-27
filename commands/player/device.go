@@ -3,7 +3,6 @@ package player
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"runtime"
 	"strings"
 
@@ -23,6 +22,16 @@ type DeviceResponse struct {
 }
 
 func Device(cfg *config.Config) {
+	deviceID, err := selectDevice(cfg)
+	if err != nil {
+		logrus.WithError(err).Error("Error selecting device")
+		return
+	}
+
+	ActivateDevice(cfg, deviceID)
+}
+
+func selectDevice(cfg *config.Config) (string, error) {
 	token := server.ReadUserReadTokenOrFetchFromServer(cfg)
 	params := &commands.PlayerParams{
 		AccessToken: token,
@@ -34,14 +43,12 @@ func Device(cfg *config.Config) {
 	body, err := commands.Fetch(params)
 
 	if err != nil {
-		logrus.WithError(err).Error("Error getting devices")
-		return
+		return "", fmt.Errorf("getting devices: %w", err)
 	}
 
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		log.Fatalf("Error decoding JSON: %v", err)
-		return
+		return "", fmt.Errorf("decoding devices response: %w", err)
 	}
 
 	for _, device := range response.Devices {
@@ -54,8 +61,7 @@ func Device(cfg *config.Config) {
 	}
 
 	if len(deviceNames) == 0 {
-		fmt.Println("No devices available. Please activate/open at least one device.")
-		return
+		return "", fmt.Errorf("no devices available; activate or open a Spotify device first")
 	}
 
 	prompt := promptui.Select{
@@ -65,13 +71,11 @@ func Device(cfg *config.Config) {
 
 	selectedIndex, _, err := prompt.Run()
 	if err != nil {
-		logrus.WithError(err).Error("Prompt failed")
-		return
+		return "", fmt.Errorf("device selection prompt failed: %w", err)
 	}
 
 	selectedDevice := response.Devices[selectedIndex]
-
-	ActivateDevice(cfg, selectedDevice.ID)
+	return selectedDevice.ID, nil
 }
 
 func printDeviceInfo(device cmdTypes.DeviceType) {

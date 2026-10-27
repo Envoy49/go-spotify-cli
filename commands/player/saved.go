@@ -138,8 +138,14 @@ func SavedCommand(cfg *config.Config) *cobra.Command {
 				// instead of Calling Play function, we are adding song to the queue and using Next function
 				// otherwise song playing further nexts is not possible, seems like an API limitation.
 				// Play(token, result.PlayUrl)
-				AddToQueue(cfg, token, result.PlayUrl)
-				Next(cfg, token, false)
+				startedSelectedTrack, err := AddToQueue(cfg, token, result.PlayUrl)
+				if err != nil {
+					logrus.WithError(err).Error("Error playing selected saved track")
+					return
+				}
+				if !startedSelectedTrack {
+					Next(cfg, token, false)
+				}
 			}
 		},
 	}

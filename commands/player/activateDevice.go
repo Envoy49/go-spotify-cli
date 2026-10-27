@@ -11,35 +11,38 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func ActivateDevice(cfg *config.Config, deviceIds string) {
-	jsonData := map[string]interface{}{
-		"device_ids": []string{deviceIds},
-		"play":       true,
+func transferPlayback(accessToken, deviceID string, startPlayback bool) error {
+	jsonData := struct {
+		DeviceIDs []string `json:"device_ids"`
+		Play      bool     `json:"play"`
+	}{
+		DeviceIDs: []string{deviceID},
+		Play:      startPlayback,
 	}
 
-	jsonDataBytes, err1 := json.Marshal(jsonData)
-
-	if err1 != nil {
-		logrus.WithError(err1).Info("error Marshaling Json data in Activate Device")
-		return
+	jsonDataBytes, err := json.Marshal(jsonData)
+	if err != nil {
+		return err
 	}
 	requestBody := bytes.NewBuffer(jsonDataBytes)
-
-	token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
-
 	params := &commands.PlayerParams{
-		AccessToken: token,
+		AccessToken: accessToken,
 		Method:      "PUT",
 		Body:        requestBody,
 		Endpoint:    spotifyPlayerEndpoint + "/player",
 	}
 
-	_, err := commands.Fetch(params)
+	_, err = commands.Fetch(params)
+	return err
+}
 
+func ActivateDevice(cfg *config.Config, deviceID string) {
+	token := server.ReadUserModifyTokenOrFetchFromServer(cfg)
+	err := transferPlayback(token, deviceID, true)
 	if err != nil {
 		logrus.WithError(err).Error("Error activating device")
 		return
-	} else {
-		logrus.Println("Device has been activated")
 	}
+
+	logrus.Println("Device has been activated")
 }

@@ -68,8 +68,9 @@ func search(cfg *config.Config, accessToken string, query *cmdTypes.SpotifySearc
 			// instead of Calling Play function, we are adding song to the queue and using Next function
 			// otherwise song playing further nexts is not possible
 			// player.Play(accessToken, playUrl)
-			player.AddToQueue(cfg, accessToken, result.PlayUrl)
-			player.Next(cfg, accessToken, false)
+			if player.AddToQueue(cfg, accessToken, result.PlayUrl) {
+				player.Next(cfg, accessToken, false)
+			}
 		}
 	}
 }

@@ -2,7 +2,6 @@ package player
 
 import (
 	"github.com/envoy49/go-spotify-cli/commands"
-	"github.com/envoy49/go-spotify-cli/commands/cmdTypes"
 	"github.com/envoy49/go-spotify-cli/config"
 	"github.com/envoy49/go-spotify-cli/server"
 	"github.com/sirupsen/logrus"
@@ -15,22 +14,19 @@ func Next(cfg *config.Config, accessToken string, callPlayer bool) {
 		Method:      "POST",
 		Endpoint:    spotifyPlayerEndpoint + "/player/next",
 	}
-	_, err := commands.Fetch(params)
+	err := runWithDeviceFallback(func() error {
+		_, err := commands.Fetch(params)
+		return err
+	}, func() {
+		Device(cfg)
+	})
 	if err != nil {
-		switch e := err.(type) {
-		case cmdTypes.SpotifyAPIError:
-			if e.Detail.Error.Message == "Player command failed: No active device found" {
-				Device(cfg)
-				return
-			}
-		default:
-			logrus.WithError(err).Error("Error going to the next track")
-			return
-		}
-	} else {
-		if callPlayer {
-			Player(cfg)
-		}
+		logrus.WithError(err).Error("Error going to the next track")
+		return
+	}
+
+	if callPlayer {
+		Player(cfg)
 	}
 }
 

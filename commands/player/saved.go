@@ -138,8 +138,9 @@ func SavedCommand(cfg *config.Config) *cobra.Command {
 				// instead of Calling Play function, we are adding song to the queue and using Next function
 				// otherwise song playing further nexts is not possible, seems like an API limitation.
 				// Play(token, result.PlayUrl)
-				AddToQueue(cfg, token, result.PlayUrl)
-				Next(cfg, token, false)
+				if AddToQueue(cfg, token, result.PlayUrl) {
+					Next(cfg, token, false)
+				}
 			}
 		},
 	}
